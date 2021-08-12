@@ -50,7 +50,7 @@ namespace Karamem0.SharePoint.PowerShell.Services
                     objectPathId,
                     "SetOrgNewsSite",
                     requestPayload.CreateParameter(organizationNewsSiteUrl)));
-            this.ClientContext.ProcessQuery(requestPayload);
+            _ = this.ClientContext.ProcessQuery(requestPayload);
         }
 
         public IEnumerable<string> GetObjectEnumerable()
@@ -83,7 +83,7 @@ namespace Karamem0.SharePoint.PowerShell.Services
                     objectPathId,
                     "RemoveOrgNewsSite",
                     requestPayload.CreateParameter(organizationNewsSiteUrl)));
-            this.ClientContext.ProcessQuery(requestPayload);
+            _ = this.ClientContext.ProcessQuery(requestPayload);
         }
 
     }

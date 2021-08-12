@@ -21,7 +21,7 @@ namespace Karamem0.SharePoint.PowerShell.Runtime.Common
 
         public static bool TryParse(string input, out DateTime result)
         {
-            if (DateTime.TryParse(input, CultureInfo.InvariantCulture, DateTimeStyles.AdjustToUniversal | DateTimeStyles.AssumeUniversal, out DateTime dateTime))
+            if (DateTime.TryParse(input, CultureInfo.InvariantCulture, DateTimeStyles.AdjustToUniversal | DateTimeStyles.AssumeUniversal, out var dateTime))
             {
                 result = dateTime;
                 return true;
@@ -41,7 +41,7 @@ namespace Karamem0.SharePoint.PowerShell.Runtime.Common
                 );
                 return true;
             }
-            result = default(DateTime);
+            result = default;
             return false;
         }
 

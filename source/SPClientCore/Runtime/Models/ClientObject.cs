@@ -36,7 +36,7 @@ namespace Karamem0.SharePoint.PowerShell.Runtime.Models
 
         public static Type GetType(string name)
         {
-            return ClientObject.ClientObjectDictionary
+            return ClientObjectDictionary
                 .Where(item => item.Key == name)
                 .Select(item => item.Value)
                 .SingleOrDefault();
@@ -44,7 +44,7 @@ namespace Karamem0.SharePoint.PowerShell.Runtime.Models
 
         public static Type GetType<T>(string name)
         {
-            var type = ClientObject.GetType(name);
+            var type = GetType(name);
             if (type == null)
             {
                 if (typeof(T).IsGenericSubclassOf(typeof(ClientObjectEnumerable<>)))
@@ -68,17 +68,12 @@ namespace Karamem0.SharePoint.PowerShell.Runtime.Models
         }
 
         [JsonIgnore()]
-        public object this[string key]
-        {
-            get
-            {
-                return this.ExtensionProperties
-                    .Select(item => ClientResultValue.Create(item))
-                    .Where(item => item.Key == key)
-                    .Select(item => item.Value)
-                    .SingleOrDefault();
-            }
-        }
+        public object this[string key] =>
+            this.ExtensionProperties
+                .Select(item => ClientResultValue.Create(item))
+                .Where(item => item.Key == key)
+                .Select(item => item.Value)
+                .SingleOrDefault();
 
         [JsonIgnore()]
         public IEnumerable<string> ExtensionKeys => this.ExtensionProperties

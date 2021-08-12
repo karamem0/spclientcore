@@ -132,7 +132,7 @@ namespace Karamem0.SharePoint.PowerShell.Services
                     requestPayload.CreateParameter(isEditLink),
                     requestPayload.CreateParameter(removeAssociatedSharingLinkGroup)
             ));
-            this.ClientContext.ProcessQuery(requestPayload);
+            _ = this.ClientContext.ProcessQuery(requestPayload);
         }
 
         public void RemoveOrganizationSharingLink(string url, bool isEditLink, bool removeAssociatedSharingLinkGroup)
@@ -150,7 +150,7 @@ namespace Karamem0.SharePoint.PowerShell.Services
                     requestPayload.CreateParameter(isEditLink),
                     requestPayload.CreateParameter(removeAssociatedSharingLinkGroup)
             ));
-            this.ClientContext.ProcessQuery(requestPayload);
+            _ = this.ClientContext.ProcessQuery(requestPayload);
         }
 
     }

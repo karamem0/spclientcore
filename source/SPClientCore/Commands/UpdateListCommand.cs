@@ -52,6 +52,12 @@ namespace Karamem0.SharePoint.PowerShell.Commands
         public string Direction { get; private set; }
 
         [Parameter(Mandatory = false)]
+        public bool DisableCommenting { get; private set; }
+
+        [Parameter(Mandatory = false)]
+        public bool DisableGridEditing { get; private set; }
+
+        [Parameter(Mandatory = false)]
         public string DocumentTemplateUrl { get; private set; }
 
         [Parameter(Mandatory = false)]

@@ -14,20 +14,25 @@ Retrieves one or more site collection app catalogs.
 
 ### ParamSet1
 ```
-Get-KshSiteCollectionAppCatalog [-SiteCollection] <SiteCollection> [<CommonParameters>]
+Get-KshSiteCollectionAppCatalog [-Identity] <SiteCollectionAppCatalog> [<CommonParameters>]
 ```
 
 ### ParamSet2
 ```
-Get-KshSiteCollectionAppCatalog [-SiteCollectionUrl] <Uri> [<CommonParameters>]
+Get-KshSiteCollectionAppCatalog [-SiteCollection] <SiteCollection> [-NoEnumerate] [<CommonParameters>]
 ```
 
 ### ParamSet3
 ```
-Get-KshSiteCollectionAppCatalog [-SiteCollectionId] <Guid> [<CommonParameters>]
+Get-KshSiteCollectionAppCatalog [-SiteCollectionUrl] <Uri> [-NoEnumerate] [<CommonParameters>]
 ```
 
 ### ParamSet4
+```
+Get-KshSiteCollectionAppCatalog [-SiteCollectionId] <Guid> [-NoEnumerate] [<CommonParameters>]
+```
+
+### ParamSet5
 ```
 Get-KshSiteCollectionAppCatalog [-NoEnumerate] [<CommonParameters>]
 ```
@@ -53,12 +58,27 @@ Retrieves all site collection app catalogs.
 
 ## PARAMETERS
 
+### -Identity
+Specifies the site collection app catalog.
+
+```yaml
+Type: SiteCollectionAppCatalog
+Parameter Sets: ParamSet1
+Aliases:
+
+Required: True
+Position: 0
+Default value: None
+Accept pipeline input: True (ByValue)
+Accept wildcard characters: False
+```
+
 ### -NoEnumerate
 If specified, suppresses to enumerate objects.
 
 ```yaml
 Type: SwitchParameter
-Parameter Sets: ParamSet4
+Parameter Sets: ParamSet2, ParamSet3, ParamSet4, ParamSet5
 Aliases:
 
 Required: False
@@ -73,7 +93,7 @@ Specifies the site collection.
 
 ```yaml
 Type: SiteCollection
-Parameter Sets: ParamSet1
+Parameter Sets: ParamSet2
 Aliases:
 
 Required: True
@@ -88,7 +108,7 @@ Specifies the site collection ID.
 
 ```yaml
 Type: Guid
-Parameter Sets: ParamSet3
+Parameter Sets: ParamSet4
 Aliases:
 
 Required: True
@@ -103,7 +123,7 @@ Specifies the site collection URL.
 
 ```yaml
 Type: Uri
-Parameter Sets: ParamSet2
+Parameter Sets: ParamSet3
 Aliases:
 
 Required: True

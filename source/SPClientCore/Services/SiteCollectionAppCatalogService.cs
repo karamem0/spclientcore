@@ -60,7 +60,7 @@ namespace Karamem0.SharePoint.PowerShell.Services
                     objectPathId,
                     "Add",
                     requestPayload.CreateParameter(siteCollectionUrl.ToString())));
-            this.ClientContext.ProcessQuery(requestPayload);
+            _ = this.ClientContext.ProcessQuery(requestPayload);
         }
 
         public IEnumerable<SiteCollectionAppCatalog> GetObjectEnumerable()
@@ -106,12 +106,12 @@ namespace Karamem0.SharePoint.PowerShell.Services
                     objectPathId,
                     "Remove",
                     requestPayload.CreateParameter(siteCollectionUrl.ToString())));
-            this.ClientContext.ProcessQuery(requestPayload);
+            _ = this.ClientContext.ProcessQuery(requestPayload);
         }
 
         public void RemoveObject(Guid siteCollectionId)
         {
-            if (siteCollectionId == default(Guid))
+            if (siteCollectionId == default)
             {
                 throw new ArgumentNullException(nameof(siteCollectionId));
             }
@@ -130,7 +130,7 @@ namespace Karamem0.SharePoint.PowerShell.Services
                     objectPathId,
                     "RemoveById",
                     requestPayload.CreateParameter(siteCollectionId)));
-            this.ClientContext.ProcessQuery(requestPayload);
+            _ = this.ClientContext.ProcessQuery(requestPayload);
         }
 
     }

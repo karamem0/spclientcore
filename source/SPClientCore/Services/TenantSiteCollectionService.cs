@@ -14,6 +14,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Threading;
+using System.Threading.Tasks;
 
 namespace Karamem0.SharePoint.PowerShell.Services
 {
@@ -64,10 +65,7 @@ namespace Karamem0.SharePoint.PowerShell.Services
 
         public TenantOperationResult CreateObject(IReadOnlyDictionary<string, object> creationInformation)
         {
-            if (creationInformation == null)
-            {
-                throw new ArgumentNullException(nameof(creationInformation));
-            }
+            _ = creationInformation ?? throw new ArgumentNullException(nameof(creationInformation));
             var requestPayload = new ClientRequestPayload();
             var objectPath1 = requestPayload.Add(
                 new ObjectPathConstructor(typeof(Tenant)));
@@ -93,10 +91,7 @@ namespace Karamem0.SharePoint.PowerShell.Services
 
         public TenantSiteCollection GetObject(TenantSiteCollection siteCollectionObject)
         {
-            if (siteCollectionObject == null)
-            {
-                throw new ArgumentNullException(nameof(siteCollectionObject));
-            }
+            _ = siteCollectionObject ?? throw new ArgumentNullException(nameof(siteCollectionObject));
             var requestPayload = new ClientRequestPayload();
             var objectPath = requestPayload.Add(
                 new ObjectPathIdentity(siteCollectionObject.ObjectIdentity),
@@ -112,10 +107,7 @@ namespace Karamem0.SharePoint.PowerShell.Services
 
         public TenantSiteCollection GetObject(Uri siteCollectionUrl)
         {
-            if (siteCollectionUrl == null)
-            {
-                throw new ArgumentNullException(nameof(siteCollectionUrl));
-            }
+            _ = siteCollectionUrl ?? throw new ArgumentNullException(nameof(siteCollectionUrl));
             var requestPayload = new ClientRequestPayload();
             var objectPath1 = requestPayload.Add(
                 new ObjectPathConstructor(typeof(Tenant)));
@@ -137,19 +129,13 @@ namespace Karamem0.SharePoint.PowerShell.Services
 
         public TenantSiteCollection GetObjectAwait(TenantSiteCollection siteCollectionObject)
         {
-            if (siteCollectionObject == null)
-            {
-                throw new ArgumentNullException(nameof(siteCollectionObject));
-            }
+            _ = siteCollectionObject ?? throw new ArgumentNullException(nameof(siteCollectionObject));
             return this.GetObjectAwait(new Uri(siteCollectionObject.Url, UriKind.Absolute));
         }
 
         public TenantSiteCollection GetObjectAwait(Uri siteCollectionUrl)
         {
-            if (siteCollectionUrl == null)
-            {
-                throw new ArgumentNullException(nameof(siteCollectionUrl));
-            }
+            _ = siteCollectionUrl ?? throw new ArgumentNullException(nameof(siteCollectionUrl));
             while (true)
             {
                 var errorCount = 0;
@@ -220,10 +206,7 @@ namespace Karamem0.SharePoint.PowerShell.Services
 
         public TenantOperationResult LockObject(TenantSiteCollection siteCollectionObject)
         {
-            if (siteCollectionObject == null)
-            {
-                throw new ArgumentNullException(nameof(siteCollectionObject));
-            }
+            _ = siteCollectionObject ?? throw new ArgumentNullException(nameof(siteCollectionObject));
             var requestPayload = new ClientRequestPayload();
             var objectPath1 = requestPayload.Add(
                 new ObjectPathIdentity(siteCollectionObject.ObjectIdentity),
@@ -250,14 +233,8 @@ namespace Karamem0.SharePoint.PowerShell.Services
 
         public TenantOperationResult RemoveObject(TenantSiteCollection siteCollectionObject)
         {
-            if (siteCollectionObject == null)
-            {
-                throw new ArgumentNullException(nameof(siteCollectionObject));
-            }
-            if (string.IsNullOrEmpty(siteCollectionObject.Url))
-            {
-                throw new ArgumentNullException(nameof(siteCollectionObject));
-            }
+            _ = siteCollectionObject ?? throw new ArgumentNullException(nameof(siteCollectionObject));
+            _ = siteCollectionObject.Url ?? throw new ArgumentNullException(nameof(siteCollectionObject));
             var requestPayload = new ClientRequestPayload();
             var objectPath1 = requestPayload.Add(
                 new ObjectPathConstructor(typeof(Tenant)));
@@ -283,10 +260,7 @@ namespace Karamem0.SharePoint.PowerShell.Services
 
         public TenantOperationResult UnlockObject(TenantSiteCollection siteCollectionObject)
         {
-            if (siteCollectionObject == null)
-            {
-                throw new ArgumentNullException(nameof(siteCollectionObject));
-            }
+            _ = siteCollectionObject ?? throw new ArgumentNullException(nameof(siteCollectionObject));
             var requestPayload = new ClientRequestPayload();
             var objectPath1 = requestPayload.Add(
                 new ObjectPathIdentity(siteCollectionObject.ObjectIdentity),
@@ -313,14 +287,8 @@ namespace Karamem0.SharePoint.PowerShell.Services
 
         public TenantOperationResult UpdateObject(TenantSiteCollection siteCollectionObject, IReadOnlyDictionary<string, object> modificationInformation)
         {
-            if (siteCollectionObject == null)
-            {
-                throw new ArgumentNullException(nameof(siteCollectionObject));
-            }
-            if (modificationInformation == null)
-            {
-                throw new ArgumentNullException(nameof(modificationInformation));
-            }
+            _ = siteCollectionObject ?? throw new ArgumentNullException(nameof(siteCollectionObject));
+            _ = modificationInformation ?? throw new ArgumentNullException(nameof(modificationInformation));
             var requestPayload = new ClientRequestPayload();
             var objectPath1 = requestPayload.Add(
                 new ObjectPathIdentity(siteCollectionObject.ObjectIdentity),

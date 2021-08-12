@@ -13,8 +13,8 @@ Updates a navigation node.
 ## SYNTAX
 
 ```
-Update-KshNavigationNode [-Identity] <NavigationNode> [-IsVisible <Boolean>] [-Title <String>] [-Url <String>]
- [-PassThru] [<CommonParameters>]
+Update-KshNavigationNode [-Identity] <NavigationNode> [-AudienceIds <Guid[]>] [-IsVisible <Boolean>]
+ [-Title <String>] [-Url <String>] [-PassThru] [<CommonParameters>]
 ```
 
 ## DESCRIPTION
@@ -30,6 +30,21 @@ PS C:\> Update-KshNavigationNode -Identity (Get-KshNavigationNode -NavigationNod
 Updates column values of the navigation node.
 
 ## PARAMETERS
+
+### -AudienceIds
+Specifies the audience IDs.
+
+```yaml
+Type: Guid[]
+Parameter Sets: (All)
+Aliases:
+
+Required: False
+Position: Named
+Default value: None
+Accept pipeline input: False
+Accept wildcard characters: False
+```
 
 ### -Identity
 Specifies the navigation node.

@@ -179,7 +179,7 @@ namespace Karamem0.SharePoint.PowerShell.Commands
             if (this.ParameterSetName == "ParamSet2")
             {
                 this.ValidateSwitchParameter(nameof(this.NoWait));
-                this.Service.UpdateObject(this.Identity, this.MyInvocation.BoundParameters);
+                _ = this.Service.UpdateObject(this.Identity, this.MyInvocation.BoundParameters);
             }
         }
 

@@ -21,7 +21,7 @@ namespace Karamem0.SharePoint.PowerShell.Services
     {
 
         BasePermission GetObject(User userObject, SecurableObject securableObject);
-        
+
     }
 
     public class UserPermissionService : ClientService, IUserPermissionService

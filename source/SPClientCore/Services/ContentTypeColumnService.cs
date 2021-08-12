@@ -152,7 +152,7 @@ namespace Karamem0.SharePoint.PowerShell.Services
                     objectPathId,
                     "Update",
                     requestPayload.CreateParameter(pushChanges)));
-            this.ClientContext.ProcessQuery(requestPayload);
+            _ = this.ClientContext.ProcessQuery(requestPayload);
         }
 
         public void ReorderObject(ContentType contentTypeObject, IEnumerable<string> contentTypeColumnNames, bool pushChanges)
@@ -182,7 +182,7 @@ namespace Karamem0.SharePoint.PowerShell.Services
                     objectPathId,
                     "Update",
                     requestPayload.CreateParameter(pushChanges)));
-            this.ClientContext.ProcessQuery(requestPayload);
+            _ = this.ClientContext.ProcessQuery(requestPayload);
         }
 
         public void UpdateObject(ContentTypeColumn contentTypeColumnObject, IReadOnlyDictionary<string, object> modificationInformation, bool pushChanges)
@@ -205,7 +205,7 @@ namespace Karamem0.SharePoint.PowerShell.Services
                     objectPathId,
                     "Update",
                     requestPayload.CreateParameter(pushChanges)));
-            this.ClientContext.ProcessQuery(requestPayload);
+            _ = this.ClientContext.ProcessQuery(requestPayload);
         }
 
     }

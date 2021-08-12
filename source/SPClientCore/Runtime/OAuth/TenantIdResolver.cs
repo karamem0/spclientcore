@@ -31,16 +31,8 @@ namespace Karamem0.SharePoint.PowerShell.Runtime.OAuth
 
         public TenantIdResolver(HttpClient httpClient, Uri baseAddress)
         {
-            if (httpClient == null)
-            {
-                throw new ArgumentNullException(nameof(httpClient));
-            }
-            if (baseAddress == null)
-            {
-                throw new ArgumentNullException(nameof(baseAddress));
-            }
-            this.httpClient = httpClient;
-            this.baseAddress = baseAddress;
+            this.httpClient = httpClient ?? throw new ArgumentNullException(nameof(httpClient));
+            this.baseAddress = baseAddress ?? throw new ArgumentNullException(nameof(baseAddress));
         }
 
         public string Resolve()

@@ -47,9 +47,9 @@ namespace Karamem0.SharePoint.PowerShell.Services
             }
             var requestPayload = new ClientRequestPayload();
             var objectPath1 = requestPayload.Add(
-                 new ObjectPathIdentity(contentTypeObject.ObjectIdentity));
+                new ObjectPathIdentity(contentTypeObject.ObjectIdentity));
             var objectPath2 = requestPayload.Add(
-                 new ObjectPathIdentity(columnObject.ObjectIdentity));
+                new ObjectPathIdentity(columnObject.ObjectIdentity));
             var objectPath3 = requestPayload.Add(
                 new ObjectPathStaticMethod(
                     typeof(DocumentSetTemplate),
@@ -69,7 +69,7 @@ namespace Karamem0.SharePoint.PowerShell.Services
                     objectPathId,
                     "Update",
                     requestPayload.CreateParameter(pushChanges)));
-            this.ClientContext.ProcessQuery(requestPayload);
+            _ = this.ClientContext.ProcessQuery(requestPayload);
         }
 
         public IEnumerable<Column> GetObjectEnumerable(ContentType contentTypeObject)
@@ -80,7 +80,7 @@ namespace Karamem0.SharePoint.PowerShell.Services
             }
             var requestPayload = new ClientRequestPayload();
             var objectPath1 = requestPayload.Add(
-                 new ObjectPathIdentity(contentTypeObject.ObjectIdentity));
+                new ObjectPathIdentity(contentTypeObject.ObjectIdentity));
             var objectPath2 = requestPayload.Add(
                 new ObjectPathStaticMethod(
                     typeof(DocumentSetTemplate),
@@ -111,9 +111,9 @@ namespace Karamem0.SharePoint.PowerShell.Services
             }
             var requestPayload = new ClientRequestPayload();
             var objectPath1 = requestPayload.Add(
-                 new ObjectPathIdentity(contentTypeObject.ObjectIdentity));
+                new ObjectPathIdentity(contentTypeObject.ObjectIdentity));
             var objectPath2 = requestPayload.Add(
-                 new ObjectPathIdentity(columnObject.ObjectIdentity));
+                new ObjectPathIdentity(columnObject.ObjectIdentity));
             var objectPath3 = requestPayload.Add(
                 new ObjectPathStaticMethod(
                     typeof(DocumentSetTemplate),
@@ -133,7 +133,7 @@ namespace Karamem0.SharePoint.PowerShell.Services
                     objectPathId,
                     "Update",
                     requestPayload.CreateParameter(pushChanges)));
-            this.ClientContext.ProcessQuery(requestPayload);
+            _ = this.ClientContext.ProcessQuery(requestPayload);
         }
 
     }

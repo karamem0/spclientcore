@@ -31,6 +31,9 @@ namespace Karamem0.SharePoint.PowerShell.Commands
         public NavigationNode Identity { get; private set; }
 
         [Parameter(Mandatory = false)]
+        public Guid[] AudienceIds { get; private set; }
+
+        [Parameter(Mandatory = false)]
         public bool IsVisible { get; private set; }
 
         [Parameter(Mandatory = false)]

@@ -44,10 +44,7 @@ namespace Karamem0.SharePoint.PowerShell.Services
 
         public Comment CreateObject(ListItem listItemObject, IReadOnlyDictionary<string, object> creationInformation)
         {
-            if (listItemObject == null)
-            {
-                throw new ArgumentNullException(nameof(listItemObject));
-            }
+            _ = listItemObject ?? throw new ArgumentNullException(nameof(listItemObject));
             var requestUrl = this.ClientContext.BaseAddress
                 .ConcatPath(
                     "_api/web/lists('{0}')/items({1})/comments",
@@ -60,10 +57,7 @@ namespace Karamem0.SharePoint.PowerShell.Services
 
         public Comment CreateObject(Comment commentObject, IReadOnlyDictionary<string, object> creationInformation)
         {
-            if (commentObject == null)
-            {
-                throw new ArgumentNullException(nameof(commentObject));
-            }
+            _ = commentObject ?? throw new ArgumentNullException(nameof(commentObject));
             var requestUrl = this.ClientContext.BaseAddress
                 .ConcatPath(
                     "_api/web/lists('{0}')/items({1})/comments({2})/replies",
@@ -77,10 +71,7 @@ namespace Karamem0.SharePoint.PowerShell.Services
 
         public Comment GetObject(Comment commentObject)
         {
-            if (commentObject == null)
-            {
-                throw new ArgumentNullException(nameof(commentObject));
-            }
+            _ = commentObject ?? throw new ArgumentNullException(nameof(commentObject));
             var requestUrl = this.ClientContext.BaseAddress
                 .ConcatPath(
                     "_api/web/lists('{0}')/items({1})/comments({2})",
@@ -93,14 +84,8 @@ namespace Karamem0.SharePoint.PowerShell.Services
 
         public Comment GetObject(ListItem listItemObject, int commentId)
         {
-            if (listItemObject == null)
-            {
-                throw new ArgumentNullException(nameof(listItemObject));
-            }
-            if (commentId == default(int))
-            {
-                throw new ArgumentNullException(nameof(commentId));
-            }
+            _ = listItemObject ?? throw new ArgumentNullException(nameof(listItemObject));
+            _ = (commentId != default) ? commentId : throw new ArgumentNullException(nameof(commentId));
             var requestUrl = this.ClientContext.BaseAddress
                 .ConcatPath(
                     "_api/web/lists('{0}')/items({1})/comments({2})",
@@ -113,10 +98,7 @@ namespace Karamem0.SharePoint.PowerShell.Services
 
         public IEnumerable<Comment> GetObjectEnumerable(ListItem listItemObject)
         {
-            if (listItemObject == null)
-            {
-                throw new ArgumentNullException(nameof(listItemObject));
-            }
+            _ = listItemObject ?? throw new ArgumentNullException(nameof(listItemObject));
             var requestUrl = this.ClientContext.BaseAddress
                 .ConcatPath(
                     "_api/web/lists('{0}')/items({1})/comments",
@@ -128,10 +110,7 @@ namespace Karamem0.SharePoint.PowerShell.Services
 
         public void RemoveObject(Comment commentObject)
         {
-            if (commentObject == null)
-            {
-                throw new ArgumentNullException(nameof(commentObject));
-            }
+            _ = commentObject ?? throw new ArgumentNullException(nameof(commentObject));
             var requestUrl = this.ClientContext.BaseAddress
                 .ConcatPath(
                     "_api/web/lists('{0}')/items({1})/comments({2})",

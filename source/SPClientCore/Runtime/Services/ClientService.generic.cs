@@ -51,7 +51,7 @@ namespace Karamem0.SharePoint.PowerShell.Runtime.Services
             var objectPath = requestPayload.Add(
                 new ObjectPathIdentity(clientObject.ObjectIdentity),
                 objectPathId => new ClientActionMethod(objectPathId, "DeleteObject"));
-            this.ClientContext.ProcessQuery(requestPayload);
+            _ = this.ClientContext.ProcessQuery(requestPayload);
         }
 
         public virtual void UpdateObject(T clientObject, IReadOnlyDictionary<string, object> modificationInformation)
@@ -73,7 +73,7 @@ namespace Karamem0.SharePoint.PowerShell.Runtime.Services
             var objectPath2 = requestPayload.Add(
                 objectPath1,
                 objectPathId => new ClientActionMethod(objectPathId, "Update"));
-            this.ClientContext.ProcessQuery(requestPayload);
+            _ = this.ClientContext.ProcessQuery(requestPayload);
         }
 
     }

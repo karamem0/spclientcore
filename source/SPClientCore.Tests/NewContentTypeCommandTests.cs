@@ -151,10 +151,10 @@ namespace Karamem0.SharePoint.PowerShell.Tests
                     "New-KshContentType",
                     new Dictionary<string, object>()
                     {
+                        { "ContentType", result2.ElementAt(0) },
                         { "Description", "Test Content Type 0 Description" },
                         { "Group", "Test Content Type 0 Group" },
-                        { "Name", "Test Content Type 0" },
-                        { "ContentType", result2.ElementAt(0) }
+                        { "Name", "Test Content Type 0" }
                     }
                 );
                 var result4 = context.Runspace.InvokeCommand(

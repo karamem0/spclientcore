@@ -60,7 +60,7 @@ namespace Karamem0.SharePoint.PowerShell.Services
                 objectPathId => new ClientActionMethod(
                     objectPathId,
                     "RemoveSPHSite"));
-            this.ClientContext.ProcessQuery(requestPayload);
+            _ = this.ClientContext.ProcessQuery(requestPayload);
         }
 
         public void SetObject(string homeSiteUrl)
@@ -78,7 +78,7 @@ namespace Karamem0.SharePoint.PowerShell.Services
                     objectPathId,
                     "SetSPHSite",
                     requestPayload.CreateParameter(homeSiteUrl)));
-            this.ClientContext.ProcessQuery(requestPayload);
+            _ = this.ClientContext.ProcessQuery(requestPayload);
         }
 
     }

@@ -36,7 +36,7 @@ namespace Karamem0.SharePoint.PowerShell.Runtime.Models
                 }
                 else
                 {
-                    return default(T);
+                    return default;
                 }
             }
             else

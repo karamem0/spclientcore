@@ -65,7 +65,7 @@ namespace Karamem0.SharePoint.PowerShell.Tests
                     new Dictionary<string, object>()
                     {
                         { "Identity", result3.ElementAt(0) }
-                   }
+                    }
                 );
                 var actual = result3.ElementAt(0);
             }

@@ -19,14 +19,8 @@ namespace Karamem0.SharePoint.PowerShell.Runtime.Common
 
         public static Uri ConcatPath(this Uri uri, string path)
         {
-            if (uri == null)
-            {
-                throw new ArgumentNullException(nameof(uri));
-            }
-            if (path == null)
-            {
-                return uri;
-            }
+            _ = uri ?? throw new ArgumentNullException(nameof(uri));
+            _ = path ?? throw new ArgumentNullException(nameof(path));
             var str1 = uri.ToString().TrimEnd('/');
             var str2 = path.Trim('/');
             var slash = uri.OriginalString.EndsWith("/") ? "/" : "";
@@ -36,17 +30,14 @@ namespace Karamem0.SharePoint.PowerShell.Runtime.Common
         public static Uri ConcatPath(this Uri uri, string path, params object[] args)
         {
             return uri.ConcatPath(string.Format(path, args
-                .Select(obj => obj == null ? string.Empty : obj)
+                .Select(obj => obj ?? string.Empty)
                 .Select(obj => obj is bool ? obj.ToString().ToLower() : obj.ToString())
                 .Select(str => Uri.EscapeDataString(str)).ToArray()));
         }
 
         public static Uri ConcatQuery(this Uri uri, string query)
         {
-            if (uri == null)
-            {
-                throw new ArgumentNullException(nameof(uri));
-            }
+            _ = uri ?? throw new ArgumentNullException(nameof(uri));
             if (query == null)
             {
                 return uri;

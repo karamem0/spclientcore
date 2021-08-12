@@ -81,7 +81,7 @@ namespace Karamem0.SharePoint.PowerShell.Services
 
         public App GetObject(Guid appId)
         {
-            if (appId == default(Guid))
+            if (appId == default)
             {
                 throw new ArgumentNullException(nameof(appId));
             }
@@ -107,7 +107,7 @@ namespace Karamem0.SharePoint.PowerShell.Services
             {
                 throw new ArgumentNullException(nameof(appObject));
             }
-            if (appObject.Id == default(Guid))
+            if (appObject.Id == default)
             {
                 throw new ArgumentNullException(nameof(appObject));
             }
@@ -124,7 +124,7 @@ namespace Karamem0.SharePoint.PowerShell.Services
             {
                 throw new ArgumentNullException(nameof(appObject));
             }
-            if (appObject.Id == default(Guid))
+            if (appObject.Id == default)
             {
                 throw new ArgumentNullException(nameof(appObject));
             }
@@ -141,7 +141,7 @@ namespace Karamem0.SharePoint.PowerShell.Services
             {
                 throw new ArgumentNullException(nameof(appObject));
             }
-            if (appObject.Id == default(Guid))
+            if (appObject.Id == default)
             {
                 throw new ArgumentNullException(nameof(appObject));
             }
@@ -158,7 +158,7 @@ namespace Karamem0.SharePoint.PowerShell.Services
             {
                 throw new ArgumentNullException(nameof(appObject));
             }
-            if (appObject.Id == default(Guid))
+            if (appObject.Id == default)
             {
                 throw new ArgumentNullException(nameof(appObject));
             }
@@ -175,7 +175,7 @@ namespace Karamem0.SharePoint.PowerShell.Services
             {
                 throw new ArgumentNullException(nameof(appObject));
             }
-            if (appObject.Id == default(Guid))
+            if (appObject.Id == default)
             {
                 throw new ArgumentNullException(nameof(appObject));
             }

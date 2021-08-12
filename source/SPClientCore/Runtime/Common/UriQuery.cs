@@ -30,27 +30,31 @@ namespace Karamem0.SharePoint.PowerShell.Runtime.Common
                 {
                     return $"{key}=";
                 }
-                else if (pair.Value is string)
+                switch (pair.Value)
                 {
-                    var value = Uri.EscapeDataString(pair.Value.ToString());
-                    if (quote)
-                    {
-                        return $"{key}=%27{value}%27";
-                    }
-                    else
-                    {
-                        return $"{key}={value}";
-                    }
-                }
-                else if (pair.Value is bool)
-                {
-                    var value = Uri.EscapeDataString(pair.Value.ToString().ToLower());
-                    return $"{key}={value}";
-                }
-                else
-                {
-                    var value = Uri.EscapeDataString(pair.Value.ToString());
-                    return $"{key}={value}";
+                    case string _:
+                    case Guid _:
+                        var value = Uri.EscapeDataString(pair.Value.ToString());
+                        if (quote)
+                        {
+                            return $"{key}=%27{value}%27";
+                        }
+                        else
+                        {
+                            return $"{key}={value}";
+                        }
+                    case bool _:
+                        return $"{key}={pair.Value.ToString().ToLower()}";
+                    case short _:
+                    case ushort _:
+                    case int _:
+                    case uint _:
+                    case long _:
+                    case ulong _:
+                    case decimal _:
+                        return $"{key}={pair.Value}";
+                    default:
+                        return $"{key}={Uri.EscapeDataString(pair.Value.ToString())}";
                 }
             }));
         }

@@ -54,7 +54,7 @@ namespace Karamem0.SharePoint.PowerShell.Models
 
         [JsonProperty()]
         public override TermStore TermStore { get; protected set; }
-        
+
     }
 
 }

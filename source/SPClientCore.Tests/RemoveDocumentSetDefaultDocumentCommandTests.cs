@@ -42,35 +42,34 @@ namespace Karamem0.SharePoint.PowerShell.Tests
                     "Get-KshContentType",
                     new Dictionary<string, object>()
                     {
-                        { "ContentTypeId", "0x0101" }
+                        { "ContentTypeId", "0x0120D520" }
                     }
                 );
-                var result3 = context.Runspace.InvokeCommand(
-                    "Connect-KshSite",
+                var result3 = context.Runspace.InvokeCommand<ContentType>(
+                    "New-KshContentType",
                     new Dictionary<string, object>()
                     {
-                        { "Url", context.AppSettings["AuthorityUrl"] + context.AppSettings["Site1Url"] },
-                        { "Credential", PSCredentialFactory.CreateCredential(
-                            context.AppSettings["LoginUserName"],
-                            context.AppSettings["LoginPassword"])
-                        }
+                        { "ContentType", result2.ElementAt(0) },
+                        { "Description", "Test Content Type 0 Description" },
+                        { "Group", "Test Content Type 0 Group" },
+                        { "Name", "Test Content Type 0" }
                     }
                 );
                 var result4 = context.Runspace.InvokeCommand<ContentType>(
                     "Get-KshContentType",
                     new Dictionary<string, object>()
                     {
-                        { "ContentTypeId", context.AppSettings["SiteContentType7Id"] }
+                        { "ContentTypeId", "0x0101" }
                     }
                 );
                 var result5 = context.Runspace.InvokeCommand<DefaultDocument>(
                     "New-KshDocumentSetDefaultDocument",
                     new Dictionary<string, object>()
                     {
-                        { "ContentType", result4.ElementAt(0) },
-                        { "DocumentContentType", result2.ElementAt(0) },
+                        { "ContentType", result3.ElementAt(0) },
+                        { "DocumentContentType", result4.ElementAt(0) },
                         { "Content", Encoding.UTF8.GetBytes("TestFile0") },
-                        { "FileName", "TestFile0.txt" },
+                        { "FileName", "/TestFile0.txt" },
                         { "PushChanges", true }
                     }
                 );
@@ -79,12 +78,18 @@ namespace Karamem0.SharePoint.PowerShell.Tests
                     new Dictionary<string, object>()
                     {
                         { "ContentType", result4.ElementAt(0) },
-                        { "FileName", result5.ElementAt(0).Name }
+                        { "FileName", result4.ElementAt(0).Name }
+                    }
+                );
+                var result7 = context.Runspace.InvokeCommand(
+                    "Remove-KshContentType",
+                    new Dictionary<string, object>()
+                    {
+                        { "Identity", result3.ElementAt(0) }
                     }
                 );
             }
         }
-
 
     }
 

@@ -21,16 +21,9 @@ namespace Karamem0.SharePoint.PowerShell.Runtime.Models
 
         public ObjectPathStaticProperty(Type type, string name)
         {
-            if (type == null)
-            {
-                throw new ArgumentNullException(nameof(type));
-            }
-            if (name == null)
-            {
-                throw new ArgumentNullException(nameof(name));
-            }
+            _ = type ?? throw new ArgumentNullException(nameof(type));
             this.TypeId = ClientObjectAttribute.GetId(type);
-            this.Name = name;
+            this.Name = name ?? throw new ArgumentNullException(nameof(name));
         }
 
         [XmlAttribute()]

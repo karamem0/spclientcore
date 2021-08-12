@@ -41,6 +41,7 @@ namespace Karamem0.SharePoint.PowerShell.Commands
         [Parameter(Mandatory = false, ParameterSetName = "ParamSet1")]
         [Parameter(Mandatory = false, ParameterSetName = "ParamSet2")]
         public string Title { get; private set; }
+
         protected override void ProcessRecordCore()
         {
             if (this.ParameterSetName == "ParamSet1")

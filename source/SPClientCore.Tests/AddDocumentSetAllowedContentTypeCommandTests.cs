@@ -42,33 +42,32 @@ namespace Karamem0.SharePoint.PowerShell.Tests
                     "Get-KshContentType",
                     new Dictionary<string, object>()
                     {
-                        { "ContentTypeId", "0x0101009D1CB255DA76424F860D91F20E6C4118" }
+                        { "ContentTypeId", "0x0120D520" }
                     }
                 );
-                var result3 = context.Runspace.InvokeCommand(
-                    "Connect-KshSite",
+                var result3 = context.Runspace.InvokeCommand<ContentType>(
+                    "New-KshContentType",
                     new Dictionary<string, object>()
                     {
-                        { "Url", context.AppSettings["AuthorityUrl"] + context.AppSettings["Site1Url"] },
-                        { "Credential", PSCredentialFactory.CreateCredential(
-                            context.AppSettings["LoginUserName"],
-                            context.AppSettings["LoginPassword"])
-                        }
+                        { "ContentType", result2.ElementAt(0) },
+                        { "Description", "Test Content Type 0 Description" },
+                        { "Group", "Test Content Type 0 Group" },
+                        { "Name", "Test Content Type 0" }
                     }
                 );
                 var result4 = context.Runspace.InvokeCommand<ContentType>(
                     "Get-KshContentType",
                     new Dictionary<string, object>()
                     {
-                        { "ContentTypeId", context.AppSettings["SiteContentType7Id"] }
+                        { "ContentTypeId", "0x0101009D1CB255DA76424F860D91F20E6C4118" }
                     }
                 );
                 var result5 = context.Runspace.InvokeCommand(
                     "Add-KshDocumentSetAllowedContentType",
                     new Dictionary<string, object>()
                     {
-                        { "ContentType", result4.ElementAt(0) },
-                        { "AllowedContentType", result2.ElementAt(0) },
+                        { "ContentType", result3.ElementAt(0) },
+                        { "AllowedContentType", result4.ElementAt(0) },
                         { "PushChanges", true }
                     }
                 );
@@ -76,21 +75,27 @@ namespace Karamem0.SharePoint.PowerShell.Tests
                     "Get-KshDocumentSetAllowedContentType",
                     new Dictionary<string, object>()
                     {
-                        { "ContentType", result4.ElementAt(0) }
+                        { "ContentType", result3.ElementAt(0) }
                     }
                 );
                 var result7 = context.Runspace.InvokeCommand(
                     "Remove-KshDocumentSetAllowedContentType",
                     new Dictionary<string, object>()
                     {
-                        { "ContentType", result4.ElementAt(0) },
-                        { "AllowedContentType", result2.ElementAt(0) }
+                        { "ContentType", result3.ElementAt(0) },
+                        { "AllowedContentType", result4.ElementAt(0) }
+                    }
+                );
+                var result8 = context.Runspace.InvokeCommand(
+                    "Remove-KshContentType",
+                    new Dictionary<string, object>()
+                    {
+                        { "Identity", result3.ElementAt(0) }
                     }
                 );
                 var actual = result6.ToArray();
             }
         }
-
 
     }
 

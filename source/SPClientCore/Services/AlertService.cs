@@ -95,7 +95,7 @@ namespace Karamem0.SharePoint.PowerShell.Services
 
         public Alert GetObject(Guid alertId)
         {
-            if (alertId == default(Guid))
+            if (alertId == default)
             {
                 throw new ArgumentNullException(nameof(alertId));
             }
@@ -156,7 +156,7 @@ namespace Karamem0.SharePoint.PowerShell.Services
                     objectPathId,
                     "DeleteAlert",
                     requestPayload.CreateParameter(alertObject.Id)));
-            this.ClientContext.ProcessQuery(requestPayload);
+            _ = this.ClientContext.ProcessQuery(requestPayload);
         }
 
         public override void UpdateObject(Alert alertObject, IReadOnlyDictionary<string, object> modificationInformation)
@@ -178,7 +178,7 @@ namespace Karamem0.SharePoint.PowerShell.Services
             var objectPath2 = requestPayload.Add(
                 objectPath1,
                 objectPathId => new ClientActionMethod(objectPathId, "UpdateAlert"));
-            this.ClientContext.ProcessQuery(requestPayload);
+            _ = this.ClientContext.ProcessQuery(requestPayload);
         }
 
     }

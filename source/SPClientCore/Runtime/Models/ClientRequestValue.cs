@@ -22,7 +22,7 @@ namespace Karamem0.SharePoint.PowerShell.Runtime.Models
 
         public static ClientRequestValue Create(object input)
         {
-            if (ClientRequestValue.TryCreate(input, out var output))
+            if (TryCreate(input, out var output))
             {
                 return output;
             }
@@ -91,6 +91,9 @@ namespace Karamem0.SharePoint.PowerShell.Runtime.Models
                     return true;
                 case SwitchParameter switchValue:
                     output = new ClientRequestValue("Boolean", switchValue.ToBool().ToString().ToLower());
+                    return true;
+                case ODataObject oDataValue:
+                    output = new ClientRequestValue("String", JsonSerializerManager.JsonSerializer.Serialize(oDataValue));
                     return true;
                 default:
                     output = null;

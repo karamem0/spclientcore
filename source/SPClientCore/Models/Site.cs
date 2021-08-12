@@ -110,6 +110,9 @@ namespace Karamem0.SharePoint.PowerShell.Models
         public virtual bool FooterEnabled { get; protected set; }
 
         [JsonProperty()]
+        public virtual FooterLayoutType FooterLayout { get; protected set; }
+
+        [JsonProperty()]
         public override bool HasUniqueRoleAssignments { get; protected set; }
 
         [JsonProperty()]
@@ -117,6 +120,9 @@ namespace Karamem0.SharePoint.PowerShell.Models
 
         [JsonProperty()]
         public virtual HeaderLayoutType HeaderLayout { get; protected set; }
+
+        [JsonProperty()]
+        public virtual bool HideTitleInHeader { get; protected set; }
 
         [JsonProperty()]
         public virtual bool HorizontalQuickLaunch { get; protected set; }
@@ -133,14 +139,17 @@ namespace Karamem0.SharePoint.PowerShell.Models
         [JsonProperty()]
         public virtual bool IsRevertHomepageLinkHidden { get; protected set; }
 
-        [JsonProperty("Language")]
-        public virtual uint Lcid { get; protected set; }
-
         [JsonProperty()]
         public virtual DateTime LastItemModifiedDate { get; protected set; }
 
         [JsonProperty()]
         public virtual DateTime LastItemUserModifiedDate { get; protected set; }
+
+        [JsonProperty("Language")]
+        public virtual uint Lcid { get; protected set; }
+
+        [JsonProperty()]
+        public virtual LogoAlignment LogoAlignment { get; protected set; }
 
         [JsonProperty()]
         public virtual string MasterUrl { get; protected set; }
@@ -150,6 +159,9 @@ namespace Karamem0.SharePoint.PowerShell.Models
 
         [JsonProperty()]
         public virtual bool MegaMenuEnabled { get; protected set; }
+
+        [JsonProperty()]
+        public virtual bool NavAudienceTargetingEnabled { get; protected set; }
 
         [JsonProperty()]
         public virtual bool NoCrawl { get; protected set; }
@@ -182,6 +194,9 @@ namespace Karamem0.SharePoint.PowerShell.Models
         public virtual bool SaveSiteAsTemplateEnabled { get; protected set; }
 
         [JsonProperty()]
+        public virtual SearchScopeType SearchScope { get; protected set; }
+
+        [JsonProperty()]
         public virtual string ServerRelativeUrl { get; protected set; }
 
         [JsonProperty()]
@@ -204,6 +219,9 @@ namespace Karamem0.SharePoint.PowerShell.Models
 
         [JsonProperty()]
         public virtual bool TenantTagPolicyEnabled { get; protected set; }
+
+        [JsonProperty()]
+        public virtual bool TenantAdminMembersCanShare { get; protected set; }
 
         [JsonProperty()]
         public virtual string ThemedCssFolderUrl { get; protected set; }

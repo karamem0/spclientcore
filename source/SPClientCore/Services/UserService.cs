@@ -122,7 +122,7 @@ namespace Karamem0.SharePoint.PowerShell.Services
 
         public User GetObject(int userId)
         {
-            if (userId == default(int))
+            if (userId == default)
             {
                 throw new ArgumentNullException(nameof(userId));
             }

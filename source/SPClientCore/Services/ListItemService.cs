@@ -77,7 +77,7 @@ namespace Karamem0.SharePoint.PowerShell.Services
                     requestPayload.CreateParameter("_ModerationComments"),
                     requestPayload.CreateParameter(comment)),
                 objectPathId => new ClientActionMethod(objectPathId, "Update"));
-            this.ClientContext.ProcessQuery(requestPayload);
+            _ = this.ClientContext.ProcessQuery(requestPayload);
         }
 
         public ListItem CreateObject(List listObject, IReadOnlyDictionary<string, object> creationInformation)
@@ -136,7 +136,7 @@ namespace Karamem0.SharePoint.PowerShell.Services
                     requestPayload.CreateParameter("_ModerationComments"),
                     requestPayload.CreateParameter(comment)),
                 objectPathId => new ClientActionMethod(objectPathId, "Update"));
-            this.ClientContext.ProcessQuery(requestPayload);
+            _ = this.ClientContext.ProcessQuery(requestPayload);
         }
 
         public ListItem GetObject(Folder folderObject)
@@ -187,7 +187,7 @@ namespace Karamem0.SharePoint.PowerShell.Services
             {
                 throw new ArgumentNullException(nameof(listObject));
             }
-            if (listItemId == default(int))
+            if (listItemId == default)
             {
                 throw new ArgumentNullException(nameof(listItemId));
             }
@@ -338,7 +338,7 @@ namespace Karamem0.SharePoint.PowerShell.Services
                     requestPayload.CreateParameter("_ModerationComments"),
                     requestPayload.CreateParameter(comment)),
                 objectPathId => new ClientActionMethod(objectPathId, "Update"));
-            this.ClientContext.ProcessQuery(requestPayload);
+            _ = this.ClientContext.ProcessQuery(requestPayload);
         }
 
         public void UpdateObject(ListItem listItemObject, IReadOnlyDictionary<string, object> modificationInformation, bool useSyetemUpdate)
@@ -366,7 +366,7 @@ namespace Karamem0.SharePoint.PowerShell.Services
                         useSyetemUpdate ? "SystemUpdate" : "Update"))
                     .Where(item => item != null)
                     .ToArray());
-            this.ClientContext.ProcessQuery(requestPayload);
+            _ = this.ClientContext.ProcessQuery(requestPayload);
         }
 
     }

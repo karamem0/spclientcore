@@ -86,7 +86,7 @@ namespace Karamem0.SharePoint.PowerShell.Services
                     requestPayload.CreateParameter("_ModerationComments"),
                     requestPayload.CreateParameter(comment)),
                 objectPathId => new ClientActionMethod(objectPathId, "Update"));
-            this.ClientContext.ProcessQuery(requestPayload);
+            _ = this.ClientContext.ProcessQuery(requestPayload);
         }
 
         public void CopyObject(Folder folderObject, Uri folderUrl, MoveCopyOptions moveCopyOptions)
@@ -115,7 +115,7 @@ namespace Karamem0.SharePoint.PowerShell.Services
                     requestPayload.CreateParameter(folderUrl.ToString()),
                     requestPayload.CreateParameter(moveCopyOptions)
                 ));
-            this.ClientContext.ProcessQuery(requestPayload);
+            _ = this.ClientContext.ProcessQuery(requestPayload);
         }
 
         public Folder CreateObject(Folder folderObject, string folderName)
@@ -170,7 +170,7 @@ namespace Karamem0.SharePoint.PowerShell.Services
                     requestPayload.CreateParameter("_ModerationComments"),
                     requestPayload.CreateParameter(comment)),
                 objectPathId => new ClientActionMethod(objectPathId, "Update"));
-            this.ClientContext.ProcessQuery(requestPayload);
+            _ = this.ClientContext.ProcessQuery(requestPayload);
         }
 
         public Folder GetObject(List listObject)
@@ -196,7 +196,7 @@ namespace Karamem0.SharePoint.PowerShell.Services
 
         public Folder GetObject(Guid folderId)
         {
-            if (folderId == default(Guid))
+            if (folderId == default)
             {
                 throw new ArgumentNullException(nameof(folderId));
             }
@@ -335,7 +335,7 @@ namespace Karamem0.SharePoint.PowerShell.Services
                     objectPathId,
                     "MoveTo",
                     requestPayload.CreateParameter(folderUrl.ToString())));
-            this.ClientContext.ProcessQuery(requestPayload);
+            _ = this.ClientContext.ProcessQuery(requestPayload);
         }
 
         public void MoveObject(Folder folderObject, Uri folderUrl, MoveCopyOptions moveCopyOptions)
@@ -364,7 +364,7 @@ namespace Karamem0.SharePoint.PowerShell.Services
                     requestPayload.CreateParameter(folderUrl.ToString()),
                     requestPayload.CreateParameter(moveCopyOptions)
                 ));
-            this.ClientContext.ProcessQuery(requestPayload);
+            _ = this.ClientContext.ProcessQuery(requestPayload);
         }
 
         public Guid RecycleObject(Folder folderObject)
@@ -404,7 +404,7 @@ namespace Karamem0.SharePoint.PowerShell.Services
                     requestPayload.CreateParameter("_ModerationComments"),
                     requestPayload.CreateParameter(comment)),
                 objectPathId => new ClientActionMethod(objectPathId, "Update"));
-            this.ClientContext.ProcessQuery(requestPayload);
+            _ = this.ClientContext.ProcessQuery(requestPayload);
         }
 
     }

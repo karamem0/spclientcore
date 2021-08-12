@@ -19,7 +19,7 @@ using System.Security;
 using System.Text;
 using System.Threading;
 
-namespace Karamem0.SharePoint.PowerShell.Commands.Common
+namespace Karamem0.SharePoint.PowerShell.Commands
 {
 
     [Cmdlet("Connect", "KshSite")]
@@ -105,7 +105,11 @@ namespace Karamem0.SharePoint.PowerShell.Commands.Common
                         var oAuthTokenMessage = oAuthContext.AcquireTokenByDeviceCode(oAuthDeviceCode.DeviceCode);
                         if (oAuthTokenMessage is AadOAuthToken oAuthToken)
                         {
-                            ClientService.Register(new ClientContext(this.Url, new AadOAuthTokenCache(oAuthContext, oAuthToken)));
+                            AadOAuthTokenStore.Add(oAuthToken);
+                            ClientService.Register(
+                                new ClientContext(
+                                    this.Url,
+                                    new AadOAuthTokenProvider(oAuthContext, oAuthToken)));
                         }
                         if (oAuthTokenMessage is OAuthError oAuthTokenError)
                         {
@@ -145,7 +149,11 @@ namespace Karamem0.SharePoint.PowerShell.Commands.Common
                 var oAuthMessage = oAuthContext.AcquireTokenByPassword(credential.UserName, credential.Password);
                 if (oAuthMessage is AadOAuthToken oAuthToken)
                 {
-                    ClientService.Register(new ClientContext(this.Url, new AadOAuthTokenCache(oAuthContext, oAuthToken)));
+                    AadOAuthTokenStore.Add(oAuthToken);
+                    ClientService.Register(
+                        new ClientContext(
+                            this.Url,
+                            new AadOAuthTokenProvider(oAuthContext, oAuthToken)));
                 }
                 if (oAuthMessage is OAuthError oAuthError)
                 {
@@ -168,7 +176,11 @@ namespace Karamem0.SharePoint.PowerShell.Commands.Common
                 var oAuthMessage = oAuthContext.AcquireTokenByCertificate(certificateBytes, this.CertificatePassword);
                 if (oAuthMessage is AadOAuthToken oAuthToken)
                 {
-                    ClientService.Register(new ClientContext(this.Url, new AadOAuthTokenCache(oAuthContext, oAuthToken)));
+                    AadOAuthTokenStore.Add(oAuthToken);
+                    ClientService.Register(
+                        new ClientContext(
+                            this.Url,
+                            new AadOAuthTokenProvider(oAuthContext, oAuthToken)));
                 }
                 if (oAuthMessage is OAuthError oAuthError)
                 {
@@ -187,7 +199,10 @@ namespace Karamem0.SharePoint.PowerShell.Commands.Common
                     this.ClientId ?? OAuthConstants.ClientId,
                     this.Url.GetAuthority(),
                     this.UserMode);
-                ClientService.Register(new ClientContext(this.Url, new AadOAuthTokenCache(oAuthContext)));
+                ClientService.Register(
+                    new ClientContext(
+                        this.Url,
+                        new AadOAuthTokenProvider(oAuthContext, AadOAuthTokenStore.Get(this.Url.GetAuthority()))));
             }
             if (this.ParameterSetName == "ParamSet5")
             {
@@ -199,7 +214,7 @@ namespace Karamem0.SharePoint.PowerShell.Commands.Common
                 var oAuthMessage = oAuthContext.AcquireToken();
                 if (oAuthMessage is AcsOAuthToken oAuthToken)
                 {
-                    ClientService.Register(new ClientContext(this.Url, new AcsOAuthTokenCache(oAuthContext, oAuthToken)));
+                    ClientService.Register(new ClientContext(this.Url, new AcsOAuthTokenProvider(oAuthContext, oAuthToken)));
                 }
                 if (oAuthMessage is OAuthError oAuthError)
                 {

@@ -16,15 +16,15 @@ namespace Karamem0.SharePoint.PowerShell.Runtime.Models
 {
 
     [JsonObject()]
-    public class ODataV1ResultPayload<T> : ODataResultPayload where T : ODataV1Object
+    public class ODataV1ResultPayload
     {
 
         public ODataV1ResultPayload()
         {
         }
 
-        [JsonProperty("d")]
-        public T Entry { get; private set; }
+        [JsonProperty("error")]
+        public virtual ODataV1Error Error { get; protected set; }
 
     }
 

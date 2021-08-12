@@ -50,7 +50,7 @@ namespace Karamem0.SharePoint.PowerShell.Services
             {
                 throw new ArgumentNullException(nameof(fileObject));
             }
-            if (fileVersionId == default(int))
+            if (fileVersionId == default)
             {
                 throw new ArgumentNullException(nameof(fileVersionId));
             }
@@ -114,7 +114,7 @@ namespace Karamem0.SharePoint.PowerShell.Services
                     objectPathId,
                     "RecycleByLabel",
                     requestPayload.CreateParameter(fileVersionObject.VersionLabel)));
-            this.ClientContext.ProcessQuery(requestPayload);
+            _ = this.ClientContext.ProcessQuery(requestPayload);
         }
 
         public override void RemoveObject(FileVersion fileVersionObject)
@@ -134,7 +134,7 @@ namespace Karamem0.SharePoint.PowerShell.Services
                     objectPathId,
                     "DeleteByLabel",
                     requestPayload.CreateParameter(fileVersionObject.VersionLabel)));
-            this.ClientContext.ProcessQuery(requestPayload);
+            _ = this.ClientContext.ProcessQuery(requestPayload);
         }
 
         public void RemoveObjectAll(File fileObject)
@@ -151,7 +151,7 @@ namespace Karamem0.SharePoint.PowerShell.Services
             var objectPath3 = requestPayload.Add(
                 objectPath2,
                 objectPathId => new ClientActionMethod(objectPathId, "DeleteAll"));
-            this.ClientContext.ProcessQuery(requestPayload);
+            _ = this.ClientContext.ProcessQuery(requestPayload);
         }
 
         public void RestoreObject(FileVersion fileVersionObject)
@@ -171,7 +171,7 @@ namespace Karamem0.SharePoint.PowerShell.Services
                     objectPathId,
                     "RestoreByLabel",
                     requestPayload.CreateParameter(fileVersionObject.VersionLabel)));
-            this.ClientContext.ProcessQuery(requestPayload);
+            _ = this.ClientContext.ProcessQuery(requestPayload);
         }
 
     }

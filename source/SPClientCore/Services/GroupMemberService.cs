@@ -75,7 +75,7 @@ namespace Karamem0.SharePoint.PowerShell.Services
             {
                 throw new ArgumentNullException(nameof(groupObject));
             }
-            if (userId == default(int))
+            if (userId == default)
             {
                 throw new ArgumentNullException(nameof(userId));
             }
@@ -196,7 +196,7 @@ namespace Karamem0.SharePoint.PowerShell.Services
                     objectPathId,
                     "Remove",
                     requestPayload.CreateParameter(memberObject)));
-            this.ClientContext.ProcessQuery(requestPayload);
+            _ = this.ClientContext.ProcessQuery(requestPayload);
         }
 
     }

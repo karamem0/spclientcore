@@ -51,7 +51,7 @@ namespace Karamem0.SharePoint.PowerShell.Commands
             if (this.ParameterSetName == "ParamSet2")
             {
                 this.ValidateSwitchParameter(nameof(this.NoWait));
-                this.Service.UnlockObject(this.Identity);
+                _ = this.Service.UnlockObject(this.Identity);
             }
         }
 

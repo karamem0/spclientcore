@@ -78,7 +78,7 @@ namespace Karamem0.SharePoint.PowerShell.Services
             var objectPath4 = requestPayload.Add(
                 objectPath1,
                 objectPathId => new ClientActionMethod(objectPathId, "Update"));
-            this.ClientContext.ProcessQuery(requestPayload);
+            _ = this.ClientContext.ProcessQuery(requestPayload);
         }
 
         public IEnumerable<string> GetObjectEnumerable(View viewObject)
@@ -141,7 +141,7 @@ namespace Karamem0.SharePoint.PowerShell.Services
             var objectPath4 = requestPayload.Add(
                 objectPath1,
                 objectPathId => new ClientActionMethod(objectPathId, "Update"));
-            this.ClientContext.ProcessQuery(requestPayload);
+            _ = this.ClientContext.ProcessQuery(requestPayload);
         }
 
         public void RemoveObject(View viewObject, Column columnObject)
@@ -177,7 +177,7 @@ namespace Karamem0.SharePoint.PowerShell.Services
             var objectPath4 = requestPayload.Add(
                 objectPath1,
                 objectPathId => new ClientActionMethod(objectPathId, "Update"));
-            this.ClientContext.ProcessQuery(requestPayload);
+            _ = this.ClientContext.ProcessQuery(requestPayload);
         }
 
         public void RemoveObjectAll(View viewObject)
@@ -197,7 +197,7 @@ namespace Karamem0.SharePoint.PowerShell.Services
             var objectPath4 = requestPayload.Add(
                 objectPath1,
                 objectPathId => new ClientActionMethod(objectPathId, "Update"));
-            this.ClientContext.ProcessQuery(requestPayload);
+            _ = this.ClientContext.ProcessQuery(requestPayload);
         }
 
     }

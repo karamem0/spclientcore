@@ -61,11 +61,15 @@ namespace Karamem0.SharePoint.PowerShell.Tests
                         { "Identity", result3.ElementAt(0) },
                         { "Aggregations", "<FieldRef Name='LinkTitle' Type='COUNT' />" },
                         { "AggregationsStatus", "On" },
+                        { "AssociatedContentTypeId", null },
+                        { "CalendarViewStyles", null },
+                        { "CustomOrder", null },
                         // { "ContentTypeId", null },
                         { "DefaultView", true },
                         { "DefaultViewForContentType", true },
                         { "EditorModified", false },
                         { "Formats", "<FormatDef Type='RowHeight' Value='100' />" },
+                        { "GridLayout", null },
                         { "Hidden", true },
                         { "IncludeRootFolder", true },
                         // { "ImageUrl", null },
@@ -91,6 +95,7 @@ namespace Karamem0.SharePoint.PowerShell.Tests
                             "</Join>" },
                         { "ViewProjectedColumns", "<Field Name='TestColumn16' Type='Lookup' List='TestList1' ShowField='Title'/>" },
                         { "ViewQuery", "<OrderBy><FieldRef Name='Title'/></OrderBy>" },
+                        { "ViewType2", null },
                         { "PassThru", true }
                     }
                 );

@@ -47,7 +47,7 @@ namespace Karamem0.SharePoint.PowerShell.Models
         GroupMembershipDelete = 4096,
 
         SystemUpdate = 8192,
-        
+
         Navigation = 16384,
 
         All = 32767,

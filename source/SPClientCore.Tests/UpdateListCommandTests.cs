@@ -59,6 +59,8 @@ namespace Karamem0.SharePoint.PowerShell.Tests
                         { "DefaultNewFormUrl", context.AppSettings["Site1Url"] + "/TestList0/Forms/Upload.aspx" },
                         { "Description", "Test List 9 Description" },
                         { "Direction", "none" },
+                        { "DisableCommenting", true },
+                        { "DisableGridEditing", true },
                         { "DocumentTemplateUrl", context.AppSettings["Site1Url"] + "/TestList0/Forms/template.dotx" },
                         { "DraftVersionVisibility", "Author" },
                         { "EnableAttachments", false },

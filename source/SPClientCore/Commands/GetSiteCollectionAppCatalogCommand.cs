@@ -28,29 +28,47 @@ namespace Karamem0.SharePoint.PowerShell.Commands
         {
         }
 
-        [Parameter(Mandatory = true, Position = 0, ParameterSetName = "ParamSet1")]
-        public SiteCollection SiteCollection { get; private set; }
+        [Parameter(Mandatory = true, Position = 0, ValueFromPipeline = true, ParameterSetName = "ParamSet1")]
+        public SiteCollectionAppCatalog Identity { get; private set; }
 
         [Parameter(Mandatory = true, Position = 0, ParameterSetName = "ParamSet2")]
-        public Uri SiteCollectionUrl { get; private set; }
+        public SiteCollection SiteCollection { get; private set; }
 
         [Parameter(Mandatory = true, Position = 0, ParameterSetName = "ParamSet3")]
+        public Uri SiteCollectionUrl { get; private set; }
+
+        [Parameter(Mandatory = true, Position = 0, ParameterSetName = "ParamSet4")]
         public Guid SiteCollectionId { get; private set; }
 
+        [Parameter(Mandatory = false, ParameterSetName = "ParamSet2")]
+        [Parameter(Mandatory = false, ParameterSetName = "ParamSet3")]
         [Parameter(Mandatory = false, ParameterSetName = "ParamSet4")]
+        [Parameter(Mandatory = false, ParameterSetName = "ParamSet5")]
         public SwitchParameter NoEnumerate { get; private set; }
 
         protected override void ProcessRecordCore()
         {
             if (this.ParameterSetName == "ParamSet1")
             {
-                this.WriteObject(this.Service.GetObjectEnumerable().Single(obj => obj.SiteCollectionId == this.SiteCollection.Id));
+                this.WriteObject(this.Service.GetObject(this.Identity));
             }
             if (this.ParameterSetName == "ParamSet2")
             {
+                this.WriteObject(this.Service
+                    .GetObjectEnumerable()
+                    .Where(obj => obj.SiteCollectionId == this.SiteCollection.Id)
+                    .ToArray(),
+                    this.NoEnumerate ? false : true);
+            }
+            if (this.ParameterSetName == "ParamSet3")
+            {
                 if (this.SiteCollectionUrl.IsAbsoluteUri)
                 {
-                    this.WriteObject(this.Service.GetObjectEnumerable().Single(obj => obj.AbsoluteUrl == this.SiteCollectionUrl.ToString()));
+                    this.WriteObject(this.Service
+                        .GetObjectEnumerable()
+                        .Where(obj => obj.AbsoluteUrl == this.SiteCollectionUrl.ToString())
+                        .ToArray(),
+                        this.NoEnumerate ? false : true);
                 }
                 else
                 {
@@ -59,11 +77,15 @@ namespace Karamem0.SharePoint.PowerShell.Commands
                         nameof(this.SiteCollectionUrl));
                 }
             }
-            if (this.ParameterSetName == "ParamSet3")
-            {
-                this.WriteObject(this.Service.GetObjectEnumerable().Single(obj => obj.SiteCollectionId == this.SiteCollectionId));
-            }
             if (this.ParameterSetName == "ParamSet4")
+            {
+                this.WriteObject(this.Service
+                    .GetObjectEnumerable()
+                    .Where(obj => obj.SiteCollectionId == this.SiteCollectionId)
+                    .ToArray(),
+                    this.NoEnumerate ? false : true);
+            }
+            if (this.ParameterSetName == "ParamSet5")
             {
                 this.WriteObject(this.Service.GetObjectEnumerable(), this.NoEnumerate ? false : true);
             }

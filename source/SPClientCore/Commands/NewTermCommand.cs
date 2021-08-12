@@ -47,7 +47,7 @@ namespace Karamem0.SharePoint.PowerShell.Commands
 
         protected override void ProcessRecordCore()
         {
-            if (this.Id == default(Guid))
+            if (this.Id == default)
             {
                 this.Id = Guid.NewGuid();
             }

@@ -119,7 +119,7 @@ namespace Karamem0.SharePoint.PowerShell.Services
             var objectPath = requestPayload.Add(
                 new ObjectPathIdentity(attachmentFileObject.ObjectIdentity),
                 objectPathId => new ClientActionMethod(objectPathId, "RecycleObject"));
-            this.ClientContext.ProcessQuery(requestPayload);
+            _ = this.ClientContext.ProcessQuery(requestPayload);
         }
 
         public void UploadObject(ListItem listItemObject, string attachmentFileName, System.IO.Stream attachmentFileContent)

@@ -23,7 +23,7 @@ namespace Karamem0.SharePoint.PowerShell.Runtime.Services
 
         public static void Register(ClientContext clientContext)
         {
-            ClientService.ServiceProvider = Assembly.GetExecutingAssembly().GetTypes()
+            ServiceProvider = Assembly.GetExecutingAssembly().GetTypes()
                 .Where(type => type.IsSubclassOf(typeof(ClientService)))
                 .Where(type => type.GetInterfaces().Any())
                 .Aggregate<Type, IServiceCollection>(
@@ -33,13 +33,14 @@ namespace Karamem0.SharePoint.PowerShell.Runtime.Services
                 .BuildServiceProvider();
         }
 
+        public static void Unregister()
+        {
+            ServiceProvider = null;
+        }
+
         protected ClientService(ClientContext clientContext)
         {
-            if (clientContext == null)
-            {
-                throw new ArgumentNullException(nameof(clientContext));
-            }
-            this.ClientContext = clientContext;
+            this.ClientContext = clientContext ?? throw new ArgumentNullException(nameof(clientContext));
         }
 
         protected ClientContext ClientContext { get; private set; }

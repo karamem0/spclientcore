@@ -31,7 +31,7 @@ namespace Karamem0.SharePoint.PowerShell.Tests
                     "Connect-KshSite",
                     new Dictionary<string, object>()
                     {
-                        { "Url", context.AppSettings["BaseUrl"] },
+                        { "Url", context.AppSettings["TenantAppCatalogUrl"] },
                         { "Credential", PSCredentialFactory.CreateCredential(
                             context.AppSettings["LoginUserName"],
                             context.AppSettings["LoginPassword"])

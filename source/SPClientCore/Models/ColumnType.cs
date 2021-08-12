@@ -83,7 +83,11 @@ namespace Karamem0.SharePoint.PowerShell.Models
 
         OutcomeChoice = 32,
 
-        MaxItems = 33,
+        Location = 33,
+
+        Thumbnail = 34,
+
+        MaxItems = 35,
 
     }
 

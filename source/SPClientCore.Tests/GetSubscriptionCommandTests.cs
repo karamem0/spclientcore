@@ -84,7 +84,7 @@ namespace Karamem0.SharePoint.PowerShell.Tests
                     new Dictionary<string, object>()
                     {
                         { "List", result2.ElementAt(0) },
-                        { "NotificationUrl", "https://pnp-functions.azurewebsites.net/api/spwebhookfunction" },
+                        { "NotificationUrl", "https://prod-20.southeastasia.logic.azure.com/workflows/dd8e16aab0a94a3392b6fcc14ea83c1a/triggers/manual/paths/invoke?api-version=2016-10-01&sp=%2Ftriggers%2Fmanual%2Frun&sv=1.0&sig=SmQKf3e89WOOdQ_hPjV2MHY8X35n61EqXBJIvHLPoBg" },
                         { "ExpirationDateTime", DateTime.UtcNow.AddDays(1) }
                     }
                 );
@@ -142,7 +142,7 @@ namespace Karamem0.SharePoint.PowerShell.Tests
                     new Dictionary<string, object>()
                     {
                         { "List", result2.ElementAt(0) },
-                        { "NotificationUrl", "https://pnp-functions.azurewebsites.net/api/spwebhookfunction" },
+                        { "NotificationUrl", "https://prod-20.southeastasia.logic.azure.com/workflows/dd8e16aab0a94a3392b6fcc14ea83c1a/triggers/manual/paths/invoke?api-version=2016-10-01&sp=%2Ftriggers%2Fmanual%2Frun&sv=1.0&sig=SmQKf3e89WOOdQ_hPjV2MHY8X35n61EqXBJIvHLPoBg" },
                         { "ExpirationDateTime", DateTime.UtcNow.AddDays(1) }
                     }
                 );

@@ -19,7 +19,7 @@ namespace Karamem0.SharePoint.PowerShell.Services.Utilities
     public class SchemaXmlValue
     {
 
-        private object value;
+        private readonly object value;
 
         public SchemaXmlValue(object value)
         {

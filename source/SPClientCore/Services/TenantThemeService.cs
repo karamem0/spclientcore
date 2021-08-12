@@ -146,7 +146,7 @@ namespace Karamem0.SharePoint.PowerShell.Services
                     objectPathId,
                     "DeleteTenantTheme",
                     requestPayload.CreateParameter(themeName)));
-            this.ClientContext.ProcessQuery(requestPayload);
+            _ = this.ClientContext.ProcessQuery(requestPayload);
         }
 
         public bool UpdateObject(TenantTheme themeObject, IReadOnlyDictionary<string, object> modificationInformation)

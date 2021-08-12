@@ -37,6 +37,12 @@ namespace Karamem0.SharePoint.PowerShell.Models
         [JsonProperty()]
         public virtual string ClientSideComponentProperties { get; protected set; }
 
+        [JsonProperty()]
+        public virtual string ClientValidationFormula { get; protected set; }
+
+        [JsonProperty()]
+        public virtual string ClientValidationMessage { get; protected set; }
+
         [JsonProperty("FieldTypeKind")]
         public virtual ColumnType ColumnType { get; protected set; }
 
@@ -78,6 +84,12 @@ namespace Karamem0.SharePoint.PowerShell.Models
 
         [JsonProperty()]
         public virtual bool Indexed { get; protected set; }
+
+        [JsonProperty()]
+        public virtual IndexStatus IndexStatus { get; protected set; }
+
+        [JsonProperty()]
+        public virtual bool IsModern { get; protected set; }
 
         [JsonProperty()]
         public virtual string JSLink { get; protected set; }

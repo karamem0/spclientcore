@@ -22,7 +22,7 @@ namespace Karamem0.SharePoint.PowerShell.Runtime.Models
 
         public static ClientResultValue Create(KeyValuePair<string, JToken> input)
         {
-            if (ClientResultValue.TryCreate(input, out var output))
+            if (TryCreate(input, out var output))
             {
                 return output;
             }
@@ -116,9 +116,9 @@ namespace Karamem0.SharePoint.PowerShell.Runtime.Models
                         .Select(item => new KeyValuePair<string, JToken>(
                             input.Key.Substring(0, input.Key.LastIndexOf('$')),
                             item))
-                        .Select(item => ClientResultValue.Create(item))
+                        .Select(item => Create(item))
                         .Select(item => item.Value)
-                        .ToArray(); 
+                        .ToArray();
                     return true;
                 case JTokenType.String:
                     if (DateTimeConverter.TryParse(input.Value.ToString(), out var dateValue))

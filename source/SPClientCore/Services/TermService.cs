@@ -87,11 +87,11 @@ namespace Karamem0.SharePoint.PowerShell.Services
             {
                 throw new ArgumentNullException(nameof(termName));
             }
-            if (termId == default(Guid))
+            if (termId == default)
             {
                 throw new ArgumentNullException(nameof(termId));
             }
-            if (lcid == default(uint))
+            if (lcid == default)
             {
                 throw new ArgumentNullException(nameof(lcid));
             }
@@ -130,7 +130,7 @@ namespace Karamem0.SharePoint.PowerShell.Services
                     objectPathId,
                     "Deprecate",
                     requestPayload.CreateParameter(deprecated)));
-            this.ClientContext.ProcessQuery(requestPayload);
+            _ = this.ClientContext.ProcessQuery(requestPayload);
         }
 
         public Term GetObject(TermLabel termLabelObject)
@@ -160,7 +160,7 @@ namespace Karamem0.SharePoint.PowerShell.Services
             {
                 throw new ArgumentNullException(nameof(termSetItemObject));
             }
-            if (termId == default(Guid))
+            if (termId == default)
             {
                 throw new ArgumentNullException(nameof(termId));
             }
@@ -255,7 +255,7 @@ namespace Karamem0.SharePoint.PowerShell.Services
                     objectPathId,
                     "Merge",
                     requestPayload.CreateParameter(destinationTermObject)));
-            this.ClientContext.ProcessQuery(requestPayload);
+            _ = this.ClientContext.ProcessQuery(requestPayload);
         }
 
         public void MoveObject(Term termObject, TermSetItem termSetItemObject)
@@ -277,7 +277,7 @@ namespace Karamem0.SharePoint.PowerShell.Services
                     objectPathId,
                     "Move",
                     requestPayload.CreateParameter(termSetItemObject)));
-            this.ClientContext.ProcessQuery(requestPayload);
+            _ = this.ClientContext.ProcessQuery(requestPayload);
         }
 
         public override void UpdateObject(Term termObject, IReadOnlyDictionary<string, object> modificationInformation)
@@ -301,7 +301,7 @@ namespace Karamem0.SharePoint.PowerShell.Services
             var objectPath4 = requestPayload.Add(
                 objectPath3,
                 objectPathId => new ClientActionMethod(objectPathId, "CommitAll"));
-            this.ClientContext.ProcessQuery(requestPayload);
+            _ = this.ClientContext.ProcessQuery(requestPayload);
         }
 
     }

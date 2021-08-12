@@ -57,7 +57,7 @@ namespace Karamem0.SharePoint.PowerShell.Services
                     "SetLocalCustomProperty",
                     requestPayload.CreateParameter(propertyName),
                     requestPayload.CreateParameter(propertyValue)));
-            this.ClientContext.ProcessQuery(requestPayload);
+            _ = this.ClientContext.ProcessQuery(requestPayload);
         }
 
         public void RemoveObject(Term termObject, string propertyName)
@@ -79,7 +79,7 @@ namespace Karamem0.SharePoint.PowerShell.Services
                     objectPathId,
                     "DeleteLocalCustomProperty",
                     requestPayload.CreateParameter(propertyName)));
-            this.ClientContext.ProcessQuery(requestPayload);
+            _ = this.ClientContext.ProcessQuery(requestPayload);
         }
 
     }

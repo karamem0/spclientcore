@@ -37,7 +37,7 @@ namespace Karamem0.SharePoint.PowerShell.Services
 
         public AppInstance GetObject(Guid appInstanceId)
         {
-            if (appInstanceId == default(Guid))
+            if (appInstanceId == default)
             {
                 throw new ArgumentNullException(nameof(appInstanceId));
             }
@@ -87,7 +87,7 @@ namespace Karamem0.SharePoint.PowerShell.Services
 
         public IEnumerable<AppInstance> GetObjectEnumerable(Guid appProductId)
         {
-            if (appProductId == default(Guid))
+            if (appProductId == default)
             {
                 throw new ArgumentNullException(nameof(appProductId));
             }

@@ -147,7 +147,7 @@ namespace Karamem0.SharePoint.PowerShell.Services
 
         public Site GetObject(Guid siteId)
         {
-            if (siteId == default(Guid))
+            if (siteId == default)
             {
                 throw new ArgumentNullException(nameof(siteId));
             }

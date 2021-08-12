@@ -37,17 +37,21 @@ namespace Karamem0.SharePoint.PowerShell.Commands
         [Parameter(Mandatory = true, ParameterSetName = "ParamSet2")]
         public bool Enabled { get; private set; }
 
+        [Parameter(Mandatory = false, ParameterSetName = "ParamSet1")]
+        [Parameter(Mandatory = false, ParameterSetName = "ParamSet2")]
+        public SwitchParameter NoDefaultOrigins { get; private set; }
+
         protected override void ProcessRecordCore()
         {
             if (this.ParameterSetName == "ParamSet1")
             {
                 this.ValidateSwitchParameter(nameof(this.Public));
-                this.Service.SetEnabled(TenantCdnType.Public, this.Enabled);
+                this.Service.SetEnabled(TenantCdnType.Public, this.Enabled, this.NoDefaultOrigins);
             }
             if (this.ParameterSetName == "ParamSet2")
             {
                 this.ValidateSwitchParameter(nameof(this.Private));
-                this.Service.SetEnabled(TenantCdnType.Public, this.Enabled);
+                this.Service.SetEnabled(TenantCdnType.Private, this.Enabled, this.NoDefaultOrigins);
             }
         }
 

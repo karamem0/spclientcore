@@ -75,7 +75,7 @@ namespace Karamem0.SharePoint.PowerShell.Services
                     new ClientRequestParameterObjectPath(
                         requestPayload.Add(new ObjectPathIdentity(principalObject.ObjectIdentity)))),
                 objectPathId => new ClientActionMethod(objectPathId, "Update"));
-            this.ClientContext.ProcessQuery(requestPayload);
+            _ = this.ClientContext.ProcessQuery(requestPayload);
         }
 
     }

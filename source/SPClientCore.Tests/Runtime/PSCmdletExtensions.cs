@@ -10,9 +10,9 @@ using System;
 using System.Collections;
 using System.Collections.Generic;
 using System.Diagnostics;
+using System.Linq;
 using System.Management.Automation;
 using System.Management.Automation.Runspaces;
-using System.Linq;
 using System.Text;
 
 namespace Karamem0.SharePoint.PowerShell.Tests.Runtime

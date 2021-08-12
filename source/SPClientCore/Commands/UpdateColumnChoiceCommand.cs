@@ -43,6 +43,12 @@ namespace Karamem0.SharePoint.PowerShell.Commands
         public string ClientSideComponentProperties { get; private set; }
 
         [Parameter(Mandatory = false)]
+        public string ClientValidationFormula { get; private set; }
+
+        [Parameter(Mandatory = false)]
+        public string ClientValidationMessage { get; private set; }
+
+        [Parameter(Mandatory = false)]
         public string CustomFormatter { get; private set; }
 
         [Parameter(Mandatory = false)]
@@ -89,6 +95,12 @@ namespace Karamem0.SharePoint.PowerShell.Commands
 
         [Parameter(Mandatory = false)]
         public string Title { get; private set; }
+
+        [Parameter(Mandatory = false)]
+        public string ValidationFormula { get; private set; }
+
+        [Parameter(Mandatory = false)]
+        public string ValidationMessage { get; private set; }
 
         [Parameter(Mandatory = false)]
         public SwitchParameter PushChanges { get; private set; }

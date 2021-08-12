@@ -55,23 +55,11 @@ namespace Karamem0.SharePoint.PowerShell.Commands
                 {
                     var termObject = this.Service1.GetObject(this.Identity);
                     this.Service2.UpdateObject(this.Identity, this.MyInvocation.BoundParameters);
-                    while (true)
-                    {
-                        var termLabelObject = this.Service2.GetObjectEnumerable(termObject)
-                            .Where(obj => obj.Lcid == this.Lcid)
-                            .Where(obj => obj.Name == this.Identity.Name)
-                            .SingleOrDefault();
-                        if (termLabelObject != null)
-                        {
-                            this.WriteObject(termLabelObject);
-                            break;
-                        }
-                        Thread.Sleep(TimeSpan.FromSeconds(1));
-                    }
+                    this.WriteObject(this.Service2.GetObject(termObject, this.Identity.Name, this.Lcid));
                 }
                 else
                 {
-                    this.Service2.UpdateObject(this.Identity, this.MyInvocation.BoundParameters);
+                    this.Service2.UpdateObjectAwait(this.Identity, this.MyInvocation.BoundParameters);
                 }
             }
             if (this.ParameterSetName == "ParamSet2")
@@ -80,23 +68,11 @@ namespace Karamem0.SharePoint.PowerShell.Commands
                 {
                     var termObject = this.Service1.GetObject(this.Identity);
                     this.Service2.UpdateObject(this.Identity, this.MyInvocation.BoundParameters);
-                    while (true)
-                    {
-                        var termLabelObject = this.Service2.GetObjectEnumerable(termObject)
-                            .Where(obj => obj.Lcid == this.Identity.Lcid)
-                            .Where(obj => obj.Name == this.Name)
-                            .SingleOrDefault();
-                        if (termLabelObject != null)
-                        {
-                            this.WriteObject(termLabelObject);
-                            break;
-                        }
-                        Thread.Sleep(TimeSpan.FromSeconds(1));
-                    }
+                    this.WriteObject(this.Service2.GetObject(termObject, this.Name, this.Identity.Lcid));
                 }
                 else
                 {
-                    this.Service2.UpdateObject(this.Identity, this.MyInvocation.BoundParameters);
+                    this.Service2.UpdateObjectAwait(this.Identity, this.MyInvocation.BoundParameters);
                 }
             }
             if (this.ParameterSetName == "ParamSet3")

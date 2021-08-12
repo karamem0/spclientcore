@@ -80,10 +80,7 @@ namespace Karamem0.SharePoint.PowerShell.Services
 
         public void ApproveObject(File fileObject, string comment)
         {
-            if (fileObject == null)
-            {
-                throw new ArgumentNullException(nameof(fileObject));
-            }
+            _ = fileObject ?? throw new ArgumentNullException(nameof(fileObject));
             var requestPayload = new ClientRequestPayload();
             var objectPath = requestPayload.Add(
                 new ObjectPathIdentity(fileObject.ObjectIdentity),
@@ -91,15 +88,12 @@ namespace Karamem0.SharePoint.PowerShell.Services
                     objectPathId,
                     "Approve",
                     requestPayload.CreateParameter(comment)));
-            this.ClientContext.ProcessQuery(requestPayload);
+            _ = this.ClientContext.ProcessQuery(requestPayload);
         }
 
         public void CheckInObject(File fileObject, string comment, CheckInType checkInType)
         {
-            if (fileObject == null)
-            {
-                throw new ArgumentNullException(nameof(fileObject));
-            }
+            _ = fileObject ?? throw new ArgumentNullException(nameof(fileObject));
             var requestPayload = new ClientRequestPayload();
             var objectPath = requestPayload.Add(
                 new ObjectPathIdentity(fileObject.ObjectIdentity),
@@ -108,32 +102,23 @@ namespace Karamem0.SharePoint.PowerShell.Services
                     "CheckIn",
                     requestPayload.CreateParameter(comment),
                     requestPayload.CreateParameter(checkInType)));
-            this.ClientContext.ProcessQuery(requestPayload);
+            _ = this.ClientContext.ProcessQuery(requestPayload);
         }
 
         public void CheckOutObject(File fileObject)
         {
-            if (fileObject == null)
-            {
-                throw new ArgumentNullException(nameof(fileObject));
-            }
+            _ = fileObject ?? throw new ArgumentNullException(nameof(fileObject));
             var requestPayload = new ClientRequestPayload();
             var objectPath = requestPayload.Add(
                 new ObjectPathIdentity(fileObject.ObjectIdentity),
                 objectPathId => new ClientActionMethod(objectPathId, "CheckOut"));
-            this.ClientContext.ProcessQuery(requestPayload);
+            _ = this.ClientContext.ProcessQuery(requestPayload);
         }
 
         public void CopyObject(File fileObject, Uri fileUrl, bool overwrite)
         {
-            if (fileObject == null)
-            {
-                throw new ArgumentNullException(nameof(fileObject));
-            }
-            if (fileUrl == null)
-            {
-                throw new ArgumentNullException(nameof(fileUrl));
-            }
+            _ = fileObject ?? throw new ArgumentNullException(nameof(fileObject));
+            _ = fileUrl ?? throw new ArgumentNullException(nameof(fileUrl));
             var requestPayload = new ClientRequestPayload();
             var objectPath = requestPayload.Add(
                 new ObjectPathIdentity(fileObject.ObjectIdentity),
@@ -142,23 +127,14 @@ namespace Karamem0.SharePoint.PowerShell.Services
                     "CopyTo",
                     requestPayload.CreateParameter(fileUrl.ToString()),
                     requestPayload.CreateParameter(overwrite)));
-            this.ClientContext.ProcessQuery(requestPayload);
+            _ = this.ClientContext.ProcessQuery(requestPayload);
         }
 
         public void CopyObject(File fileObject, Uri fileUrl, bool overwrite, MoveCopyOptions moveCopyOptions)
         {
-            if (fileObject == null)
-            {
-                throw new ArgumentNullException(nameof(fileObject));
-            }
-            if (fileUrl == null)
-            {
-                throw new ArgumentNullException(nameof(fileUrl));
-            }
-            if (moveCopyOptions == null)
-            {
-                throw new ArgumentNullException(nameof(moveCopyOptions));
-            }
+            _ = fileObject ?? throw new ArgumentNullException(nameof(fileObject));
+            _ = fileUrl ?? throw new ArgumentNullException(nameof(fileUrl));
+            _ = moveCopyOptions ?? throw new ArgumentNullException(nameof(moveCopyOptions));
             var requestPayload = new ClientRequestPayload();
             requestPayload.Actions.Add(
                 new ClientActionStaticMethod(
@@ -172,19 +148,13 @@ namespace Karamem0.SharePoint.PowerShell.Services
                     requestPayload.CreateParameter(overwrite),
                     requestPayload.CreateParameter(moveCopyOptions)
                 ));
-            this.ClientContext.ProcessQuery(requestPayload);
+            _ = this.ClientContext.ProcessQuery(requestPayload);
         }
 
         public File CreateObject(Folder folderObject, IReadOnlyDictionary<string, object> creationInformation)
         {
-            if (folderObject == null)
-            {
-                throw new ArgumentNullException(nameof(folderObject));
-            }
-            if (creationInformation == null)
-            {
-                throw new ArgumentNullException(nameof(creationInformation));
-            }
+            _ = folderObject ?? throw new ArgumentNullException(nameof(folderObject));
+            _ = creationInformation ?? throw new ArgumentNullException(nameof(creationInformation));
             var requestPayload = new ClientRequestPayload();
             var objectPath1 = requestPayload.Add(
                 new ObjectPathIdentity(folderObject.ObjectIdentity));
@@ -218,15 +188,12 @@ namespace Karamem0.SharePoint.PowerShell.Services
                     objectPathId,
                     "Deny",
                     requestPayload.CreateParameter(comment)));
-            this.ClientContext.ProcessQuery(requestPayload);
+            _ = this.ClientContext.ProcessQuery(requestPayload);
         }
 
         public System.IO.Stream DownloadObject(File fileObject)
         {
-            if (fileObject == null)
-            {
-                throw new ArgumentNullException(nameof(fileObject));
-            }
+            _ = fileObject ?? throw new ArgumentNullException(nameof(fileObject));
             var requestUrl = this.ClientContext.BaseAddress
                 .ConcatPath(
                     "_api/web/getfilebyserverrelativeurl('{0}')/openbinarystream",
@@ -236,10 +203,7 @@ namespace Karamem0.SharePoint.PowerShell.Services
 
         public File GetObject(FileVersion fileVersionObject)
         {
-            if (fileVersionObject == null)
-            {
-                throw new ArgumentNullException(nameof(fileVersionObject));
-            }
+            _ = fileVersionObject ?? throw new ArgumentNullException(nameof(fileVersionObject));
             var requestPayload = new ClientRequestPayload();
             var objectPath = requestPayload.Add(
                 new ObjectPathIdentity(string.Join(":", fileVersionObject.ObjectIdentity.Split(':').SkipLast(2))),
@@ -255,10 +219,7 @@ namespace Karamem0.SharePoint.PowerShell.Services
 
         public File GetObject(App appObject)
         {
-            if (appObject == null)
-            {
-                throw new ArgumentNullException(nameof(appObject));
-            }
+            _ = appObject ?? throw new ArgumentNullException(nameof(appObject));
             var requestPayload = new ClientRequestPayload();
             var objectPath1 = requestPayload.Add(
                 new ObjectPathStaticProperty(typeof(Context), "Current"));
@@ -281,10 +242,7 @@ namespace Karamem0.SharePoint.PowerShell.Services
 
         public File GetObject(Guid fileId)
         {
-            if (fileId == default(Guid))
-            {
-                throw new ArgumentNullException(nameof(fileId));
-            }
+            _ = (fileId != default) ? fileId : throw new ArgumentNullException(nameof(fileId));
             var requestPayload = new ClientRequestPayload();
             var objectPath1 = requestPayload.Add(
                 new ObjectPathStaticProperty(typeof(Context), "Current"));
@@ -307,10 +265,7 @@ namespace Karamem0.SharePoint.PowerShell.Services
 
         public File GetObject(Uri fileUrl)
         {
-            if (fileUrl == null)
-            {
-                throw new ArgumentNullException(nameof(fileUrl));
-            }
+            _ = fileUrl ?? throw new ArgumentNullException(nameof(fileUrl));
             var requestPayload = new ClientRequestPayload();
             var objectPath1 = requestPayload.Add(
                 new ObjectPathStaticProperty(typeof(Context), "Current"));
@@ -333,14 +288,8 @@ namespace Karamem0.SharePoint.PowerShell.Services
 
         public File GetObject(Folder folderObject, string fileName)
         {
-            if (folderObject == null)
-            {
-                throw new ArgumentNullException(nameof(folderObject));
-            }
-            if (fileName == null)
-            {
-                throw new ArgumentNullException(nameof(fileName));
-            }
+            _ = folderObject ?? throw new ArgumentNullException(nameof(folderObject));
+            _ = fileName ?? throw new ArgumentNullException(nameof(fileName));
             var requestPayload = new ClientRequestPayload();
             var objectPath1 = requestPayload.Add(
                 new ObjectPathIdentity(folderObject.ObjectIdentity));
@@ -363,10 +312,7 @@ namespace Karamem0.SharePoint.PowerShell.Services
 
         public IEnumerable<File> GetObjectEnumerable(Folder folderObject)
         {
-            if (folderObject == null)
-            {
-                throw new ArgumentNullException(nameof(folderObject));
-            }
+            _ = folderObject ?? throw new ArgumentNullException(nameof(folderObject));
             var requestPayload = new ClientRequestPayload();
             var objectPath1 = requestPayload.Add(
                 new ObjectPathIdentity(folderObject.ObjectIdentity));
@@ -385,14 +331,8 @@ namespace Karamem0.SharePoint.PowerShell.Services
 
         public void MoveObject(File fileObject, Uri fileUrl, MoveOperations fileMoveOperations)
         {
-            if (fileObject == null)
-            {
-                throw new ArgumentNullException(nameof(fileObject));
-            }
-            if (fileUrl == null)
-            {
-                throw new ArgumentNullException(nameof(fileUrl));
-            }
+            _ = fileObject ?? throw new ArgumentNullException(nameof(fileObject));
+            _ = fileUrl ?? throw new ArgumentNullException(nameof(fileUrl));
             var requestPayload = new ClientRequestPayload();
             var objectPath = requestPayload.Add(
                 new ObjectPathIdentity(fileObject.ObjectIdentity),
@@ -401,23 +341,14 @@ namespace Karamem0.SharePoint.PowerShell.Services
                     "MoveTo",
                     requestPayload.CreateParameter(fileUrl.ToString()),
                     requestPayload.CreateParameter(fileMoveOperations)));
-            this.ClientContext.ProcessQuery(requestPayload);
+            _ = this.ClientContext.ProcessQuery(requestPayload);
         }
 
         public void MoveObject(File fileObject, Uri fileUrl, bool overwrite, MoveCopyOptions moveCopyOptions)
         {
-            if (fileObject == null)
-            {
-                throw new ArgumentNullException(nameof(fileObject));
-            }
-            if (fileUrl == null)
-            {
-                throw new ArgumentNullException(nameof(fileUrl));
-            }
-            if (moveCopyOptions == null)
-            {
-                throw new ArgumentNullException(nameof(moveCopyOptions));
-            }
+            _ = fileObject ?? throw new ArgumentNullException(nameof(fileObject));
+            _ = fileUrl ?? throw new ArgumentNullException(nameof(fileUrl));
+            _ = moveCopyOptions ?? throw new ArgumentNullException(nameof(moveCopyOptions));
             var requestPayload = new ClientRequestPayload();
             requestPayload.Actions.Add(
                 new ClientActionStaticMethod(
@@ -431,15 +362,12 @@ namespace Karamem0.SharePoint.PowerShell.Services
                     requestPayload.CreateParameter(overwrite),
                     requestPayload.CreateParameter(moveCopyOptions)
                 ));
-            this.ClientContext.ProcessQuery(requestPayload);
+            _ = this.ClientContext.ProcessQuery(requestPayload);
         }
 
         public void PublishObject(File fileObject, string comment)
         {
-            if (fileObject == null)
-            {
-                throw new ArgumentNullException(nameof(fileObject));
-            }
+            _ = fileObject ?? throw new ArgumentNullException(nameof(fileObject));
             var requestPayload = new ClientRequestPayload();
             var objectPath = requestPayload.Add(
                 new ObjectPathIdentity(fileObject.ObjectIdentity),
@@ -447,15 +375,12 @@ namespace Karamem0.SharePoint.PowerShell.Services
                     objectPathId,
                     "Publish",
                     requestPayload.CreateParameter(comment)));
-            this.ClientContext.ProcessQuery(requestPayload);
+            _ = this.ClientContext.ProcessQuery(requestPayload);
         }
 
         public Guid RecycleObject(File fileObject)
         {
-            if (fileObject == null)
-            {
-                throw new ArgumentNullException(nameof(fileObject));
-            }
+            _ = fileObject ?? throw new ArgumentNullException(nameof(fileObject));
             var requestPayload = new ClientRequestPayload();
             var objectPath = requestPayload.Add(
                 new ObjectPathIdentity(fileObject.ObjectIdentity),
@@ -467,10 +392,7 @@ namespace Karamem0.SharePoint.PowerShell.Services
 
         public virtual void RemoveObject(File fileObject, bool force)
         {
-            if (fileObject == null)
-            {
-                throw new ArgumentNullException(nameof(fileObject));
-            }
+            _ = fileObject ?? throw new ArgumentNullException(nameof(fileObject));
             var requestPayload = new ClientRequestPayload();
             var objectPath = requestPayload.Add(
                 new ObjectPathIdentity(fileObject.ObjectIdentity),
@@ -481,28 +403,22 @@ namespace Karamem0.SharePoint.PowerShell.Services
                     {
                         { "BypassSharedLock", force }
                     }))));
-            this.ClientContext.ProcessQuery(requestPayload);
+            _ = this.ClientContext.ProcessQuery(requestPayload);
         }
 
         public void UndoCheckOutObject(File fileObject)
         {
-            if (fileObject == null)
-            {
-                throw new ArgumentNullException(nameof(fileObject));
-            }
+            _ = fileObject ?? throw new ArgumentNullException(nameof(fileObject));
             var requestPayload = new ClientRequestPayload();
             var objectPath = requestPayload.Add(
                 new ObjectPathIdentity(fileObject.ObjectIdentity),
                 objectPathId => new ClientActionMethod(objectPathId, "UndoCheckOut"));
-            this.ClientContext.ProcessQuery(requestPayload);
+            _ = this.ClientContext.ProcessQuery(requestPayload);
         }
 
         public void UnpublishObject(File fileObject, string comment)
         {
-            if (fileObject == null)
-            {
-                throw new ArgumentNullException(nameof(fileObject));
-            }
+            _ = fileObject ?? throw new ArgumentNullException(nameof(fileObject));
             var requestPayload = new ClientRequestPayload();
             var objectPath = requestPayload.Add(
                 new ObjectPathIdentity(fileObject.ObjectIdentity),
@@ -510,23 +426,14 @@ namespace Karamem0.SharePoint.PowerShell.Services
                     objectPathId,
                     "UnPublish",
                     requestPayload.CreateParameter(comment)));
-            this.ClientContext.ProcessQuery(requestPayload);
+            _ = this.ClientContext.ProcessQuery(requestPayload);
         }
 
         public void UploadObject(string folderUrl, string fileName, System.IO.Stream fileContent, bool overwrite)
         {
-            if (folderUrl == null)
-            {
-                throw new ArgumentNullException(nameof(folderUrl));
-            }
-            if (fileName == null)
-            {
-                throw new ArgumentNullException(nameof(fileName));
-            }
-            if (fileContent == null)
-            {
-                throw new ArgumentNullException(nameof(fileContent));
-            }
+            _ = folderUrl ?? throw new ArgumentNullException(nameof(folderUrl));
+            _ = fileName ?? throw new ArgumentNullException(nameof(fileName));
+            _ = fileContent ?? throw new ArgumentNullException(nameof(fileContent));
             fileContent.Position = 0;
             if (fileContent.Length <= ClientConstants.ChunkSize)
             {

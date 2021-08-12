@@ -46,7 +46,7 @@ namespace Karamem0.SharePoint.PowerShell.Runtime.Models
 
         public void Remove(long id)
         {
-            this.collection.Remove(id);
+            _ = this.collection.Remove(id);
         }
 
         IEnumerator IEnumerable.GetEnumerator()

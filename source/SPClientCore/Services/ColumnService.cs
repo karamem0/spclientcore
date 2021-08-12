@@ -124,7 +124,7 @@ namespace Karamem0.SharePoint.PowerShell.Services
 
         public Column GetObject(Guid columnId)
         {
-            if (columnId == default(Guid))
+            if (columnId == default)
             {
                 throw new ArgumentNullException(nameof(columnId));
             }
@@ -184,7 +184,7 @@ namespace Karamem0.SharePoint.PowerShell.Services
             {
                 throw new ArgumentNullException(nameof(contentTypeObject));
             }
-            if (columnId == default(Guid))
+            if (columnId == default)
             {
                 throw new ArgumentNullException(nameof(columnId));
             }
@@ -244,7 +244,7 @@ namespace Karamem0.SharePoint.PowerShell.Services
             {
                 throw new ArgumentNullException(nameof(listObject));
             }
-            if (columnId == default(Guid))
+            if (columnId == default)
             {
                 throw new ArgumentNullException(nameof(columnId));
             }
@@ -382,7 +382,7 @@ namespace Karamem0.SharePoint.PowerShell.Services
                     "SchemaXml",
                     requestPayload.CreateParameter(SchemaXmlColumn.Create(columnObject.SchemaXml, modificationInformation))),
                 objectPathId => new ClientActionMethod(objectPathId, "Update"));
-            this.ClientContext.ProcessQuery(requestPayload);
+            _ = this.ClientContext.ProcessQuery(requestPayload);
         }
 
         public void UpdateObject(Column columnObject, IReadOnlyDictionary<string, object> modificationInformation, bool pushChanges)
@@ -408,7 +408,7 @@ namespace Karamem0.SharePoint.PowerShell.Services
                     objectPathId,
                     "UpdateAndPushChanges",
                     requestPayload.CreateParameter(pushChanges)));
-            this.ClientContext.ProcessQuery(requestPayload);
+            _ = this.ClientContext.ProcessQuery(requestPayload);
         }
 
     }

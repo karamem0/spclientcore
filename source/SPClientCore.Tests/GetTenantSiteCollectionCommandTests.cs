@@ -97,14 +97,14 @@ namespace Karamem0.SharePoint.PowerShell.Tests
                     "Get-KshTenantSiteCollection",
                     new Dictionary<string, object>()
                     {
-                         { "SiteCollectionUrl", context.AppSettings["BaseUrl"] }
+                        { "SiteCollectionUrl", context.AppSettings["BaseUrl"] }
                     }
                 );
                 var result3 = context.Runspace.InvokeCommand<TenantSiteCollection>(
                     "Get-KshTenantSiteCollection",
                     new Dictionary<string, object>()
                     {
-                         { "Identity", result2.ElementAt(0) }
+                        { "Identity", result2.ElementAt(0) }
                     }
                 );
                 var actual = result2.ElementAt(0);
@@ -131,7 +131,7 @@ namespace Karamem0.SharePoint.PowerShell.Tests
                     "Get-KshTenantSiteCollection",
                     new Dictionary<string, object>()
                     {
-                         { "SiteCollectionUrl", context.AppSettings["BaseUrl"] }
+                        { "SiteCollectionUrl", context.AppSettings["BaseUrl"] }
                     }
                 );
                 var actual = result2.ElementAt(0);

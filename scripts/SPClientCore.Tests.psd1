@@ -27,7 +27,7 @@ CompanyName = 'karamem0'
 Copyright = 'Copyright (c) 2021 karamem0'
 
 # Description of the functionality provided by this module
-Description = 'SharePoint Service Module for PowerShell Core'
+Description = 'SharePoint Service Module for PowerShell'
 
 # Minimum version of the Windows PowerShell engine required by this module
 PowerShellVersion = '5.1'
@@ -114,3 +114,4 @@ PrivateData = @{
 # DefaultCommandPrefix = ''
 
 }
+

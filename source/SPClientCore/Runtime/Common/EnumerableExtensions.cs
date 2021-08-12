@@ -20,10 +20,7 @@ namespace Karamem0.SharePoint.PowerShell.Runtime.Common
 
         public static IEnumerable<IEnumerable<T>> Chunks<T>(this IEnumerable<T> collection, int size)
         {
-            if (collection == null)
-            {
-                throw new ArgumentNullException(nameof(collection));
-            }
+            _ = collection ?? throw new ArgumentNullException(nameof(collection));
             if (size < 1)
             {
                 throw new ArgumentException(string.Format(StringResources.ErrorValueCannotBeLessThan, 1), nameof(size));

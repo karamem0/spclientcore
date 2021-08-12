@@ -35,7 +35,7 @@ namespace Karamem0.SharePoint.PowerShell.Services
 
         public void AddObject(uint lcid)
         {
-            if (lcid == default(uint))
+            if (lcid == default)
             {
                 throw new ArgumentNullException(nameof(lcid));
             }
@@ -53,12 +53,12 @@ namespace Karamem0.SharePoint.PowerShell.Services
             var objectPath4 = requestPayload.Add(
                 objectPath2,
                 objectPathId => new ClientActionMethod(objectPathId, "CommitAll"));
-            this.ClientContext.ProcessQuery(requestPayload);
+            _ = this.ClientContext.ProcessQuery(requestPayload);
         }
 
         public void RemoveObject(uint lcid)
         {
-            if (lcid == default(uint))
+            if (lcid == default)
             {
                 throw new ArgumentNullException(nameof(lcid));
             }
@@ -76,7 +76,7 @@ namespace Karamem0.SharePoint.PowerShell.Services
             var objectPath4 = requestPayload.Add(
                 objectPath2,
                 objectPathId => new ClientActionMethod(objectPathId, "CommitAll"));
-            this.ClientContext.ProcessQuery(requestPayload);
+            _ = this.ClientContext.ProcessQuery(requestPayload);
         }
 
     }

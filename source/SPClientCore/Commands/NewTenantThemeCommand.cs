@@ -39,7 +39,7 @@ namespace Karamem0.SharePoint.PowerShell.Commands
 
         protected override void ProcessRecordCore()
         {
-            this.Service.CreateObject(this.Name, this.MyInvocation.BoundParameters);
+            _ = this.Service.CreateObject(this.Name, this.MyInvocation.BoundParameters);
             this.WriteObject(this.Service.GetObject(this.Name));
         }
 

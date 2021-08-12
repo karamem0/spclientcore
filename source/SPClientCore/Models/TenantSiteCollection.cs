@@ -37,8 +37,8 @@ namespace Karamem0.SharePoint.PowerShell.Models
         [JsonProperty()]
         public virtual int AnonymousLinkExpirationInDays { get; protected set; }
 
-        [JsonProperty()]
-        public virtual string AuthContextStrength { get; protected set; }
+        // [JsonProperty()]
+        // public virtual string AuthContextStrength { get; protected set; }
 
         [JsonProperty()]
         public virtual int AverageResourceUsage { get; protected set; }

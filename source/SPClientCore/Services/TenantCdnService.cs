@@ -28,7 +28,7 @@ namespace Karamem0.SharePoint.PowerShell.Services
 
         IEnumerable<string> GetPolicyEnumerable(TenantCdnType cdnType);
 
-        void SetEnabled(TenantCdnType cdnType, bool cdnEnabled);
+        void SetEnabled(TenantCdnType cdnType, bool cdnEnabled, bool noDefaultOrigins);
 
         void SetPolicy(TenantCdnType cdnType, TenantCdnPolicyType cdnPolicyType, string cdnPolicyValue);
 
@@ -55,7 +55,7 @@ namespace Karamem0.SharePoint.PowerShell.Services
                     "AddTenantCdnOrigin",
                     requestPayload.CreateParameter(cdnType),
                     requestPayload.CreateParameter(cdnOrigin)));
-            this.ClientContext.ProcessQuery(requestPayload);
+            _ = this.ClientContext.ProcessQuery(requestPayload);
         }
 
         public bool GetEnabled(TenantCdnType cdnType)
@@ -106,7 +106,7 @@ namespace Karamem0.SharePoint.PowerShell.Services
                 .ToObject<IEnumerable<string>>(requestPayload.GetActionId<ClientActionMethod>());
         }
 
-        public void SetEnabled(TenantCdnType cdnType, bool cdnEnabled)
+        public void SetEnabled(TenantCdnType cdnType, bool cdnEnabled, bool noDefaultOrigins)
         {
             var requestPayload = new ClientRequestPayload();
             var objectPath1 = requestPayload.Add(
@@ -118,7 +118,19 @@ namespace Karamem0.SharePoint.PowerShell.Services
                     "SetTenantCdnEnabled",
                     requestPayload.CreateParameter(cdnType),
                     requestPayload.CreateParameter(cdnEnabled)));
-            this.ClientContext.ProcessQuery(requestPayload);
+            if (noDefaultOrigins)
+            {
+            }
+            else
+            {
+                var objectPath3 = requestPayload.Add(
+                    objectPath1,
+                    objectPathId => new ClientActionMethod(
+                        objectPathId,
+                        "CreateTenantCdnDefaultOrigins",
+                        requestPayload.CreateParameter(cdnType)));
+            }
+            _ = this.ClientContext.ProcessQuery(requestPayload);
         }
 
         public void SetPolicy(TenantCdnType cdnType, TenantCdnPolicyType cdnPolicyType, string cdnPolicyValue)
@@ -134,7 +146,7 @@ namespace Karamem0.SharePoint.PowerShell.Services
                     requestPayload.CreateParameter(cdnType),
                     requestPayload.CreateParameter(cdnPolicyType),
                     requestPayload.CreateParameter(cdnPolicyValue)));
-            this.ClientContext.ProcessQuery(requestPayload);
+            _ = this.ClientContext.ProcessQuery(requestPayload);
         }
 
         public void RemoveOrigin(TenantCdnType cdnType, string cdnOrigin)
@@ -149,7 +161,7 @@ namespace Karamem0.SharePoint.PowerShell.Services
                     "RemoveTenantCdnOrigin",
                     requestPayload.CreateParameter(cdnType),
                     requestPayload.CreateParameter(cdnOrigin)));
-            this.ClientContext.ProcessQuery(requestPayload);
+            _ = this.ClientContext.ProcessQuery(requestPayload);
         }
 
     }

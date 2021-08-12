@@ -14,11 +14,13 @@ Updates a column of currency type.
 
 ```
 Update-KshColumnCurrency [-Identity] <Column> [-ClientSideComponentId <String>]
- [-ClientSideComponentProperties <String>] [-CurrencyLcid <UInt32>] [-CustomFormatter <String>]
+ [-ClientSideComponentProperties <String>] [-ClientValidationFormula <String>]
+ [-ClientValidationMessage <String>] [-CurrencyLcid <UInt32>] [-CustomFormatter <String>]
  [-DefaultFormula <String>] [-DefaultValue <String>] [-Description <String>] [-Direction <String>]
  [-EnforceUniqueValues <Boolean>] [-Group <String>] [-Hidden <Boolean>] [-Indexed <Boolean>] [-JSLink <String>]
  [-MaxValue <Double>] [-MinValue <Double>] [-NoCrawl <Boolean>] [-NumberFormat <Int32>] [-ReadOnly <Boolean>]
- [-Required <Boolean>] [-StaticName <String>] [-Title <String>] [-PushChanges] [-PassThru] [<CommonParameters>]
+ [-Required <Boolean>] [-StaticName <String>] [-Title <String>] [-ValidationFormula <String>]
+ [-ValidationMessage <String>] [-PushChanges] [-PassThru] [<CommonParameters>]
 ```
 
 ## DESCRIPTION
@@ -52,6 +54,36 @@ Accept wildcard characters: False
 
 ### -ClientSideComponentProperties
 Specifies the JSON string that the propeties of the client-side component.
+
+```yaml
+Type: String
+Parameter Sets: (All)
+Aliases:
+
+Required: False
+Position: Named
+Default value: None
+Accept pipeline input: False
+Accept wildcard characters: False
+```
+
+### -ClientValidationFormula
+Specifies the client validation formula.
+
+```yaml
+Type: String
+Parameter Sets: (All)
+Aliases:
+
+Required: False
+Position: Named
+Default value: None
+Accept pipeline input: False
+Accept wildcard characters: False
+```
+
+### -ClientValidationMessage
+Specifies the client validation message.
 
 ```yaml
 Type: String
@@ -384,6 +416,36 @@ Accept wildcard characters: False
 
 ### -Title
 Specifies the title.
+
+```yaml
+Type: String
+Parameter Sets: (All)
+Aliases:
+
+Required: False
+Position: Named
+Default value: None
+Accept pipeline input: False
+Accept wildcard characters: False
+```
+
+### -ValidationFormula
+Specifies the validation formula.
+
+```yaml
+Type: String
+Parameter Sets: (All)
+Aliases:
+
+Required: False
+Position: Named
+Default value: None
+Accept pipeline input: False
+Accept wildcard characters: False
+```
+
+### -ValidationMessage
+Specifies the validation message.
 
 ```yaml
 Type: String

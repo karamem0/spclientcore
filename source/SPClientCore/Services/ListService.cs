@@ -124,7 +124,7 @@ namespace Karamem0.SharePoint.PowerShell.Services
 
         public List GetObject(Guid listId)
         {
-            if (listId == default(Guid))
+            if (listId == default)
             {
                 throw new ArgumentNullException(nameof(listId));
             }
@@ -206,7 +206,7 @@ namespace Karamem0.SharePoint.PowerShell.Services
 
         public List GetObject(LibraryType libraryType)
         {
-            if (libraryType == default(LibraryType))
+            if (libraryType == default)
             {
                 throw new ArgumentNullException(nameof(libraryType));
             }

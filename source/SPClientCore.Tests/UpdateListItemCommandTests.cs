@@ -114,7 +114,27 @@ namespace Karamem0.SharePoint.PowerShell.Tests
                         { "Term", result10.ElementAt(0) }
                     }
                 );
-                var result12 = context.Runspace.InvokeCommand<ListItem>(
+                var result12 = context.Runspace.InvokeCommand<ImageItem>(
+                    "Save-KshImage",
+                    new Dictionary<string, object>()
+                    {
+                        { "ListItem", result3.ElementAt(0) },
+                        { "FileName", "TestFile0.png" },
+                        { "Content", new System.IO.MemoryStream(Convert.FromBase64String(
+                            "iVBORw0KGgoAAAANSUhEUgAAAAEAAAABAQMAAAAl21bKAAAAA1BMVEUAAACnej3aAAAAAXRSTlMA" +
+                            "QObYZgAAAApJREFUCNdjYAAAAAIAAeIhvDMAAAAASUVORK5CYII="
+                        )) }
+                    }
+                );
+                var result13 = context.Runspace.InvokeCommand<ColumnImageValue>(
+                    "Initialize-KshColumnImageValue",
+                    new Dictionary<string, object>()
+                    {
+                        { "ImageItem", result12.ElementAt(0) },
+                        { "ColumnName", "TestColumn17" }
+                    }
+                );
+                var result14 = context.Runspace.InvokeCommand<ListItem>(
                     "Update-KshListItem",
                     new Dictionary<string, object>()
                     {
@@ -135,20 +155,35 @@ namespace Karamem0.SharePoint.PowerShell.Tests
                                 { "TestColumn12", new[] { result5.ElementAt(0) } },
                                 { "TestColumn13", result6.ElementAt(0) },
                                 { "TestColumn15", result7.ElementAt(0) },
-                                { "TestColumn16", result11.ElementAt(0) }
+                                { "TestColumn16", result11.ElementAt(0) },
+                                { "TestColumn17", result13.ElementAt(0) }
                             }
                         },
                         { "PassThru", true }
                     }
                 );
-                var result13 = context.Runspace.InvokeCommand(
+                var result15 = context.Runspace.InvokeCommand(
                     "Remove-KshListItem",
                     new Dictionary<string, object>()
                     {
-                        { "Identity", result12.ElementAt(0) }
+                        { "Identity", result14.ElementAt(0) }
                     }
                 );
-                var actual = result12.ElementAt(0);
+                var result16 = context.Runspace.InvokeCommand<File>(
+                    "Get-KshFile",
+                    new Dictionary<string, object>()
+                    {
+                        { "FileUrl", result12.ElementAt(0).ServerRelativeUrl }
+                    }
+                );
+                var result17 = context.Runspace.InvokeCommand(
+                    "Remove-KshFile",
+                    new Dictionary<string, object>()
+                    {
+                        { "Identity", result16.ElementAt(0) }
+                    }
+                );
+                var actual = result14.ElementAt(0);
             }
         }
 

@@ -14,6 +14,6 @@ using System.Text;
 namespace Karamem0.SharePoint.PowerShell.Runtime.Models
 {
 
-    public delegate ClientAction ClientActionDelegate(long objectPathId); 
+    public delegate ClientAction ClientActionDelegate(long objectPathId);
 
 }

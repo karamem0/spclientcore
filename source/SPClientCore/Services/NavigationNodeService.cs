@@ -137,7 +137,7 @@ namespace Karamem0.SharePoint.PowerShell.Services
 
         public NavigationNode GetObject(int navigationNodeId)
         {
-            if (navigationNodeId == default(int))
+            if (navigationNodeId == default)
             {
                 throw new ArgumentNullException(nameof(navigationNodeId));
             }

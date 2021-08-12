@@ -32,6 +32,7 @@ namespace Karamem0.SharePoint.PowerShell.Runtime.Services
                 Thread.Sleep(operationResultObject.PollingInterval);
                 if (operationResultObject.IsComplete)
                 {
+                    Thread.Sleep(TimeSpan.FromSeconds(ClientConstants.TenantServiceWaitSeconds));
                     break;
                 }
                 if (operationResultObject.HasTimedout)

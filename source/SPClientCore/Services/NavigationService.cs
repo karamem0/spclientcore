@@ -22,6 +22,8 @@ namespace Karamem0.SharePoint.PowerShell.Services
 
         Navigation GetObject();
 
+        void SetObject(IReadOnlyDictionary<string, object> modificationInformation);
+
     }
 
     public class NavigationService : ClientService, INavigationService
@@ -48,6 +50,26 @@ namespace Karamem0.SharePoint.PowerShell.Services
             return this.ClientContext
                 .ProcessQuery(requestPayload)
                 .ToObject<Navigation>(requestPayload.GetActionId<ClientActionQuery>());
+        }
+
+        public void SetObject(IReadOnlyDictionary<string, object> modificationInformation)
+        {
+            if (modificationInformation == null)
+            {
+                throw new ArgumentNullException(nameof(modificationInformation));
+            }
+            var requestPayload = new ClientRequestPayload();
+            var objectPath1 = requestPayload.Add(
+                new ObjectPathStaticProperty(typeof(Context), "Current"));
+            var objectPath2 = requestPayload.Add(
+                new ObjectPathProperty(objectPath1.Id, "Web"));
+            var objectPath3 = requestPayload.Add(
+                new ObjectPathProperty(objectPath2.Id, "Navigation"),
+                requestPayload.CreateSetPropertyDelegates(typeof(Navigation), modificationInformation).ToArray());
+            var objectPath4 = requestPayload.Add(
+                objectPath2,
+                objectPathId => new ClientActionMethod(objectPathId, "Update"));
+            _ = this.ClientContext.ProcessQuery(requestPayload);
         }
 
     }

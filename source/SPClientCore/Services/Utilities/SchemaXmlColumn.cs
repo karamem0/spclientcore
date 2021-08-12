@@ -21,12 +21,12 @@ namespace Karamem0.SharePoint.PowerShell.Services.Utilities
 
         public static string Create(ColumnType type, IReadOnlyDictionary<string, object> parameters)
         {
-            return SchemaXmlColumn.Create(new XElement("Field", new XAttribute("Type", new SchemaXmlValue(type))), parameters);
+            return Create(new XElement("Field", new XAttribute("Type", new SchemaXmlValue(type))), parameters);
         }
 
         public static string Create(string text, IReadOnlyDictionary<string, object> parameters)
         {
-            return SchemaXmlColumn.Create(XElement.Parse(text), parameters);
+            return Create(XElement.Parse(text), parameters);
         }
 
         public static string Create(XElement element, IReadOnlyDictionary<string, object> parameters)
@@ -49,8 +49,7 @@ namespace Karamem0.SharePoint.PowerShell.Services.Utilities
                         element.SetAttributeValue("Format", new SchemaXmlValue(parameter.Value));
                         break;
                     case "Choices":
-                        var choices = parameter.Value as IEnumerable<string>;
-                        if (choices != null)
+                        if (parameter.Value is IEnumerable<string> choices)
                         {
                             element.Add(new XElement("CHOICES",
                                 choices.Select(choice => new XElement("CHOICE", new SchemaXmlValue(choice)))));
@@ -62,9 +61,18 @@ namespace Karamem0.SharePoint.PowerShell.Services.Utilities
                     case "ClientSideComponentProperties":
                         element.SetAttributeValue("ClientSideComponentProperties", new SchemaXmlValue(parameter.Value));
                         break;
+                    case "ClientValidationFormula":
+                        if (parameter.Value != null)
+                        {
+                            var formula = parameter.Value as string;
+                            var message = parameters["ClientValidationMessage"] as string;
+                            element.Add(new XElement("ClientValidationFormula",
+                                new XAttribute("ClientValidationMessage", message),
+                                new XText(formula)));
+                        }
+                        break;
                     case "Columns":
-                        var columns = parameter.Value as IEnumerable<Column>;
-                        if (columns != null)
+                        if (parameter.Value is IEnumerable<Column> columns)
                         {
                             element.Add(new XElement("FieldRefs",
                                 columns.Select(column => new XElement("FieldRef",
@@ -189,6 +197,16 @@ namespace Karamem0.SharePoint.PowerShell.Services.Utilities
                         break;
                     case "UrlFormat":
                         element.SetAttributeValue("Format", new SchemaXmlValue(parameter.Value));
+                        break;
+                    case "ValidationFormula":
+                        if (parameter.Value != null)
+                        {
+                            var formula = parameter.Value as string;
+                            var message = parameters["ValidationMessage"] as string;
+                            element.Add(new XElement("Validation",
+                                new XAttribute("Message", message),
+                                new XText(formula)));
+                        }
                         break;
                     default:
                         break;

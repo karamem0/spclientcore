@@ -15,7 +15,7 @@ using System.Text;
 namespace Karamem0.SharePoint.PowerShell.Runtime.Models
 {
 
-    public class ODataV1ObjectAttribute : Attribute   
+    public class ODataV1ObjectAttribute : Attribute
     {
 
         public ODataV1ObjectAttribute()

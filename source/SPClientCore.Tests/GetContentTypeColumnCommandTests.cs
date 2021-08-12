@@ -203,7 +203,7 @@ namespace Karamem0.SharePoint.PowerShell.Tests
                         { "ContentType", result2.ElementAt(0) }
                     }
                 );
-                var actual = result2.ToArray();
+                var actual = result3.ToArray();
             }
         }
 

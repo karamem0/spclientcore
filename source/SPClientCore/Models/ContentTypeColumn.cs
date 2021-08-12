@@ -25,6 +25,9 @@ namespace Karamem0.SharePoint.PowerShell.Models
         {
         }
 
+        [JsonProperty("FieldInternalName")]
+        public virtual string ColumnName { get; protected set; }
+
         [JsonProperty()]
         public virtual bool Hidden { get; protected set; }
 

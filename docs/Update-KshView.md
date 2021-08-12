@@ -14,13 +14,14 @@ Updates a view.
 
 ```
 Update-KshView [-Identity] <View> [-Aggregations <String>] [-AggregationsStatus <String>]
- [-ContentTypeId <ContentTypeId>] [-DefaultView <Boolean>] [-DefaultViewForContentType <Boolean>]
- [-EditorModified <Boolean>] [-Formats <String>] [-Hidden <Boolean>] [-ImageUrl <String>]
- [-IncludeRootFolder <Boolean>] [-JSLink <String>] [-ListViewXml <String>] [-Method <String>]
- [-MobileDefaultView <Boolean>] [-MobileView <Boolean>] [-NewDocumentTemplates <String>] [-Paged <Boolean>]
- [-RowLimit <Int32>] [-Scope <ViewScope>] [-TabularView <Boolean>] [-Title <String>] [-Toolbar <String>]
- [-ViewData <String>] [-ViewJoins <String>] [-ViewProjectedColumns <String>] [-ViewQuery <String>]
- [-VisualizationInfo <String>] [-PassThru] [<CommonParameters>]
+ [-AssociatedContentTypeId <String>] [-CalendarViewStyles <String>] [-ContentTypeId <ContentTypeId>]
+ [-CustomOrder <String>] [-DefaultView <Boolean>] [-DefaultViewForContentType <Boolean>]
+ [-EditorModified <Boolean>] [-Formats <String>] [-GridLayout <String>] [-Hidden <Boolean>]
+ [-ImageUrl <String>] [-IncludeRootFolder <Boolean>] [-JSLink <String>] [-ListViewXml <String>]
+ [-Method <String>] [-MobileDefaultView <Boolean>] [-MobileView <Boolean>] [-NewDocumentTemplates <String>]
+ [-Paged <Boolean>] [-RowLimit <Int32>] [-Scope <ViewScope>] [-TabularView <Boolean>] [-Title <String>]
+ [-Toolbar <String>] [-ViewData <String>] [-ViewJoins <String>] [-ViewProjectedColumns <String>]
+ [-ViewQuery <String>] [-ViewType2 <String>] [-VisualizationInfo <String>] [-PassThru] [<CommonParameters>]
 ```
 
 ## DESCRIPTION
@@ -67,11 +68,56 @@ Accept pipeline input: False
 Accept wildcard characters: False
 ```
 
+### -AssociatedContentTypeId
+Specifies the associated content type ID.
+
+```yaml
+Type: String
+Parameter Sets: (All)
+Aliases:
+
+Required: False
+Position: Named
+Default value: None
+Accept pipeline input: False
+Accept wildcard characters: False
+```
+
+### -CalendarViewStyles
+Specifies the calendar view styles.
+
+```yaml
+Type: String
+Parameter Sets: (All)
+Aliases:
+
+Required: False
+Position: Named
+Default value: None
+Accept pipeline input: False
+Accept wildcard characters: False
+```
+
 ### -ContentTypeId
 Specifies the content type ID.
 
 ```yaml
 Type: ContentTypeId
+Parameter Sets: (All)
+Aliases:
+
+Required: False
+Position: Named
+Default value: None
+Accept pipeline input: False
+Accept wildcard characters: False
+```
+
+### -CustomOrder
+Specifies the custom order.
+
+```yaml
+Type: String
 Parameter Sets: (All)
 Aliases:
 
@@ -129,6 +175,21 @@ Accept wildcard characters: False
 
 ### -Formats
 Specifies the formats.
+
+```yaml
+Type: String
+Parameter Sets: (All)
+Aliases:
+
+Required: False
+Position: Named
+Default value: None
+Accept pipeline input: False
+Accept wildcard characters: False
+```
+
+### -GridLayout
+Specifies the grid layout.
 
 ```yaml
 Type: String
@@ -445,6 +506,21 @@ Accept wildcard characters: False
 
 ### -ViewQuery
 Specifies the view query XML.
+
+```yaml
+Type: String
+Parameter Sets: (All)
+Aliases:
+
+Required: False
+Position: Named
+Default value: None
+Accept pipeline input: False
+Accept wildcard characters: False
+```
+
+### -ViewType2
+Specifies the view type.
 
 ```yaml
 Type: String

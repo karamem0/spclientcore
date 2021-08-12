@@ -22,7 +22,7 @@ namespace Karamem0.SharePoint.PowerShell.Services
 
         Tenant GetObject();
 
-        void UpdateObject(IReadOnlyDictionary<string, object> modificationInformation);
+        void SetObject(IReadOnlyDictionary<string, object> modificationInformation);
 
     }
 
@@ -48,7 +48,7 @@ namespace Karamem0.SharePoint.PowerShell.Services
                 .ToObject<Tenant>(requestPayload.GetActionId<ClientActionQuery>());
         }
 
-        public void UpdateObject(IReadOnlyDictionary<string, object> modificationInformation)
+        public void SetObject(IReadOnlyDictionary<string, object> modificationInformation)
         {
             if (modificationInformation == null)
             {
@@ -61,7 +61,7 @@ namespace Karamem0.SharePoint.PowerShell.Services
             var objectPath2 = requestPayload.Add(
                 objectPath1,
                 objectPathId => new ClientActionMethod(objectPathId, "Update"));
-            this.ClientContext.ProcessQuery(requestPayload);
+            _ = this.ClientContext.ProcessQuery(requestPayload);
         }
 
     }

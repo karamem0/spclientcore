@@ -15,7 +15,7 @@ using System.Text;
 namespace Karamem0.SharePoint.PowerShell.Runtime.Models
 {
 
-    public class ClientObjectAttribute : Attribute   
+    public class ClientObjectAttribute : Attribute
     {
 
         public static Guid GetId(Type type)

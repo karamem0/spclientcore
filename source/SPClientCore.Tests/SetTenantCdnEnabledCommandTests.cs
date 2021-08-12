@@ -49,7 +49,7 @@ namespace Karamem0.SharePoint.PowerShell.Tests
         }
 
         [TestMethod()]
-        public void GetTenantPrivateCdnEnabled()
+        public void SetTenantPrivateCdnEnabled()
         {
             using (var context = new PSCmdletContext())
             {

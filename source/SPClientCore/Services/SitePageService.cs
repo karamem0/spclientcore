@@ -80,7 +80,7 @@ namespace Karamem0.SharePoint.PowerShell.Services
                     requestPayload.CreateParameter("Title"),
                     requestPayload.CreateParameter(pageName)),
                 objectPathId => new ClientActionMethod(objectPathId, "Update"));
-            this.ClientContext.ProcessQuery(requestPayload);
+            _ = this.ClientContext.ProcessQuery(requestPayload);
         }
 
         public void RemoveObject(Folder folderObject, string pageName)
@@ -107,7 +107,7 @@ namespace Karamem0.SharePoint.PowerShell.Services
             var objectPath4 = requestPayload.Add(
                 objectPath3,
                 objectPathId => new ClientActionMethod(objectPathId, "DeleteObject"));
-            this.ClientContext.ProcessQuery(requestPayload);
+            _ = this.ClientContext.ProcessQuery(requestPayload);
         }
 
         public void SetObject(Folder folderObject, string pageName, IReadOnlyDictionary<string, object> modificationInformation)
@@ -160,7 +160,7 @@ namespace Karamem0.SharePoint.PowerShell.Services
             var objectPath6 = requestPayload.Add(
                 objectPath4,
                 objectPathId => new ClientActionMethod(objectPathId, "Update"));
-            this.ClientContext.ProcessQuery(requestPayload);
+            _ = this.ClientContext.ProcessQuery(requestPayload);
         }
 
     }

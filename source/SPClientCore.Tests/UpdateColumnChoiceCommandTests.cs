@@ -61,10 +61,12 @@ namespace Karamem0.SharePoint.PowerShell.Tests
                     new Dictionary<string, object>()
                     {
                         { "Identity", result3.ElementAt(0) },
-                        // { "ClientSideComponentId", null },
-                        // { "ClientSideComponentProperties", null },
                         { "Choices", new[] { "Test Value 1", "Test Value 2", "Test Value 3" } },
                         { "ChoiceFormat", "RadioButtons" },
+                        // { "ClientSideComponentId", null },
+                        // { "ClientSideComponentProperties", null },
+                        { "ClientValidationFormula", "=FALSE" },
+                        { "ClientValidationMessage", "ERROR" },
                         { "CustomFormatter", "{ \"txtContent\": \"@currentField\" }" },
                         { "DefaultValue", "Test Value 1" },
                         { "Direction", "none" },
@@ -80,6 +82,8 @@ namespace Karamem0.SharePoint.PowerShell.Tests
                         { "Required", true },
                         { "StaticName", "TestColumn0" },
                         { "Title", "Test Column 0" },
+                        { "ValidationFormula", "=FALSE" },
+                        { "ValidationMessage", "ERROR" },
                         { "PassThru", true }
                     }
                 );
@@ -134,10 +138,12 @@ namespace Karamem0.SharePoint.PowerShell.Tests
                     new Dictionary<string, object>()
                     {
                         { "Identity", result2.ElementAt(0) },
-                        // { "ClientSideComponentId", null },
-                        // { "ClientSideComponentProperties", null },
                         { "Choices", new[] { "Test Value 1", "Test Value 2", "Test Value 3" } },
                         { "ChoiceFormat", "RadioButtons" },
+                        // { "ClientSideComponentId", null },
+                        // { "ClientSideComponentProperties", null },
+                        { "ClientValidationFormula", "=FALSE" },
+                        { "ClientValidationMessage", "ERROR" },
                         { "CustomFormatter", "{ \"txtContent\": \"@currentField\" }" },
                         { "DefaultValue", "Test Value 1" },
                         { "Direction", "none" },
@@ -153,6 +159,8 @@ namespace Karamem0.SharePoint.PowerShell.Tests
                         { "Required", true },
                         { "StaticName", "TestColumn0" },
                         { "Title", "Test Column 0" },
+                        { "ValidationFormula", "=FALSE" },
+                        { "ValidationMessage", "ERROR" },
                         { "PassThru", true }
                     }
                 );

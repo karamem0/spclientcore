@@ -7,12 +7,15 @@
 //
 
 using Karamem0.SharePoint.PowerShell.Models;
+using Karamem0.SharePoint.PowerShell.Runtime.Common;
 using Karamem0.SharePoint.PowerShell.Runtime.Models;
 using Karamem0.SharePoint.PowerShell.Runtime.Services;
 using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
+using System.Text.RegularExpressions;
+using System.Threading;
 
 namespace Karamem0.SharePoint.PowerShell.Services
 {
@@ -24,7 +27,9 @@ namespace Karamem0.SharePoint.PowerShell.Services
 
         TermLabel GetObject(TermLabel termLabelObject);
 
-        TermLabel GetObject(Term termObject, string labelName);
+        TermLabel GetObject(Term termObject, string name);
+
+        TermLabel GetObject(Term termObject, string name, uint lcid);
 
         IEnumerable<TermLabel> GetObjectEnumerable(Term termObject);
 
@@ -33,6 +38,8 @@ namespace Karamem0.SharePoint.PowerShell.Services
         void SetObjectAsDefault(TermLabel termLabelObject);
 
         void UpdateObject(TermLabel termLabelObject, IReadOnlyDictionary<string, object> modificationInformation);
+
+        void UpdateObjectAwait(TermLabel termLabelObject, IReadOnlyDictionary<string, object> modificationInformation);
 
     }
 
@@ -45,18 +52,9 @@ namespace Karamem0.SharePoint.PowerShell.Services
 
         public TermLabel CreateObject(Term termObject, string name, uint lcid, bool isDefault)
         {
-            if (termObject == null)
-            {
-                throw new ArgumentNullException(nameof(termObject));
-            }
-            if (name == null)
-            {
-                throw new ArgumentNullException(nameof(name));
-            }
-            if (lcid == default(uint))
-            {
-                throw new ArgumentNullException(nameof(lcid));
-            }
+            _ = termObject ?? throw new ArgumentNullException(nameof(termObject));
+            _ = name ?? throw new ArgumentNullException(nameof(name));
+            _ = (lcid != default) ? lcid : throw new ArgumentNullException(nameof(lcid));
             var requestPayload = new ClientRequestPayload();
             var objectPath1 = requestPayload.Add(
                 new ObjectPathIdentity(termObject.ObjectIdentity));
@@ -77,16 +75,10 @@ namespace Karamem0.SharePoint.PowerShell.Services
                 .ToObject<TermLabel>(requestPayload.GetActionId<ClientActionQuery>());
         }
 
-        public TermLabel GetObject(Term termObject, string labelName)
+        public TermLabel GetObject(Term termObject, string name)
         {
-            if (termObject == null)
-            {
-                throw new ArgumentNullException(nameof(termObject));
-            }
-            if (labelName == null)
-            {
-                throw new ArgumentNullException(nameof(labelName));
-            }
+            _ = termObject ?? throw new ArgumentNullException(nameof(termObject));
+            _ = name ?? throw new ArgumentNullException(nameof(name));
             var requestPayload = new ClientRequestPayload();
             var objectPath1 = requestPayload.Add(
                 new ObjectPathIdentity(termObject.ObjectIdentity));
@@ -96,7 +88,7 @@ namespace Karamem0.SharePoint.PowerShell.Services
                 new ObjectPathMethod(
                     objectPath2.Id,
                     "GetByValue",
-                    requestPayload.CreateParameter(labelName)),
+                    requestPayload.CreateParameter(name)),
                 objectPathId => new ClientActionInstantiateObjectPath(objectPathId),
                 objectPathId => new ClientActionQuery(objectPathId)
                 {
@@ -107,12 +99,20 @@ namespace Karamem0.SharePoint.PowerShell.Services
                 .ToObject<TermLabel>(requestPayload.GetActionId<ClientActionQuery>());
         }
 
+        public TermLabel GetObject(Term termObject, string name, uint lcid)
+        {
+            _ = termObject ?? throw new ArgumentNullException(nameof(termObject));
+            _ = name ?? throw new ArgumentNullException(nameof(name));
+            _ = (lcid != default) ? lcid : throw new ArgumentNullException(nameof(lcid));
+            return this.GetObjectEnumerable(termObject)
+                .Where(termLabelObject => termLabelObject.Name == name)
+                .Where(termLabelObject => termLabelObject.Lcid == lcid)
+                .SingleOrDefault();
+        }
+
         public IEnumerable<TermLabel> GetObjectEnumerable(Term termObject)
         {
-            if (termObject == null)
-            {
-                throw new ArgumentNullException(nameof(termObject));
-            }
+            _ = termObject ?? throw new ArgumentNullException(nameof(termObject));
             var requestPayload = new ClientRequestPayload();
             var objectPath1 = requestPayload.Add(
                 new ObjectPathIdentity(termObject.ObjectIdentity));
@@ -131,10 +131,7 @@ namespace Karamem0.SharePoint.PowerShell.Services
 
         public override void RemoveObject(TermLabel termLabelObject)
         {
-            if (termLabelObject == null)
-            {
-                throw new ArgumentNullException(nameof(termLabelObject));
-            }
+            _ = termLabelObject ?? throw new ArgumentNullException(nameof(termLabelObject));
             var requestPayload = new ClientRequestPayload();
             var objectPath1 = requestPayload.Add(
                 new ObjectPathIdentity(termLabelObject.ObjectIdentity));
@@ -148,15 +145,12 @@ namespace Karamem0.SharePoint.PowerShell.Services
             var objectPath5 = requestPayload.Add(
                 objectPath4,
                 objectPathId => new ClientActionMethod(objectPathId, "CommitAll"));
-            this.ClientContext.ProcessQuery(requestPayload);
+            _ = this.ClientContext.ProcessQuery(requestPayload);
         }
 
         public void SetObjectAsDefault(TermLabel termLabelObject)
         {
-            if (termLabelObject == null)
-            {
-                throw new ArgumentNullException(nameof(termLabelObject));
-            }
+            _ = termLabelObject ?? throw new ArgumentNullException(nameof(termLabelObject));
             var requestPayload = new ClientRequestPayload();
             var objectPath1 = requestPayload.Add(
                 new ObjectPathIdentity(termLabelObject.ObjectIdentity));
@@ -170,19 +164,41 @@ namespace Karamem0.SharePoint.PowerShell.Services
             var objectPath5 = requestPayload.Add(
                 objectPath4,
                 objectPathId => new ClientActionMethod(objectPathId, "CommitAll"));
-            this.ClientContext.ProcessQuery(requestPayload);
+            _ = this.ClientContext.ProcessQuery(requestPayload);
         }
-
         public override void UpdateObject(TermLabel termLabelObject, IReadOnlyDictionary<string, object> modificationInformation)
         {
-            if (termLabelObject == null)
+            _ = termLabelObject ?? throw new ArgumentNullException(nameof(termLabelObject));
+            _ = modificationInformation ?? throw new ArgumentNullException(nameof(modificationInformation));
+            this.UpdateObjectAwait(termLabelObject, modificationInformation);
+            var termLabelObjectIdentity = Regex.Replace(
+                termLabelObject.ObjectIdentity,
+                ";(.+);(.+);(.+)$",
+                string.Format(
+                    ";{0};{1};$3",
+                    modificationInformation.GetValueOrDefault(nameof(TermLabel.Lcid), "$1"),
+                    modificationInformation.GetValueOrDefault(nameof(TermLabel.Name), "$2")));
+            while (true)
             {
-                throw new ArgumentNullException(nameof(termLabelObject));
+                var requestPayload = new ClientRequestPayload();
+                var objectPath = requestPayload.Add(
+                    new ObjectPathIdentity(termLabelObjectIdentity),
+                    objectPathId => new ClientActionInstantiateObjectPath(objectPathId));
+                if (this.ClientContext.ProcessQuery(requestPayload).IsNull(requestPayload.GetActionId<ClientActionInstantiateObjectPath>()))
+                {
+                    Thread.Sleep(TimeSpan.FromSeconds(ClientConstants.TermLabelServiceWaitSeconds));
+                }
+                else
+                {
+                    return;
+                }
             }
-            if (modificationInformation == null)
-            {
-                throw new ArgumentNullException(nameof(modificationInformation));
-            }
+        }
+
+        public void UpdateObjectAwait(TermLabel termLabelObject, IReadOnlyDictionary<string, object> modificationInformation)
+        {
+            _ = termLabelObject ?? throw new ArgumentNullException(nameof(termLabelObject));
+            _ = modificationInformation ?? throw new ArgumentNullException(nameof(modificationInformation));
             var requestPayload = new ClientRequestPayload();
             var objectPath1 = requestPayload.Add(
                 new ObjectPathIdentity(termLabelObject.ObjectIdentity));
@@ -196,8 +212,9 @@ namespace Karamem0.SharePoint.PowerShell.Services
             var objectPath5 = requestPayload.Add(
                 objectPath4,
                 objectPathId => new ClientActionMethod(objectPathId, "CommitAll"));
-            this.ClientContext.ProcessQuery(requestPayload);
+            _ = this.ClientContext.ProcessQuery(requestPayload);
         }
+
 
     }
 

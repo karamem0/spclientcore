@@ -80,6 +80,9 @@ namespace Karamem0.SharePoint.PowerShell.Models
         public virtual string Direction { get; protected set; }
 
         [JsonProperty()]
+        public virtual bool DisableCommenting { get; protected set; }
+
+        [JsonProperty()]
         public virtual bool DisableGridEditing { get; protected set; }
 
         [JsonProperty()]

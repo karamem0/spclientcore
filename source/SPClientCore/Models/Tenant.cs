@@ -33,6 +33,7 @@ namespace Karamem0.SharePoint.PowerShell.Models
 
         [JsonProperty()]
         public virtual bool AIBuilderEnabled { get; protected set; }
+
         [JsonProperty()]
         public virtual IReadOnlyCollection<SiteInfoForSitePicker> AIBuilderSiteInfoList { get; protected set; }
 
@@ -63,8 +64,11 @@ namespace Karamem0.SharePoint.PowerShell.Models
         [JsonProperty()]
         public virtual bool AllowOverrideForBlockUserInfoVisibility { get; protected set; }
 
-        // [JsonProperty()]
-        // public virtual IReadOnlyCollection<string> AllowSelectSGsInODBListInTenant { get; protected set; }
+        [JsonProperty("AllowSelectSGsInODBListInTenant")]
+        public virtual IReadOnlyCollection<string> AllowSelectSharingGroupsInOneDriveListInTenant { get; protected set; }
+
+        [JsonProperty()]
+        public virtual bool AnyoneLinkTrackUsers { get; protected set; }
 
         [JsonProperty()]
         public virtual bool ApplyAppEnforcedRestrictionsToAdHocRecipients { get; protected set; }
@@ -109,6 +113,9 @@ namespace Karamem0.SharePoint.PowerShell.Models
         public virtual TenantBrowseUserInfoPolicyValue BlockUserInfoVisibilityInSharePoint { get; protected set; }
 
         [JsonProperty()]
+        public virtual ChannelMeetingRecordingPermissionType ChannelMeetingRecordingPermission { get; protected set; }
+
+        [JsonProperty()]
         public virtual bool CommentsOnFilesDisabled { get; protected set; }
 
         [JsonProperty()]
@@ -138,11 +145,17 @@ namespace Karamem0.SharePoint.PowerShell.Models
         [JsonProperty()]
         public virtual SharingPermissionType DefaultLinkPermission { get; protected set; }
 
+        [JsonProperty("DefaultODBMode")]
+        public virtual string DefaultOneDriveMode { get; protected set; }
+
         [JsonProperty()]
         public virtual SharingLinkType DefaultSharingLinkType { get; protected set; }
 
         [JsonProperty()]
         public virtual bool DisableAddToOneDrive { get; protected set; }
+
+        [JsonProperty()]
+        public virtual bool DisableBackToClassic { get; protected set; }
 
         [JsonProperty()]
         public virtual bool DisableCustomAppAuthentication { get; protected set; }
@@ -152,6 +165,9 @@ namespace Karamem0.SharePoint.PowerShell.Models
 
         [JsonProperty()]
         public virtual IReadOnlyCollection<Guid> DisabledWebPartIds { get; protected set; }
+
+        [JsonProperty()]
+        public virtual bool DisableOutlookPSTVersionTrimming { get; protected set; }
 
         [JsonProperty()]
         public virtual bool DisablePersonalListCreation { get; protected set; }
@@ -168,8 +184,8 @@ namespace Karamem0.SharePoint.PowerShell.Models
         [JsonProperty()]
         public virtual bool DisplayNamesOfFileViewers { get; protected set; }
 
-        [JsonProperty()]
-        public virtual bool DisplayNamesOfFileViewersInSpo { get; protected set; }
+        [JsonProperty("DisplayNamesOfFileViewersInSpo")]
+        public virtual bool DisplayNamesOfFileViewersInSharePoint { get; protected set; }
 
         [JsonProperty()]
         public virtual bool DisplayStartASiteOption { get; protected set; }
@@ -192,6 +208,9 @@ namespace Karamem0.SharePoint.PowerShell.Models
         [JsonProperty("EnableAzureADB2BIntegration")]
         public virtual bool EnableAzureAdB2BIntegration { get; protected set; }
 
+        // [JsonProperty("EnabledFlightAllowAADB2BSkipCheckingOTP")]
+        // public virtual bool EnabledFlightAllowAzureAdB2BSkipCheckingOneTimePassword { get; protected set; }
+
         [JsonProperty()]
         public virtual bool EnableGuestSignInAcceleration { get; protected set; }
 
@@ -211,6 +230,9 @@ namespace Karamem0.SharePoint.PowerShell.Models
         public virtual bool ExternalServicesEnabled { get; protected set; }
 
         [JsonProperty()]
+        public virtual bool ExternalUserExpirationRequired { get; protected set; }
+
+        [JsonProperty()]
         public virtual int ExternalUserExpireInDays { get; protected set; }
 
         [JsonProperty()]
@@ -224,6 +246,9 @@ namespace Karamem0.SharePoint.PowerShell.Models
 
         [JsonProperty()]
         public virtual string GuestSharingGroupAllowListInTenant { get; protected set; }
+
+        [JsonProperty()]
+        public virtual IReadOnlyCollection<string> GuestSharingGroupAllowListInTenantByPrincipalIdentity { get; protected set; }
 
         [JsonProperty()]
         public virtual bool HasAdminCompletedCUConfiguration { get; protected set; }
@@ -240,8 +265,8 @@ namespace Karamem0.SharePoint.PowerShell.Models
         [JsonProperty()]
         public virtual bool HideSyncButtonOnDocLib { get; protected set; }
 
-        // [JsonProperty("HideSyncButtonOnOdb")]
-        // public virtual bool HideSyncButtonOnOneDrive { get; protected set; }
+        [JsonProperty("HideSyncButtonOnODB")]
+        public virtual bool HideSyncButtonOnOneDrive { get; protected set; }
 
         [JsonProperty()]
         public virtual ImageTaggingChoice ImageTaggingOption { get; protected set; }
@@ -252,17 +277,20 @@ namespace Karamem0.SharePoint.PowerShell.Models
         [JsonProperty()]
         public virtual bool InformationBarriersSuspension { get; protected set; }
 
-        // [JsonProperty()]
-        // public virtual string IPAddressAllowList { get; protected set; }
+        [JsonProperty()]
+        public virtual string IPAddressAllowList { get; protected set; }
 
-        // [JsonProperty()]
-        // public virtual bool IPAddressEnforcement { get; protected set; }
+        [JsonProperty()]
+        public virtual bool IPAddressEnforcement { get; protected set; }
 
-        // [JsonProperty("IPAddressWACTokenLifetime")]
-        // public virtual int IPAddressWacTokenLifetime { get; protected set; }
+        [JsonProperty("IPAddressWACTokenLifetime")]
+        public virtual int IPAddressWacTokenLifetime { get; protected set; }
 
         [JsonProperty()]
         public virtual bool IsAppBarTemporarilyDisabled { get; protected set; }
+
+        [JsonProperty()]
+        public virtual bool IsCollabMeetingNotesFluidEnabled { get; protected set; }
 
         [JsonProperty()]
         public virtual bool IsFluidEnabled { get; protected set; }
@@ -282,8 +310,8 @@ namespace Karamem0.SharePoint.PowerShell.Models
         [JsonProperty()]
         public virtual bool IsUnmanagedSyncClientRestrictionFlightEnabled { get; protected set; }
 
-        [JsonProperty()]
-        public virtual bool IsWBFluidEnabled { get; protected set; }
+        [JsonProperty("IsWBFluidEnabled")]
+        public virtual bool IsWhiteboardFluidEnabled { get; protected set; }
 
         [JsonProperty()]
         public virtual string LabelMismatchEmailHelpLink { get; protected set; }
@@ -299,6 +327,9 @@ namespace Karamem0.SharePoint.PowerShell.Models
 
         [JsonProperty()]
         public virtual SensitiveByDefaultState MarkNewFilesSensitiveByDefault { get; protected set; }
+
+        [JsonProperty()]
+        public virtual MediaTranscriptionPolicyType MediaTranscription { get; protected set; }
 
         [JsonProperty()]
         public virtual bool MobileFriendlyUrlEnabledInTenant { get; protected set; }
@@ -376,6 +407,9 @@ namespace Karamem0.SharePoint.PowerShell.Models
         public virtual int RequireAnonymousLinksExpireInDays { get; protected set; }
 
         [JsonProperty()]
+        public virtual bool RestrictedOneDriveLicense { get; protected set; }
+
+        [JsonProperty()]
         public virtual double ResourceQuota { get; protected set; }
 
         [JsonProperty()]
@@ -430,6 +464,15 @@ namespace Karamem0.SharePoint.PowerShell.Models
         public virtual bool StopNew2010Workflows { get; protected set; }
 
         [JsonProperty()]
+        public virtual bool StopNew2013Workflows { get; protected set; }
+
+        [JsonProperty()]
+        public virtual int StreamLaunchConfig { get; protected set; }
+
+        [JsonProperty()]
+        public virtual DateTime StreamLaunchConfigLastUpdated { get; protected set; }
+
+        [JsonProperty()]
         public virtual long StorageQuota { get; protected set; }
 
         [JsonProperty()]
@@ -449,6 +492,12 @@ namespace Karamem0.SharePoint.PowerShell.Models
 
         [JsonProperty()]
         public virtual bool UserVoiceForFeedbackEnabled { get; protected set; }
+
+        [JsonProperty()]
+        public virtual bool ViewersCanCommentOnMediaDisabled { get; protected set; }
+
+        [JsonProperty()]
+        public virtual bool ViewInFileExplorerEnabled { get; protected set; }
 
         [JsonProperty()]
         public virtual string WhoCanShareAllowListInTenant { get; protected set; }

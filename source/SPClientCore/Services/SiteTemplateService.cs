@@ -39,7 +39,7 @@ namespace Karamem0.SharePoint.PowerShell.Services
             {
                 throw new ArgumentNullException(nameof(name));
             }
-            if (lcid == default(int))
+            if (lcid == default)
             {
                 throw new ArgumentNullException(nameof(lcid));
             }
@@ -72,7 +72,7 @@ namespace Karamem0.SharePoint.PowerShell.Services
 
         public IEnumerable<SiteTemplate> GetObjectEnumerable(uint lcid, bool includeCrossLanguage)
         {
-            if (lcid == default(int))
+            if (lcid == default)
             {
                 throw new ArgumentNullException(nameof(lcid));
             }

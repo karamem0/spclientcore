@@ -40,6 +40,9 @@ function Install-TestSite {
         $appSettings.AuthorityUrl = $authorityUrl
         $appSettings.AdminUrl = $adminUrl
 
+        $tenantSettings = Get-KshTenantSettings
+        $appSettings.TenantAppCatalogUrl = $tenantSettings.AppCatalogUrl
+
         Write-Progress -Activity 'Sign in...' -Status 'Processing'
         Connect-KshSite -Url $adminUrl -Credential $credential
 
@@ -121,11 +124,17 @@ function Install-TestSite {
             -Title 'SPClientCore' `
             -Url $Url
 
+        Write-Progress -Activity 'Waiting...' -Status 'Processing'
+        Start-Sleep -Seconds 60
+
         Write-Progress -Activity 'Updating a site collection...' -Status 'Processing'
         $siteCollection = Update-KshTenantSiteCollection `
             -Identity $siteCollection `
             -SharingCapability ExternalUserAndGuestSharing `
             -PassThru
+
+        Write-Progress -Activity 'Waiting...' -Status 'Processing'
+        Start-Sleep -Seconds 60
 
         Write-Progress -Activity 'Retrieving a site collection....' -Status 'Processing'
         $siteCollection = Get-KshSiteCollection -SiteCollectionUrl $siteCollection.Url
@@ -134,9 +143,6 @@ function Install-TestSite {
 
         Write-Progress -Activity 'Adding a site collection app catalog...' -Status 'Processing'
         Add-KshSiteCollectionAppCatalog -SiteCollection $siteCollection
-
-        Write-Progress -Activity 'Waiting...' -Status 'Processing'
-        Start-Sleep -Seconds 120
 
         Write-Progress -Activity 'Sign in...' -Status 'Processing'
         Connect-KshSite -Url $Url -Credential $credential
@@ -158,7 +164,7 @@ function Install-TestSite {
         $group3 = New-KshGroup `
             -Description 'Test Group 3' `
             -Title 'Test Group 3'
-    
+
         Write-Progress -Activity 'Updating site groups...' -Status 'Test Group 1'
         Set-KshGroupOwner `
             -Group $group1 `
@@ -259,6 +265,12 @@ function Install-TestSite {
         $appSettings.Site1Id = $site1.Id
         $appSettings.Site1Url = $site1.ServerRelativeUrl
         $appSettings.Site1Title = $site1.Title
+
+        Write-Progress -Activity 'Updating sites...' -Status 'Test Site 1'
+        $site1 = Update-KshSite `
+            -Identity $site1 `
+            -NavAudienceTargetingEnabled $true `
+            -PassThru
 
         Write-Progress -Activity 'Changing current site...' -Status 'Test Site 1'
         Select-KshSite -Identity $site1
@@ -523,7 +535,7 @@ function Install-TestSite {
 
         Write-Progress -Activity 'Changing current site...' -Status 'Test Site 1'
         Select-KshSite -Identity $site1
-        
+
         Write-Progress -Activity 'Creating site content types...' -Status 'Test Content Type 7'
         $siteContentType7 = New-KshContentType `
             -ContentType $docsetContentType `
@@ -784,6 +796,21 @@ function Install-TestSite {
         $appSettings.Column16Name = $column16.Name
         $appSettings.Column16Title = $column16.Title
 
+        Write-Progress -Activity 'Creating columns...' -Status 'Test Column 17'
+        $column17 = New-KshColumnImage `
+            -AddColumnInternalNameHint `
+            -Name 'TestColumn17' `
+            -Title 'Test Column 17'
+        $null = New-KshContentTypeColumn `
+            -ContentType $siteContentType1 `
+            -Column $column17
+        $null = New-KshContentTypeColumn `
+            -ContentType $siteContentType7 `
+            -Column $column17
+        $appSettings.Column17Id = $column17.Id
+        $appSettings.Column17Name = $column17.Name
+        $appSettings.Column17Title = $column17.Title
+
         Write-Progress -Activity 'Creating list content types...' -Status 'Test Content Type 1'
         $listContentType1 = New-KshContentType `
             -List $list1 `
@@ -847,6 +874,7 @@ function Install-TestSite {
                 'Test Column 14'
                 'Test Column 15'
                 'Test Column 16'
+                'Test Column 17'
             )
         $view1 = Update-KshView `
             -Identity $view1 `
@@ -876,6 +904,7 @@ function Install-TestSite {
                 'Test Column 14'
                 'Test Column 15'
                 'Test Column 16'
+                'Test Column 17'
             )
         $view2 = Update-KshView `
             -Identity $view2 `
@@ -905,6 +934,7 @@ function Install-TestSite {
                 'Test Column 14'
                 'Test Column 15'
                 'Test Column 16'
+                'Test Column 17'
             )
         $view3 = Update-KshView `
             -Identity $view3 `
@@ -944,7 +974,7 @@ function Install-TestSite {
         $taxonomyValue1 = Initialize-KshColumnTaxonomyValue -Term $term1
         $taxonomyValue2 = Initialize-KshColumnTaxonomyValue -Term $term1
         $taxonomyValue3 = Initialize-KshColumnTaxonomyValue -Term $term1
-    
+
         Write-Progress -Activity 'Creating list items...' -Status 'Test List Item 1'
         $item1 = New-KshListItem `
             -List $list1 `
@@ -1204,7 +1234,7 @@ function Install-TestSite {
             -ContentType $siteContentType7 `
             -Column $column3 `
             -PushChanges
-    
+
         Write-Progress -Activity 'Creating document sets...' -Status 'Test Document Set 1'
         $documentSet1 = New-KshDocumentSet `
             -Folder $rootFolder3 `
@@ -1246,7 +1276,7 @@ function Install-TestSite {
             -PageLayoutType 'Article'
         $sitePage2 = Get-KshFile -FileUrl ($sitePageFolder.ServerRelativeUrl + '/Test Site Page 2.aspx')
         $appSettings.SitePage2Url = $sitePage2.ServerRelativeUrl
-        
+
         Write-Progress -Activity 'Creating site pages...' -Status 'Test Site Page 3'
         Add-KshSitePage `
             -List $sitePageList `
@@ -1254,7 +1284,10 @@ function Install-TestSite {
             -PageLayoutType 'Article'
         $sitePage3 = Get-KshFile -FileUrl ($sitePageFolder.ServerRelativeUrl + '/Test Site Page 3.aspx')
         $appSettings.SitePage3Url = $sitePage3.ServerRelativeUrl
-    
+
+        Write-Progress -Activity 'Set like to comment...' -Status 'Test Site Page 1'
+        Enable-KshLike -ListItem (Get-KshListItem -File $sitePage1)
+
         Write-Progress -Activity 'Creating comments...' -Status 'Test Comment 1'
         $comment1 = New-KshComment `
             -ListItem (Get-KshListItem -File $sitePage1) `
@@ -1278,6 +1311,9 @@ function Install-TestSite {
             -Comment $comment1 `
             -Text 'Test Comment 4'
         $appSettings.Comment4Id = $comment4.Id
+
+        Write-Progress -Activity 'Set like to comment...' -Status 'Test Comment 1'
+        Enable-KshLike -Comment $comment1
 
         Write-Progress -Activity 'Creating alerts...' -Status 'Test Alert 1'
         $alert1 = New-KshAlert `
@@ -1306,8 +1342,8 @@ function Install-TestSite {
             -User $user3
         $appSettings.Alert3Id = $alert3.Id
 
-        Write-Progress -Activity 'Changing current site...' -Status 'Root Site'
-        Get-KshSite -SiteUrl $Url | Select-KshSite
+        Write-Progress -Activity 'Sign in...' -Status 'Processing'
+        Connect-KshSite -Url $tenantSettings.AppCatalogUrl -Credential $credential
 
         Write-Progress -Activity 'Creating storage entities...' -Status 'Test Entity 1'
         Add-KshStorageEntity `
@@ -1343,6 +1379,27 @@ function Install-TestSite {
         $app3Path = Resolve-Path "$PSScriptRoot/TestApp3/sharepoint/solution/TestApp3.sppkg"
         $appSettings.App3Path = $app3Path.ToString()
 
+        Write-Progress -Activity 'Creating tenant apps...' -Status 'Test App 1'
+        $app1 = New-KshTenantApp `
+            -Content ([System.IO.File]::OpenRead($app1Path)) `
+            -FileName 'TestApp1.sppkg'
+        $appSettings.TenantApp1Id = $app1.Id
+
+        Write-Progress -Activity 'Creating tenant apps...' -Status 'Test App 2'
+        $app2 = New-KshTenantApp `
+            -Content ([System.IO.File]::OpenRead($app2Path)) `
+            -FileName 'TestApp2.sppkg'
+        $appSettings.TenantApp2Id = $app2.Id
+
+        Write-Progress -Activity 'Creating tenant apps...' -Status 'Test App 3'
+        $app3 = New-KshTenantApp `
+            -Content ([System.IO.File]::OpenRead($app3Path)) `
+            -FileName 'TestApp3.sppkg'
+        $appSettings.TenantApp3Id = $app3.Id
+
+        Write-Progress -Activity 'Sign in...' -Status 'Processing'
+        Connect-KshSite -Url $Url -Credential $credential
+
         Write-Progress -Activity 'Creating site collection apps...' -Status 'Test App 1'
         $app1 = New-KshSiteCollectionApp `
             -Content ([System.IO.File]::OpenRead($app1Path)) `
@@ -1360,7 +1417,7 @@ function Install-TestSite {
         $item2 = Get-KshListItem -File $file2
         $appSettings.SiteCollectionApp2Id = $app2.Id
         $appSettings.SiteCollectionApp2ProductId = $item2['AppProductID']
-        
+
         Write-Progress -Activity 'Creating site collection apps...' -Status 'Test App 3'
         $app3 = New-KshSiteCollectionApp `
             -Content ([System.IO.File]::OpenRead($app3Path)) `
@@ -1387,27 +1444,6 @@ function Install-TestSite {
         Install-KshSiteCollectionApp -Identity $app3
         $appInstance3 = Get-KshAppInstance -AppProductId $item3['AppProductID']
         $appSettings.AppInstance3Id = $appInstance3.Id
-
-        $tenantSettings = Get-KshTenantSettings
-        $appSettings.TenantAppCatalogUrl = $tenantSettings.AppCatalogUrl
-
-        Write-Progress -Activity 'Creating tenant apps...' -Status 'Test App 1'
-        $app1 = New-KshTenantApp `
-            -Content ([System.IO.File]::OpenRead($app1Path)) `
-            -FileName 'TestApp1.sppkg'
-        $appSettings.TenantApp1Id = $app1.Id
-
-        Write-Progress -Activity 'Creating tenant apps...' -Status 'Test App 2'
-        $app2 = New-KshTenantApp `
-            -Content ([System.IO.File]::OpenRead($app2Path)) `
-            -FileName 'TestApp2.sppkg'
-        $appSettings.TenantApp2Id = $app2.Id
-        
-        Write-Progress -Activity 'Creating tenant apps...' -Status 'Test App 3'
-        $app3 = New-KshTenantApp `
-            -Content ([System.IO.File]::OpenRead($app3Path)) `
-            -FileName 'TestApp3.sppkg'
-        $appSettings.TenantApp3Id = $app3.Id
 
         Write-Output $appSettings
     }
@@ -1442,7 +1478,7 @@ function Uninstall-TestSite {
 
         Write-Progress -Activity 'Sign in...' -Status 'Processing'
         Connect-KshSite -Url $adminUrl -Credential $credential
-        
+
         Write-Progress -Activity 'Removing site collection app catalogs...' -Status 'Processing'
         Get-KshSiteCollectionAppCatalog -SiteCollectionUrl $Url | Remove-KshSiteCollectionAppCatalog
 
@@ -1465,12 +1501,12 @@ function Uninstall-TestSite {
         $termSet3 = Get-KshTermSet `
             -TermGroup $termGroup1 `
             -TermSetName 'Test Term Set 3'
-            
+
         Write-Progress -Activity 'Retrieving terms...' -Status 'Processing'
         $term1 = Get-KshTerm `
             -TermSet $termSet1 `
             -TermName 'Test Term 1'
-        
+
         Write-Progress -Activity 'Removing terms...' -Status 'Processing'
         Remove-KshTerm -Identity $term1
 
@@ -1496,3 +1532,4 @@ function Uninstall-TestSite {
     }
 
 }
+

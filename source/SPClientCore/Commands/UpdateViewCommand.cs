@@ -37,7 +37,16 @@ namespace Karamem0.SharePoint.PowerShell.Commands
         public string AggregationsStatus { get; private set; }
 
         [Parameter(Mandatory = false)]
+        public string AssociatedContentTypeId { get; private set; }
+
+        [Parameter(Mandatory = false)]
+        public string CalendarViewStyles { get; private set; }
+
+        [Parameter(Mandatory = false)]
         public ContentTypeId ContentTypeId { get; private set; }
+
+        [Parameter(Mandatory = false)]
+        public string CustomOrder { get; private set; }
 
         [Parameter(Mandatory = false)]
         public bool DefaultView { get; private set; }
@@ -50,6 +59,9 @@ namespace Karamem0.SharePoint.PowerShell.Commands
 
         [Parameter(Mandatory = false)]
         public string Formats { get; private set; }
+
+        [Parameter(Mandatory = false)]
+        public string GridLayout { get; private set; }
 
         [Parameter(Mandatory = false)]
         public bool Hidden { get; private set; }
@@ -107,6 +119,9 @@ namespace Karamem0.SharePoint.PowerShell.Commands
 
         [Parameter(Mandatory = false)]
         public string ViewQuery { get; private set; }
+
+        [Parameter(Mandatory = false)]
+        public string ViewType2 { get; private set; }
 
         [Parameter(Mandatory = false)]
         public string VisualizationInfo { get; private set; }

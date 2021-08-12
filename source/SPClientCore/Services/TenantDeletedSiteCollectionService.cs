@@ -45,10 +45,7 @@ namespace Karamem0.SharePoint.PowerShell.Services
 
         public TenantDeletedSiteCollection GetObject(TenantDeletedSiteCollection siteCollectionObject)
         {
-            if (siteCollectionObject == null)
-            {
-                throw new ArgumentNullException(nameof(siteCollectionObject));
-            }
+            _ = siteCollectionObject ?? throw new ArgumentNullException(nameof(siteCollectionObject));
             var requestPayload = new ClientRequestPayload();
             var objectPath = requestPayload.Add(
                 new ObjectPathIdentity(siteCollectionObject.ObjectIdentity),
@@ -65,10 +62,7 @@ namespace Karamem0.SharePoint.PowerShell.Services
 
         public TenantDeletedSiteCollection GetObject(Uri siteCollectionUrl)
         {
-            if (siteCollectionUrl == null)
-            {
-                throw new ArgumentNullException(nameof(siteCollectionUrl));
-            }
+            _ = siteCollectionUrl ?? throw new ArgumentNullException(nameof(siteCollectionUrl));
             var requestPayload = new ClientRequestPayload();
             var objectPath1 = requestPayload.Add(
                 new ObjectPathConstructor(typeof(Tenant)));
@@ -111,14 +105,8 @@ namespace Karamem0.SharePoint.PowerShell.Services
 
         public TenantOperationResult RemoveObject(TenantDeletedSiteCollection siteCollectionObject)
         {
-            if (siteCollectionObject == null)
-            {
-                throw new ArgumentNullException(nameof(siteCollectionObject));
-            }
-            if (string.IsNullOrEmpty(siteCollectionObject.Url))
-            {
-                throw new ArgumentNullException(nameof(siteCollectionObject));
-            }
+            _ = siteCollectionObject ?? throw new ArgumentNullException(nameof(siteCollectionObject));
+            _ = siteCollectionObject.Url ?? throw new ArgumentNullException(nameof(siteCollectionObject));
             var requestPayload = new ClientRequestPayload();
             var objectPath1 = requestPayload.Add(
                 new ObjectPathConstructor(typeof(Tenant)));
@@ -144,14 +132,8 @@ namespace Karamem0.SharePoint.PowerShell.Services
 
         public TenantOperationResult RestoreObject(TenantDeletedSiteCollection siteCollectionObject)
         {
-            if (siteCollectionObject == null)
-            {
-                throw new ArgumentNullException(nameof(siteCollectionObject));
-            }
-            if (string.IsNullOrEmpty(siteCollectionObject.Url))
-            {
-                throw new ArgumentNullException(nameof(siteCollectionObject));
-            }
+            _ = siteCollectionObject ?? throw new ArgumentNullException(nameof(siteCollectionObject));
+            _ = siteCollectionObject.Url ?? throw new ArgumentNullException(nameof(siteCollectionObject));
             var requestPayload = new ClientRequestPayload();
             var objectPath1 = requestPayload.Add(
                 new ObjectPathConstructor(typeof(Tenant)));

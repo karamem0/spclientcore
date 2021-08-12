@@ -53,6 +53,9 @@ namespace Karamem0.SharePoint.PowerShell.Models
         public virtual int AuditLogTrimmingRetention { get; protected set; }
 
         [JsonProperty()]
+        public virtual Guid ChannelGroupId { get; protected set; }
+
+        [JsonProperty()]
         public virtual string Classification { get; protected set; }
 
         [JsonProperty()]
@@ -86,9 +89,6 @@ namespace Karamem0.SharePoint.PowerShell.Models
         public virtual Guid Id { get; protected set; }
 
         [JsonProperty()]
-        public virtual Guid SensitivityLabel { get; protected set; }
-
-        [JsonProperty()]
         public virtual bool IsHubSite { get; protected set; }
 
         [JsonProperty()]
@@ -96,6 +96,9 @@ namespace Karamem0.SharePoint.PowerShell.Models
 
         [JsonProperty()]
         public virtual int MaxItemsPerThrottledOperation { get; protected set; }
+
+        [JsonProperty()]
+        public virtual bool MediaTranscriptionDisabled { get; protected set; }
 
         [JsonProperty()]
         public virtual bool NeedsB2BUpgrade { get; protected set; }
@@ -110,13 +113,19 @@ namespace Karamem0.SharePoint.PowerShell.Models
         public virtual bool ReadOnly { get; protected set; }
 
         [JsonProperty()]
-        public virtual string ServerRelativeUrl { get; protected set; }
-
-        [JsonProperty()]
         public virtual string RequiredDesignerVersion { get; protected set; }
 
         [JsonProperty()]
         public virtual int SandboxedCodeActivationCapability { get; protected set; }
+
+        [JsonProperty()]
+        public virtual Guid SensitivityLabel { get; protected set; }
+
+        [JsonProperty()]
+        public virtual string SensitivityLabelId { get; protected set; }
+
+        [JsonProperty()]
+        public virtual string ServerRelativeUrl { get; protected set; }
 
         [JsonProperty()]
         public virtual bool ShareByEmailEnabled { get; protected set; }

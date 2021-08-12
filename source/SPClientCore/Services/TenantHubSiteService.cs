@@ -72,7 +72,7 @@ namespace Karamem0.SharePoint.PowerShell.Services
 
         public HubSite GetObject(Guid hubSiteId)
         {
-            if (hubSiteId == default(Guid))
+            if (hubSiteId == default)
             {
                 throw new ArgumentNullException(nameof(hubSiteId));
             }
@@ -151,7 +151,7 @@ namespace Karamem0.SharePoint.PowerShell.Services
                     objectPathId,
                     "UnregisterHubSite",
                     requestPayload.CreateParameter(hubSiteObject.SiteCollectionUrl)));
-            this.ClientContext.ProcessQuery(requestPayload);
+            _ = this.ClientContext.ProcessQuery(requestPayload);
         }
 
         public override void UpdateObject(HubSite hubSiteObject, IReadOnlyDictionary<string, object> modificationInformation)
@@ -183,7 +183,7 @@ namespace Karamem0.SharePoint.PowerShell.Services
             var objectPath4 = requestPayload.Add(
                 objectPath3,
                 objectPathId => new ClientActionMethod(objectPathId, "Update"));
-            this.ClientContext.ProcessQuery(requestPayload);
+            _ = this.ClientContext.ProcessQuery(requestPayload);
         }
 
     }

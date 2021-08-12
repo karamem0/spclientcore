@@ -35,14 +35,14 @@ namespace Karamem0.SharePoint.PowerShell.Tests.Runtime
             this.Runspace.Open();
             if (RuntimeInformation.IsOSPlatform(OSPlatform.Windows))
             {
-                this.Runspace.InvokeCommand(
+                _ = this.Runspace.InvokeCommand(
                     "Set-ExecutionPolicy",
                     new Dictionary<string, object>()
                     {
                         { "ExecutionPolicy", "RemoteSigned" }
                     });
             }
-            this.Runspace.InvokeCommand(
+            _ = this.Runspace.InvokeCommand(
                 "Import-Module",
                 new Dictionary<string, object>()
                 {
@@ -57,6 +57,7 @@ namespace Karamem0.SharePoint.PowerShell.Tests.Runtime
                 this.Runspace.Dispose();
                 this.Runspace = null;
             }
+            GC.SuppressFinalize(this);
         }
 
     }

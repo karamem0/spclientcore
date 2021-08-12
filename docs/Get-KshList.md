@@ -59,40 +59,47 @@ The Get-KshList cmdlet retrieves lists of the current site.
 
 ### Example 1
 ```powershell
-PS C:\> Get-KshList -ListItem Get-KshListItem -List (Get-KshList -ListTitle 'Announcements') -ItemId 1
+PS C:\> Get-KshList -ListItem (Get-KshListItem -List (Get-KshList -ListTitle 'Announcements') -ItemId 1)
 ```
 
 Retrieves a parent list of the list item.
 
 ### Example 2
 ```powershell
+PS C:\> Get-KshList -View (Get-KshView -List (Get-KshList -ListTitle 'Announcements') -ViewId 'bae9f925-48d3-47f5-bb07-92927a82df7d')
+```
+
+Retrieves a parent list of the view.
+
+### Example 3
+```powershell
 PS C:\> Get-KshList -ListId 'a01f8e07-290f-4644-9db8-85bb00b85e74'
 ```
 
 Retrieves a list by list ID.
 
-### Example 3
+### Example 4
 ```powershell
 PS C:\> Get-KshList -ListUrl '/sites/japan/hr/Announcements'
 ```
 
 Retrieves a list by list URL.
 
-### Example 4
+### Example 5
 ```powershell
 PS C:\> Get-KshList -ListTitle 'Announcements'
 ```
 
 Retrieves a list by list title.
 
-### Example 4
+### Example 6
 ```powershell
 PS C:\> Get-KshList -LibraryType 'SitePages'
 ```
 
 Retrieves a list by library type.
 
-### Example 6
+### Example 7
 ```powershell
 PS C:\> Get-KshList
 ```

@@ -1,0 +1,48 @@
+on:
+  push:
+    branches:
+      - master
+      - develop
+    tags:
+      - v*.*.*
+
+env:
+  BUILD_VERSION: 4.0.0.${{github.run_number}}
+
+jobs:
+  build:
+    runs-on: windows-latest
+    steps:
+      - name: Checkout repos
+        uses: actions/checkout@v2
+      - name: Setup .NET Core
+        uses: actions/setup-dotnet@v1
+        with:
+          dotnet-version: 5.x
+      - name: Build source
+        run: |
+          dotnet restore ${{env.TARGET_FILE}}
+          dotnet publish ${{env.TARGET_FILE}} -c Release -o artifact/spclientcore -p:Version=${{env.BUILD_VERSION}} -p:FileVersion=${{env.BUILD_VERSION}}
+        env:
+          TARGET_FILE: source/SPClientCore/SPClientCore.csproj
+      - name: Update .nuspec file
+        shell: pwsh
+        run: |
+          $xml = [xml](Get-Content -Path "${{env.TARGET_FILE}}")
+          $xml.package.metadata.version = "${{env.BUILD_VERSION}}"
+          $xml.Save("${{env.TARGET_FILE}}")
+        env:
+          TARGET_FILE: artifact/spclientcore/SPClientCore.nuspec
+      - name: Update .psd1 file
+        shell: pwsh
+        run: |
+          Import-Module -Name (Resolve-Path -Path "${{env.TARGET_FILE}}")
+          Update-ModuleManifest -Path "${{env.TARGET_FILE}}" -ModuleVersion "${{env.BUILD_VERSION}}" -CmdletsToExport (Get-Command -Module SPClientCore | %{ $_.Name })
+        env:
+          TARGET_FILE: artifact/spclientcore/SPClientCore.psd1
+      - name: Upload artifact
+        uses: actions/upload-artifact@v2
+        with:
+          name: spclientcore
+          path: artifact/spclientcore
+

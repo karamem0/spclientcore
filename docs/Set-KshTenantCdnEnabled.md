@@ -14,12 +14,12 @@ Changes whether Office 365 CDN is enabled.
 
 ### ParamSet1
 ```
-Set-KshTenantCdnEnabled [-Public] -Enabled <Boolean> [<CommonParameters>]
+Set-KshTenantCdnEnabled [-Public] -Enabled <Boolean> [-NoDefaultOrigins] [<CommonParameters>]
 ```
 
 ### ParamSet2
 ```
-Set-KshTenantCdnEnabled [-Private] -Enabled <Boolean> [<CommonParameters>]
+Set-KshTenantCdnEnabled [-Private] -Enabled <Boolean> [-NoDefaultOrigins] [<CommonParameters>]
 ```
 
 ## DESCRIPTION
@@ -53,6 +53,21 @@ Parameter Sets: (All)
 Aliases:
 
 Required: True
+Position: Named
+Default value: None
+Accept pipeline input: False
+Accept wildcard characters: False
+```
+
+### -NoDefaultOrigins
+If specified, prevent to create the default origins.
+
+```yaml
+Type: SwitchParameter
+Parameter Sets: (All)
+Aliases:
+
+Required: False
 Position: Named
 Default value: None
 Accept pipeline input: False

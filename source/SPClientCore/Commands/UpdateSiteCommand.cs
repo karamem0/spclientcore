@@ -73,6 +73,9 @@ namespace Karamem0.SharePoint.PowerShell.Commands
         public bool FooterEnabled { get; private set; }
 
         [Parameter(Mandatory = false)]
+        public FooterLayoutType FooterLayout { get; private set; }
+
+        [Parameter(Mandatory = false)]
         public VariantThemeType HeaderEmphasis { get; private set; }
 
         [Parameter(Mandatory = false)]
@@ -82,6 +85,9 @@ namespace Karamem0.SharePoint.PowerShell.Commands
         public bool HorizontalQuickLaunch { get; private set; }
 
         [Parameter(Mandatory = false)]
+        public LogoAlignment LogoAlignment { get; private set; }
+
+        [Parameter(Mandatory = false)]
         public string MasterUrl { get; private set; }
 
         [Parameter(Mandatory = false)]
@@ -89,6 +95,9 @@ namespace Karamem0.SharePoint.PowerShell.Commands
 
         [Parameter(Mandatory = false)]
         public bool MegaMenuEnabled { get; private set; }
+
+        [Parameter(Mandatory = false)]
+        public bool NavAudienceTargetingEnabled { get; private set; }
 
         [Parameter(Mandatory = false)]
         public bool NoCrawl { get; private set; }
@@ -107,6 +116,9 @@ namespace Karamem0.SharePoint.PowerShell.Commands
 
         [Parameter(Mandatory = false)]
         public bool SaveSiteAsTemplateEnabled { get; private set; }
+
+        [Parameter(Mandatory = false)]
+        public SearchScopeType SearchScope { get; private set; }
 
         [Parameter(Mandatory = false)]
         public string ServerRelativeUrl { get; private set; }

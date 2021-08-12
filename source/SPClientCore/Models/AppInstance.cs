@@ -35,7 +35,16 @@ namespace Karamem0.SharePoint.PowerShell.Models
         public virtual Guid Id { get; protected set; }
 
         [JsonProperty()]
+        public virtual string ImageFallbackUrl { get; protected set; }
+
+        [JsonProperty()]
+        public virtual string ImageUrl { get; protected set; }
+
+        [JsonProperty()]
         public virtual bool InError { get; protected set; }
+
+        [JsonProperty()]
+        public virtual byte[] PackageFingerprint { get; protected set; }
 
         [JsonProperty()]
         public virtual Guid ProductId { get; protected set; }

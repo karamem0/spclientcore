@@ -70,7 +70,7 @@ namespace Karamem0.SharePoint.PowerShell.Tests
                         // { "Lcid", 1041 },
                         { "LimitedAccessFileType", "OfficeOnlineFilesOnly" },
                         { "Owner", context.AppSettings["User1Email"] },
-                        { "PWAEnabled", "Enabled" },
+                        // { "PWAEnabled", "Enabled" },
                         { "RestrictedToRegion", "BlockFull" },
                         { "SandboxedCodeActivationCapability", "Enabled" },
                         { "SharingAllowedDomainList", "contoso.com" },

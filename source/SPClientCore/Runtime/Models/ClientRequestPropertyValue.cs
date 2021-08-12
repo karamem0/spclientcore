@@ -22,11 +22,7 @@ namespace Karamem0.SharePoint.PowerShell.Runtime.Models
 
         public ClientRequestPropertyValue(string name, ClientRequestValue value)
         {
-            if (name == null)
-            {
-                throw new ArgumentNullException(nameof(name));
-            }
-            this.Name = name;
+            this.Name = name ?? throw new ArgumentNullException(nameof(name));
             this.Type = value.Type;
             this.Value = value.Value;
         }

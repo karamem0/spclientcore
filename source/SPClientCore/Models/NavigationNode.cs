@@ -26,6 +26,12 @@ namespace Karamem0.SharePoint.PowerShell.Models
         }
 
         [JsonProperty()]
+        public virtual IReadOnlyCollection<Guid> AudienceIds { get; protected set; }
+
+        [JsonProperty("CurrentLCID")]
+        public virtual uint CurrentLcid { get; protected set; }
+
+        [JsonProperty()]
         public virtual int Id { get; protected set; }
 
         [JsonProperty()]

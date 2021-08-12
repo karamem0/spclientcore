@@ -37,7 +37,10 @@ namespace Karamem0.SharePoint.PowerShell.Models
         public virtual bool CanUpgrade { get; protected set; }
 
         [JsonProperty()]
-        public virtual string CDNLocation { get; protected set; }
+        public virtual bool ContainsTenantWideExtension { get; protected set; }
+
+        [JsonProperty("CDNLocation")]
+        public virtual string CdnLocation { get; protected set; }
 
         [JsonProperty()]
         public virtual bool CurrentVersionDeployed { get; protected set; }
@@ -45,17 +48,26 @@ namespace Karamem0.SharePoint.PowerShell.Models
         [JsonProperty()]
         public virtual bool Deployed { get; protected set; }
 
+        [JsonProperty()]
+        public virtual string ErrorMessage { get; protected set; }
+
         [JsonProperty("ID")]
         public virtual Guid Id { get; protected set; }
-
-        [JsonProperty()]
-        public virtual bool IsEnabled { get; protected set; }
 
         [JsonProperty()]
         public virtual string InstalledVersion { get; protected set; }
 
         [JsonProperty()]
+        public virtual bool IsEnabled { get; protected set; }
+
+        [JsonProperty()]
         public virtual bool IsClientSideSolution { get; protected set; }
+
+        [JsonProperty()]
+        public virtual bool IsPackageDefaultSkipFeatureDeployment { get; protected set; }
+
+        [JsonProperty()]
+        public virtual bool IsValidAppPackage { get; protected set; }
 
         [JsonProperty()]
         public virtual Guid ProductId { get; protected set; }

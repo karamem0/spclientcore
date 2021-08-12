@@ -35,7 +35,7 @@ namespace Karamem0.SharePoint.PowerShell.Commands
 
         protected override void ProcessRecordCore()
         {
-            this.Service.AddObject(this.Group, this.Member);
+            _ = this.Service.AddObject(this.Group, this.Member);
         }
 
     }

@@ -41,7 +41,7 @@ namespace Karamem0.SharePoint.PowerShell.Services
 
         public void AddObject(Guid featureId, bool force, FeatureDefinitionScope scope)
         {
-            if (featureId == default(Guid))
+            if (featureId == default)
             {
                 throw new ArgumentNullException(nameof(featureId));
             }
@@ -60,12 +60,12 @@ namespace Karamem0.SharePoint.PowerShell.Services
                     requestPayload.CreateParameter(featureId),
                     requestPayload.CreateParameter(force),
                     requestPayload.CreateParameter(scope)));
-            this.ClientContext.ProcessQuery(requestPayload);
+            _ = this.ClientContext.ProcessQuery(requestPayload);
         }
 
         public Feature GetObject(Guid featureId)
         {
-            if (featureId == default(Guid))
+            if (featureId == default)
             {
                 throw new ArgumentNullException(nameof(featureId));
             }
@@ -113,7 +113,7 @@ namespace Karamem0.SharePoint.PowerShell.Services
 
         public void RemoveObject(Guid featureId, bool force)
         {
-            if (featureId == default(Guid))
+            if (featureId == default)
             {
                 throw new ArgumentNullException(nameof(featureId));
             }
@@ -131,7 +131,7 @@ namespace Karamem0.SharePoint.PowerShell.Services
                     "Remove",
                     requestPayload.CreateParameter(featureId),
                     requestPayload.CreateParameter(force)));
-            this.ClientContext.ProcessQuery(requestPayload);
+            _ = this.ClientContext.ProcessQuery(requestPayload);
         }
 
     }

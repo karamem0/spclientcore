@@ -52,7 +52,7 @@ namespace Karamem0.SharePoint.PowerShell.Services
 
         public RecycleBinItem GetObject(Guid itemId, RecycleBinItemState recycleBinItemState)
         {
-            if (itemId == default(Guid))
+            if (itemId == default)
             {
                 throw new ArgumentNullException(nameof(itemId));
             }
@@ -160,7 +160,7 @@ namespace Karamem0.SharePoint.PowerShell.Services
             var objectPath4 = requestPayload.Add(
                 objectPath3,
                 objectPathId => new ClientActionMethod(objectPathId, "MoveAllToSecondStage"));
-            this.ClientContext.ProcessQuery(requestPayload);
+            _ = this.ClientContext.ProcessQuery(requestPayload);
         }
 
         public void MoveObjectToSecondStage(RecycleBinItem recycleBinItemObject)
@@ -173,7 +173,7 @@ namespace Karamem0.SharePoint.PowerShell.Services
             var objectPath = requestPayload.Add(
                 new ObjectPathIdentity(recycleBinItemObject.ObjectIdentity),
                 objectPathId => new ClientActionMethod(objectPathId, "MoveToSecondStage"));
-            this.ClientContext.ProcessQuery(requestPayload);
+            _ = this.ClientContext.ProcessQuery(requestPayload);
         }
 
         public void RemoveAllObject()
@@ -188,7 +188,7 @@ namespace Karamem0.SharePoint.PowerShell.Services
             var objectPath4 = requestPayload.Add(
                 objectPath3,
                 objectPathId => new ClientActionMethod(objectPathId, "DeleteAll"));
-            this.ClientContext.ProcessQuery(requestPayload);
+            _ = this.ClientContext.ProcessQuery(requestPayload);
         }
 
         public void RemoveAllSecondStageObject()
@@ -203,7 +203,7 @@ namespace Karamem0.SharePoint.PowerShell.Services
             var objectPath4 = requestPayload.Add(
                 objectPath3,
                 objectPathId => new ClientActionMethod(objectPathId, "DeleteAllSecondStageItems"));
-            this.ClientContext.ProcessQuery(requestPayload);
+            _ = this.ClientContext.ProcessQuery(requestPayload);
         }
 
         public void RestoreAllObject()
@@ -218,7 +218,7 @@ namespace Karamem0.SharePoint.PowerShell.Services
             var objectPath4 = requestPayload.Add(
                 objectPath3,
                 objectPathId => new ClientActionMethod(objectPathId, "RestoreAll"));
-            this.ClientContext.ProcessQuery(requestPayload);
+            _ = this.ClientContext.ProcessQuery(requestPayload);
         }
 
         public void RestoreObject(RecycleBinItem recycleBinItemObject)
@@ -231,7 +231,7 @@ namespace Karamem0.SharePoint.PowerShell.Services
             var objectPath = requestPayload.Add(
                 new ObjectPathIdentity(recycleBinItemObject.ObjectIdentity),
                 objectPathId => new ClientActionMethod(objectPathId, "Restore"));
-            this.ClientContext.ProcessQuery(requestPayload);
+            _ = this.ClientContext.ProcessQuery(requestPayload);
         }
 
     }

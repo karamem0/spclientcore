@@ -42,7 +42,7 @@ namespace Karamem0.SharePoint.PowerShell.Tests
                     "Get-KshSiteCollection",
                     new Dictionary<string, object>()
                     {
-                         { "SiteCollectionUrl", context.AppSettings["BaseUrl"] }
+                        { "SiteCollectionUrl", context.AppSettings["BaseUrl"] }
                     }
                 );
                 var result3 = context.Runspace.InvokeCommand<SiteCollection>(
@@ -76,7 +76,7 @@ namespace Karamem0.SharePoint.PowerShell.Tests
                     "Get-KshSiteCollection",
                     new Dictionary<string, object>()
                     {
-                         { "SiteCollectionUrl", context.AppSettings["BaseUrl"] }
+                        { "SiteCollectionUrl", context.AppSettings["BaseUrl"] }
                     }
                 );
                 var actual = result2.ElementAt(0);

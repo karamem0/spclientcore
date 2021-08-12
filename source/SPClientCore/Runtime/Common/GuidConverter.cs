@@ -29,7 +29,7 @@ namespace Karamem0.SharePoint.PowerShell.Runtime.Common
                     return true;
                 }
             }
-            result = default(Guid);
+            result = default;
             return false;
         }
 

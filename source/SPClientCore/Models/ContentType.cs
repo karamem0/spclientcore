@@ -26,6 +26,9 @@ namespace Karamem0.SharePoint.PowerShell.Models
         }
 
         [JsonProperty()]
+        public virtual string ClientFormCustomFormatter { get; protected set; }
+
+        [JsonProperty()]
         public virtual string Description { get; protected set; }
 
         [JsonProperty()]

@@ -21,12 +21,8 @@ namespace Karamem0.SharePoint.PowerShell.Runtime.Models
 
         public ObjectPathProperty(long parentId, string name)
         {
-            if (name == null)
-            {
-                throw new ArgumentNullException(nameof(name));
-            }
             this.ParentId = parentId;
-            this.Name = name;
+            this.Name = name ?? throw new ArgumentNullException(nameof(name));
         }
 
         [XmlAttribute()]

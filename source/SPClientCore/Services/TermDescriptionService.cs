@@ -39,7 +39,7 @@ namespace Karamem0.SharePoint.PowerShell.Services
             {
                 throw new ArgumentNullException(nameof(termObject));
             }
-            if (lcid == default(uint))
+            if (lcid == default)
             {
                 throw new ArgumentNullException(nameof(lcid));
             }
@@ -67,7 +67,7 @@ namespace Karamem0.SharePoint.PowerShell.Services
             {
                 throw new ArgumentNullException(nameof(description));
             }
-            if (lcid == default(uint))
+            if (lcid == default)
             {
                 throw new ArgumentNullException(nameof(lcid));
             }
@@ -81,7 +81,7 @@ namespace Karamem0.SharePoint.PowerShell.Services
                     "SetDescription",
                     requestPayload.CreateParameter(description),
                     requestPayload.CreateParameter(lcid)));
-            this.ClientContext.ProcessQuery(requestPayload);
+            _ = this.ClientContext.ProcessQuery(requestPayload);
         }
 
     }

@@ -59,6 +59,7 @@ namespace Karamem0.SharePoint.PowerShell.Tests
                     new Dictionary<string, object>()
                     {
                         { "Identity", result3.ElementAt(0) },
+                        { "AudienceIds", null },
                         { "IsVisible", true },
                         { "Title", "Test Navigation Node 9" },
                         { "Url", "https://www.bing.com" },

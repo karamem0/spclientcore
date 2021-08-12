@@ -33,7 +33,7 @@ namespace Karamem0.SharePoint.PowerShell.Models
 
         [JsonProperty()]
         public virtual HubSiteUserRights Rights { get; protected set; }
-        
+
     }
 
 }

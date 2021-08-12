@@ -15,7 +15,7 @@ using System.Text;
 
 namespace Karamem0.SharePoint.PowerShell.Runtime.Models
 {
-  
+
     [JsonObject()]
     public abstract class ODataObject
     {

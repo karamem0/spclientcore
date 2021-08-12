@@ -51,7 +51,7 @@ namespace Karamem0.SharePoint.PowerShell.Tests
                     "Get-KshSiteCollection",
                     new Dictionary<string, object>()
                     {
-                         { "SiteCollectionUrl", result2.ElementAt(0).Url }
+                        { "SiteCollectionUrl", result2.ElementAt(0).Url }
                     }
                 );
                 var result4 = context.Runspace.InvokeCommand<HubSite>(
@@ -130,7 +130,7 @@ namespace Karamem0.SharePoint.PowerShell.Tests
                     "Get-KshSiteCollection",
                     new Dictionary<string, object>()
                     {
-                         { "SiteCollectionUrl", result2.ElementAt(0).Url }
+                        { "SiteCollectionUrl", result2.ElementAt(0).Url }
                     }
                 );
                 var result4 = context.Runspace.InvokeCommand<HubSite>(
@@ -210,7 +210,7 @@ namespace Karamem0.SharePoint.PowerShell.Tests
                     "Get-KshSiteCollection",
                     new Dictionary<string, object>()
                     {
-                         { "SiteCollectionUrl", result2.ElementAt(0).Url }
+                        { "SiteCollectionUrl", result2.ElementAt(0).Url }
                     }
                 );
                 var result4 = context.Runspace.InvokeCommand<HubSite>(

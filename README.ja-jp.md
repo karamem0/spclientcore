@@ -2,9 +2,9 @@
 
 [View in English](README.md)
 
-PowerShell Core 向けの SharePoint サービス モジュール
+PowerShell 向けの SharePoint サービス モジュール
 
-[![Build Status](https://dev.azure.com/karamem0/SPClientCore/_apis/build/status/SPClientCore?branchName=master)](https://dev.azure.com/karamem0/SPClientCore/_build/latest?definitionId=51&branchName=master)
+[![.github/workflows/main.yml](https://github.com/karamem0/spclientcore/actions/workflows/main.yml/badge.svg)](https://github.com/karamem0/spclientcore/actions/workflows/main.yml)
 [![License](https://img.shields.io/github/license/karamem0/spclientcore.svg)](https://github.com/karamem0/spclientcore/blob/master/LICENSE)
 
 ## インストール
@@ -13,11 +13,11 @@ SPClientCore は [PowerShell Gallery](https://www.powershellgallery.com/packages
 
 ## 機能
 
-### PowerShell Core での動作
+### PowerShell 7 での動作
 
-はい、SPClientCore は PowerShell Core で動作し、また Windows PowerShell でも動作します。つまり、このモジュールを Windows はもちろん Mac や Linux でも使用できるということです (もちろんそのマシンに PowerShell Core がインストールされていればですが)。<del>Windows 以外の環境で SharePoint Online を管理するには REST API を実行する方法しかありませんでした。</del>しかし REST API は SharePoint クライアント ライブラリ (CSOM) に比べていくつかの問題を持っています。SPClientCore は SharePoint クライアント ライブラリと互換性のある API 呼び出しを行うことで完全な機能を提供します。
+はい、SPClientCore は PowerShell 7 で動作し、また Windows PowerShell でも動作します。つまり、このモジュールを Windows はもちろん Mac や Linux でも使用できるということです (もちろんそのマシンに PowerShell 7 がインストールされていればですが)。<del>Windows 以外の環境で SharePoint Online を管理するには REST API を実行する方法しかありませんでした。</del>しかし REST API は SharePoint クライアント ライブラリ (CSOM) に比べていくつかの問題を持っています。SPClientCore は SharePoint クライアント ライブラリと互換性のある API 呼び出しを行うことで完全な機能を提供します。
 
-*(更新) CSOM および PnP PowerShell は PowerShell Core をサポートしました。*
+*(更新) CSOM および PnP PowerShell は PowerShell 7 をサポートしました。*
 
 ### 1 つのモジュールですべての管理を
 
@@ -33,15 +33,17 @@ SPClientCore は Azure AD 2.0 認証をサポートします (Device Code Grant 
 
 ## 依存関係
 
-- [Microsoft.Extensions.DependencyInjection](https://www.nuget.org/packages/Microsoft.Extensions.DependencyInjection/5.0.1) (5.0.1)
+- [Microsoft.Extensions.DependencyInjection](https://www.nuget.org/packages/Microsoft.Extensions.DependencyInjection/5.0.2) (5.0.2)
 - [Microsoft.Extensions.DependencyInjection.Abstractions](https://www.nuget.org/packages/Microsoft.Extensions.DependencyInjection.Abstractions/5.0.0) (5.0.0)
-- [Microsoft.IdentityModel.JsonWebTokens](https://www.nuget.org/packages/Microsoft.IdentityModel.JsonWebTokens/6.8.0) (6.8.0)
+- [Microsoft.IdentityModel.JsonWebTokens](https://www.nuget.org/packages/Microsoft.IdentityModel.JsonWebTokens/6.12.0) (6.12.0)
 - [Newtonsoft.Json](https://www.nuget.org/packages/Newtonsoft.Json/12.0.3) (12.0.3)
+- [PowerShellStandard.Library](https://www.nuget.org/packages/PowerShellStandard.Library/5.1.0) (5.1.0)
 
 ## コマンド リファレンス (英語)
 
 - ログイン
   - [Connect-KshSite](docs/Connect-KshSite.md)
+  - [Disconnect-KshSite](docs/Disconnect-KshSite.md)
   - [Get-KshCurrentSite](docs/Get-KshCurrentSite.md)
   - [Get-KshCurrentSiteCollection](docs/Get-KshCurrentSiteCollection.md)
   - [Get-KshCurrentUser](docs/Get-KshCurrentUser.md)
@@ -76,6 +78,7 @@ SPClientCore は Azure AD 2.0 認証をサポートします (Device Code Grant 
     - [New-KshColumnCurrency](docs/New-KshColumnCurrency.md)
     - [New-KshColumnDateTime](docs/New-KshColumnDateTime.md)
     - [New-KshColumnGeolocation](docs/New-KshColumnGeolocation.md)
+    - [New-KshColumnImage](docs/New-KshColumnImage.md)
     - [New-KshColumnLookup](docs/New-KshColumnLookup.md)
     - [New-KshColumnMultiChoice](docs/New-KshColumnMultiChoice.md)
     - [New-KshColumnMultiLineText](docs/New-KshColumnMultiLineText.md)
@@ -91,6 +94,7 @@ SPClientCore は Azure AD 2.0 認証をサポートします (Device Code Grant 
     - [Update-KshColumnCurrency](docs/Update-KshColumnCurrency.md)
     - [Update-KshColumnDateTime](docs/Update-KshColumnDateTime.md)
     - [Update-KshColumnGeolocation](docs/Update-KshColumnGeolocation.md)
+    - [Update-KshColumnImage](docs/Update-KshColumnImage.md)
     - [Update-KshColumnLookup](docs/Update-KshColumnLookup.md)
     - [Update-KshColumnMultiChoice](docs/Update-KshColumnMultiChoice.md)
     - [Update-KshColumnMultiLineText](docs/Update-KshColumnMultiLineText.md)
@@ -171,6 +175,10 @@ SPClientCore は Azure AD 2.0 認証をサポートします (Device Code Grant 
     - [Remove-KshGroupMember](docs/Remove-KshGroupMember.md)
     - [Get-KshGroupOwner](docs/Get-KshGroupOwner.md)
     - [Set-KshGroupOwner](docs/Set-KshGroupOwner.md)
+  - いいね
+    - [Get-KshLike](docs/Get-KshLike.md)
+    - [Enable-KshLike](docs/Enable-KshLike.md)
+    - [Disable-KshLike](docs/Disable-KshLike.md)
   - リスト
     - [Get-KshList](docs/Get-KshList.md)
     - [New-KshList](docs/New-KshList.md)
@@ -185,15 +193,18 @@ SPClientCore は Azure AD 2.0 認証をサポートします (Device Code Grant 
     - [Suspend-KshListItem](docs/Suspend-KshListItem.md)
     - [Update-KshListItem](docs/Update-KshListItem.md)
     - [Initialize-KshColumnGeolocationValue](docs/Initialize-KshColumnGeolocationValue.md)
+    - [Initialize-KshColumnImageValue](docs/Initialize-KshColumnImageValue.md)
     - [Initialize-KshColumnLookupValue](docs/Initialize-KshColumnLookupValue.md)
     - [Initialize-KshColumnTaxonomyValue](docs/Initialize-KshColumnTaxonomyValue.md)
     - [Initialize-KshColumnUrlValue](docs/Initialize-KshColumnUrlValue.md)
     - [Initialize-KshColumnUserValue](docs/Initialize-KshColumnUserValue.md)
+    - [Save-KshImage](docs/Save-KshImage.md)
     - [Set-KshColumnTaxonomyValue](docs/Set-KshColumnTaxonomyValue.md)
   - リスト テンプレート
     - [Get-KshListTemplate](docs/Get-KshListTemplate.md)
   - ナビゲーション
     - [Get-KshNavigation](docs/Get-KshNavigation.md)
+    - [Set-KshNavigation](docs/Set-KshNavigation.md)
     - [Get-KshNavigationNode](docs/Get-KshNavigationNode.md)
     - [New-KshNavigationNode](docs/New-KshNavigationNode.md)
     - [Remove-KshNavigationNode](docs/Remove-KshNavigationNode.md)

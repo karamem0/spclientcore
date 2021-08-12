@@ -63,6 +63,8 @@ namespace Karamem0.SharePoint.PowerShell.Tests
                         { "Identity", result3.ElementAt(0) },
                         // { "ClientSideComponentId", null },
                         // { "ClientSideComponentProperties", null },
+                        { "ClientValidationFormula", "=FALSE" },
+                        { "ClientValidationMessage", "ERROR" },
                         { "CustomFormatter", "{ \"txtContent\": \"@currentField\" }" },
                         { "DefaultValue", "Test Value 0" },
                         { "EnforceUniqueValues", true },
@@ -78,6 +80,8 @@ namespace Karamem0.SharePoint.PowerShell.Tests
                         { "Required", true },
                         { "StaticName", "TestColumn0" },
                         { "Title", "Test Column 0" },
+                        { "ValidationFormula", "=FALSE" },
+                        { "ValidationMessage", "ERROR" },
                         { "PassThru", true }
                     }
                 );
@@ -134,6 +138,8 @@ namespace Karamem0.SharePoint.PowerShell.Tests
                         { "Identity", result2.ElementAt(0) },
                         // { "ClientSideComponentId", null },
                         // { "ClientSideComponentProperties", null },
+                        { "ClientValidationFormula", "=TRUE" },
+                        { "ClientValidationMessage", "ERROR" },
                         { "CustomFormatter", "{ \"txtContent\": \"@currentField\" }" },
                         { "DefaultValue", "Test Value 0" },
                         { "EnforceUniqueValues", true },
@@ -149,6 +155,8 @@ namespace Karamem0.SharePoint.PowerShell.Tests
                         { "Required", true },
                         { "StaticName", "TestColumn0" },
                         { "Title", "Test Column 0" },
+                        { "ValidationFormula", "=TRUE" },
+                        { "ValidationMessage", "ERROR" },
                         { "PassThru", true }
                     }
                 );

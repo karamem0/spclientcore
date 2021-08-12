@@ -32,7 +32,13 @@ namespace Karamem0.SharePoint.PowerShell.Models
         public string AggregationsStatus { get; private set; }
 
         [JsonProperty()]
+        public string AssociatedContentTypeId { get; private set; }
+
+        [JsonProperty()]
         public string BaseViewId { get; private set; }
+
+        [JsonProperty()]
+        public string CalendarViewStyles { get; private set; }
 
         [JsonProperty()]
         public string ColumnWidth { get; private set; }
@@ -42,6 +48,9 @@ namespace Karamem0.SharePoint.PowerShell.Models
 
         [JsonProperty()]
         public string CustomFormatter { get; private set; }
+
+        [JsonProperty()]
+        public string CustomOrder { get; private set; }
 
         [JsonProperty()]
         public bool DefaultView { get; private set; }
@@ -54,6 +63,9 @@ namespace Karamem0.SharePoint.PowerShell.Models
 
         [JsonProperty()]
         public string Formats { get; private set; }
+
+        [JsonProperty()]
+        public string GridLayout { get; private set; }
 
         [JsonProperty()]
         public bool Hidden { get; private set; }
@@ -153,6 +165,9 @@ namespace Karamem0.SharePoint.PowerShell.Models
 
         [JsonProperty()]
         public string ViewType { get; private set; }
+
+        [JsonProperty()]
+        public string ViewType2 { get; private set; }
 
         [JsonProperty()]
         public string VisualizationInfo { get; private set; }

@@ -1,4 +1,4 @@
-﻿//
+//
 // Copyright (c) 2021 karamem0
 //
 // This software is released under the MIT License.

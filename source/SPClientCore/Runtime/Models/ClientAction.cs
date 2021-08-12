@@ -20,7 +20,7 @@ namespace Karamem0.SharePoint.PowerShell.Runtime.Models
 
         protected ClientAction()
         {
-            this.Id = ClientRequestObject.NewId();
+            this.Id = NewId();
         }
 
         [XmlAttribute()]

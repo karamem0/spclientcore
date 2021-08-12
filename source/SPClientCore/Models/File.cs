@@ -67,7 +67,10 @@ namespace Karamem0.SharePoint.PowerShell.Models
         [JsonProperty()]
         public virtual byte Level { get; protected set; }
 
-        [JsonProperty("LinkingUri")]
+        [JsonProperty()]
+        public virtual string LinkingUri { get; protected set; }
+
+        [JsonProperty()]
         public virtual string LinkingUrl { get; protected set; }
 
         [JsonProperty("LockedByUser")]

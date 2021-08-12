@@ -25,7 +25,7 @@ namespace Karamem0.SharePoint.PowerShell.Models
         }
 
         [JsonProperty("email")]
-        public virtual string email { get; protected set; }
+        public virtual string Email { get; protected set; }
 
         [JsonProperty("expiration")]
         public virtual string Expiration { get; protected set; }

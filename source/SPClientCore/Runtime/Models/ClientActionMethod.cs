@@ -21,12 +21,8 @@ namespace Karamem0.SharePoint.PowerShell.Runtime.Models
 
         public ClientActionMethod(long objectPathId, string name, params ClientRequestParameter[] parameters)
         {
-            if (name == null)
-            {
-                throw new ArgumentNullException(nameof(name));
-            }
             this.ObjectPathId = objectPathId;
-            this.Name = name;
+            this.Name = name ?? throw new ArgumentNullException(nameof(name));
             this.Parameters = parameters;
         }
 

@@ -15,8 +15,8 @@ Updates a list.
 ```
 Update-KshList [-Identity] <List> [-ContentTypesEnabled <Boolean>] [-DefaultContentApprovalWorkflowId <String>]
  [-DefaultDisplayFormUrl <String>] [-DefaultEditFormUrl <String>] [-DefaultNewFormUrl <String>]
- [-Description <String>] [-Direction <String>] [-DocumentTemplateUrl <String>]
- [-DraftVersionVisibility <DraftVisibilityType>] [-EnableAttachments <Boolean>]
+ [-Description <String>] [-Direction <String>] [-DisableCommenting <Boolean>] [-DisableGridEditing <Boolean>]
+ [-DocumentTemplateUrl <String>] [-DraftVersionVisibility <DraftVisibilityType>] [-EnableAttachments <Boolean>]
  [-EnableFolderCreation <Boolean>] [-EnableMinorVersions <Boolean>] [-EnableModeration <Boolean>]
  [-EnableVersioning <Boolean>] [-ForceCheckout <Boolean>] [-Hidden <Boolean>] [-IrmEnabled <Boolean>]
  [-IrmExpire <Boolean>] [-IrmReject <Boolean>] [-IsApplicationList <Boolean>]
@@ -134,6 +134,36 @@ Specifies the direction.
 
 ```yaml
 Type: String
+Parameter Sets: (All)
+Aliases:
+
+Required: False
+Position: Named
+Default value: None
+Accept pipeline input: False
+Accept wildcard characters: False
+```
+
+### -DisableCommenting
+Specifies whether to disable commenting.
+
+```yaml
+Type: Boolean
+Parameter Sets: (All)
+Aliases:
+
+Required: False
+Position: Named
+Default value: None
+Accept pipeline input: False
+Accept wildcard characters: False
+```
+
+### -DisableGridEditing
+Specifies whether to disable grid editing.
+
+```yaml
+Type: Boolean
 Parameter Sets: (All)
 Aliases:
 

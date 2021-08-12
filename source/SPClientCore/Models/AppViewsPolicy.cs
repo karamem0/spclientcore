@@ -14,7 +14,7 @@ using System.Text;
 namespace Karamem0.SharePoint.PowerShell.Models
 {
 
-    public enum AppViewsPolicy 
+    public enum AppViewsPolicy
     {
 
         Unknown = 0,

@@ -11,6 +11,7 @@ using Karamem0.SharePoint.PowerShell.Runtime.Common;
 using Karamem0.SharePoint.PowerShell.Runtime.Models;
 using Karamem0.SharePoint.PowerShell.Runtime.OAuth;
 using Newtonsoft.Json;
+using Newtonsoft.Json.Linq;
 using System;
 using System.Collections.Generic;
 using System.Diagnostics;
@@ -19,6 +20,7 @@ using System.Net.Http;
 using System.Net.Http.Headers;
 using System.Text;
 using System.Threading;
+using System.Threading.Tasks;
 
 namespace Karamem0.SharePoint.PowerShell.Runtime.Services
 {
@@ -28,440 +30,243 @@ namespace Karamem0.SharePoint.PowerShell.Runtime.Services
 
         private Uri baseAddress;
 
-        private readonly OAuthTokenCache oAuthTokenCache;
+        private readonly OAuthTokenProvider oAuthTokenProvider;
 
-        private readonly HttpClient httpClient;
+        private readonly ClientHttpExecutor clientHttpExecutor;
 
-        public ClientContext(Uri baseAddress, OAuthTokenCache oAuthTokenCache)
+        public ClientContext(Uri baseAddress, OAuthTokenProvider oAuthTokenProvider)
+            : base()
         {
-            if (baseAddress == null)
-            {
-                throw new ArgumentNullException(nameof(baseAddress));
-            }
-            if (oAuthTokenCache == null)
-            {
-                throw new ArgumentNullException(nameof(oAuthTokenCache));
-            }
-            this.baseAddress = new Uri(baseAddress.ToString().TrimEnd('/'), UriKind.Absolute);
-            this.oAuthTokenCache = oAuthTokenCache;
-            this.httpClient = new HttpClient();
-            this.httpClient.Timeout = Timeout.InfiniteTimeSpan;
-            this.httpClient.DefaultRequestHeaders.UserAgent.Add(
-                new ProductInfoHeaderValue(
-                    "NONISV|karamem0|SPClientCore",
-                    this.GetType().Assembly.GetName().Version.ToString(3)));
+            this.baseAddress = (baseAddress != null)
+                ? new Uri(baseAddress.ToString().TrimEnd('/'), UriKind.Absolute)
+                : throw new ArgumentNullException(nameof(baseAddress));
+            this.oAuthTokenProvider = oAuthTokenProvider ?? throw new ArgumentNullException(nameof(oAuthTokenProvider));
+            this.clientHttpExecutor = new ClientHttpExecutor();
         }
 
         public Uri BaseAddress
         {
-            get
-            {
-                return this.baseAddress;
-            }
-            set
-            {
-                if (value == null)
-                {
-                    throw new ArgumentNullException(nameof(value));
-                }
-                this.baseAddress = new Uri(value.ToString().TrimEnd('/'), UriKind.Absolute);
-            }
+            get => this.baseAddress;
+            set => this.baseAddress = (value != null)
+                ? new Uri(value.ToString().TrimEnd('/'), UriKind.Absolute)
+                : throw new ArgumentNullException(nameof(value));
         }
+
+        public string AccessToken => this.oAuthTokenProvider.CurrentAceessToken;
 
         public void DeleteObject(Uri requestUrl)
         {
-            var exceptions = new List<Exception>();
-            for (var count = 1; count <= ClientConstants.MaxRetryCount; count++)
-            {
-                var requestMessage = new HttpRequestMessage(HttpMethod.Post, requestUrl);
-                requestMessage.Headers.Add("Authorization", "Bearer " + this.oAuthTokenCache.GetAccessToken());
-                requestMessage.Headers.Add("Accept", "application/json;odata=verbose");
-                requestMessage.Headers.Add("X-HTTP-Method", "DELETE");
-                requestMessage.Headers.Add("If-Match", "*");
-                Trace.WriteLine(requestMessage);
-                var responseMessage = this.httpClient.SendAsync(requestMessage).GetAwaiter().GetResult();
-                var responseContent = responseMessage.Content.ReadAsStringAsync().GetAwaiter().GetResult();
-                Trace.WriteLine(responseMessage);
-                Trace.WriteLine(responseContent);
-                try
+            _ = requestUrl ?? throw new ArgumentNullException(nameof(requestUrl));
+            this.clientHttpExecutor.Execute(
+                () =>
                 {
-                    if (responseMessage.IsSuccessStatusCode)
-                    {
-                        return;
-                    }
-                    else if ((int)responseMessage.StatusCode == 429)
-                    {
-                        exceptions.Add(new InvalidOperationException(responseContent));
-                        Thread.Sleep(responseMessage.Headers.RetryAfter.Delta.GetValueOrDefault(TimeSpan.FromSeconds(1)));
-                    }
-                    else
-                    {
-                        var responsePayload = JsonConvert.DeserializeObject<ODataResultPayload>(
-                            responseContent,
-                            JsonSerializerManager.JsonSerializerSettings);
-                        exceptions.Add(new InvalidOperationException(responsePayload.Error.Message.Value));
-                        Thread.Sleep(TimeSpan.FromSeconds(count));
-                    }
-                }
-                catch (JsonException)
-                {
-                    throw new InvalidOperationException(responseContent);
-                }
-            }
-            throw new AggregateException(StringResources.ErrorMaxRetryCountExceeded, exceptions);
+                    var requestMessage = new HttpRequestMessage(HttpMethod.Post, requestUrl);
+                    requestMessage.Headers.Add("Authorization", $"Bearer {this.oAuthTokenProvider.GetAccessToken()}");
+                    requestMessage.Headers.Add("Accept", "application/json;odata=verbose");
+                    requestMessage.Headers.Add("X-HTTP-Method", "DELETE");
+                    requestMessage.Headers.Add("If-Match", "*");
+                    return requestMessage;
+                },
+                responseMessage => Task.FromResult(default(object)));
         }
 
         public T GetObject<T>(Uri requestUrl) where T : ODataV1Object
         {
-            var exceptions = new List<Exception>();
-            for (var count = 1; count <= ClientConstants.MaxRetryCount; count++)
-            {
-                var requestMessage = new HttpRequestMessage(HttpMethod.Get, requestUrl);
-                requestMessage.Headers.Add("Authorization", "Bearer " + this.oAuthTokenCache.GetAccessToken());
-                requestMessage.Headers.Add("Accept", "application/json;odata=verbose");
-                Trace.WriteLine(requestMessage);
-                var responseMessage = this.httpClient.SendAsync(requestMessage).GetAwaiter().GetResult();
-                var responseContent = responseMessage.Content.ReadAsStringAsync().GetAwaiter().GetResult();
-                Trace.WriteLine(responseMessage);
-                Trace.WriteLine(responseContent);
-                try
+            _ = requestUrl ?? throw new ArgumentNullException(nameof(requestUrl));
+            return this.clientHttpExecutor.Execute(
+                () =>
                 {
-                    var responsePayload = JsonConvert.DeserializeObject<ODataV1ResultPayload<T>>(
-                        responseContent,
-                        JsonSerializerManager.JsonSerializerSettings);
-                    if (responseMessage.IsSuccessStatusCode)
+                    var requestMessage = new HttpRequestMessage(HttpMethod.Get, requestUrl);
+                    requestMessage.Headers.Add("Authorization", $"Bearer {this.oAuthTokenProvider.GetAccessToken()}");
+                    requestMessage.Headers.Add("Accept", "application/json;odata=verbose");
+                    return requestMessage;
+                },
+                async responseMessage =>
+                {
+                    var responseContent = await responseMessage.Content.ReadAsStringAsync();
+                    var responsePayload = JsonSerializerManager.JsonSerializer.Deserialize<ODataV1ResultPayload<T>>(responseContent);
+                    if (responsePayload.Error == null)
                     {
                         return responsePayload.Entry;
                     }
-                    else if ((int)responseMessage.StatusCode == 429)
-                    {
-                        exceptions.Add(new InvalidOperationException(responseContent));
-                        Thread.Sleep(responseMessage.Headers.RetryAfter.Delta.GetValueOrDefault(TimeSpan.FromSeconds(1)));
-                    }
                     else
                     {
-                        exceptions.Add(new InvalidOperationException(responsePayload.Error.Message.Value));
-                        Thread.Sleep(TimeSpan.FromSeconds(count));
+                        throw new InvalidOperationException(responsePayload.Error.Message.Value);
                     }
-                }
-                catch (JsonException)
-                {
-                    throw new InvalidOperationException(responseContent);
-                }
-            }
-            throw new AggregateException(StringResources.ErrorMaxRetryCountExceeded, exceptions);
+                });
         }
 
         public T GetObjectV2<T>(Uri requestUrl) where T : ODataV2Object
         {
-            var exceptions = new List<Exception>();
-            for (var count = 1; count <= ClientConstants.MaxRetryCount; count++)
-            {
-                var requestMessage = new HttpRequestMessage(HttpMethod.Get, requestUrl);
-                requestMessage.Headers.Add("Authorization", "Bearer " + this.oAuthTokenCache.GetAccessToken());
-                requestMessage.Headers.Add("Accept", "application/json");
-                Trace.WriteLine(requestMessage);
-                var responseMessage = this.httpClient.SendAsync(requestMessage).GetAwaiter().GetResult();
-                var responseContent = responseMessage.Content.ReadAsStringAsync().GetAwaiter().GetResult();
-                Trace.WriteLine(responseMessage);
-                Trace.WriteLine(responseContent);
-                try
+            _ = requestUrl ?? throw new ArgumentNullException(nameof(requestUrl));
+            return this.clientHttpExecutor.Execute(
+                () =>
                 {
-                    if (responseMessage.IsSuccessStatusCode)
-                    {
-                        return JsonConvert.DeserializeObject<T>(responseContent, JsonSerializerManager.JsonSerializerSettings);
-                    }
-                    else if ((int)responseMessage.StatusCode == 429)
-                    {
-                        exceptions.Add(new InvalidOperationException(responseContent));
-                        Thread.Sleep(responseMessage.Headers.RetryAfter.Delta.GetValueOrDefault(TimeSpan.FromSeconds(1)));
-                    }
-                    else
-                    {
-                        var responsePayload = JsonConvert.DeserializeObject<ODataResultPayload>(
-                            responseContent,
-                            JsonSerializerManager.JsonSerializerSettings);
-                        exceptions.Add(new InvalidOperationException(responsePayload.Error.Message.Value));
-                        Thread.Sleep(TimeSpan.FromSeconds(count));
-                    }
-                }
-                catch (JsonException)
+                    var requestMessage = new HttpRequestMessage(HttpMethod.Get, requestUrl);
+                    requestMessage.Headers.Add("Authorization", $"Bearer {this.oAuthTokenProvider.GetAccessToken()}");
+                    requestMessage.Headers.Add("Accept", "application/json");
+                    return requestMessage;
+                },
+                async responseMessage =>
                 {
-                    throw new InvalidOperationException(responseContent);
-                }
-            }
-            throw new AggregateException(StringResources.ErrorMaxRetryCountExceeded, exceptions);
+                    var responseContent = await responseMessage.Content.ReadAsStringAsync();
+                    var responsePayload = JsonSerializerManager.JsonSerializer.Deserialize<T>(responseContent);
+                    return responsePayload;
+                });
         }
 
         public System.IO.Stream GetStream(Uri requestUrl)
         {
-            if (requestUrl == null)
-            {
-                throw new ArgumentNullException(nameof(requestUrl));
-            }
-            var requestMessage = new HttpRequestMessage(HttpMethod.Get, requestUrl);
-            requestMessage.Headers.Add("Authorization", "Bearer " + this.oAuthTokenCache.GetAccessToken());
-            requestMessage.Headers.Add("Accept", "application/json;odata=verbose");
-            Trace.WriteLine(requestMessage);
-            var responseMessage = this.httpClient.SendAsync(requestMessage).GetAwaiter().GetResult();
-            var responseStream = responseMessage.Content.ReadAsStreamAsync().GetAwaiter().GetResult();
-            Trace.WriteLine(responseMessage);
-            if (responseMessage.IsSuccessStatusCode)
-            {
-                return responseStream;
-            }
-            else
-            {
-                throw new InvalidOperationException(responseMessage.ReasonPhrase);
-            }
+            _ = requestUrl ?? throw new ArgumentNullException(nameof(requestUrl));
+            return this.clientHttpExecutor.Execute(
+                () =>
+                {
+                    var requestMessage = new HttpRequestMessage(HttpMethod.Get, requestUrl);
+                    requestMessage.Headers.Add("Authorization", $"Bearer {this.oAuthTokenProvider.GetAccessToken()}");
+                    requestMessage.Headers.Add("Accept", "application/json;odata=verbose");
+                    return requestMessage;
+                },
+                async responseMessage => await responseMessage.Content.ReadAsStreamAsync());
         }
 
         public void PatchObject(Uri requestUrl, object requestPayload)
         {
-            var exceptions = new List<Exception>();
-            for (var count = 1; count <= ClientConstants.MaxRetryCount; count++)
-            {
-                var requestMessage = new HttpRequestMessage(HttpMethod.Post, requestUrl);
-                requestMessage.Headers.Add("Authorization", "Bearer " + this.oAuthTokenCache.GetAccessToken());
-                requestMessage.Headers.Add("Accept", "application/json;odata=verbose");
-                requestMessage.Headers.Add("X-HTTP-Method", "PATCH");
-                requestMessage.Headers.Add("If-Match", "*");
-                if (requestPayload != null)
+            _ = requestUrl ?? throw new ArgumentNullException(nameof(requestUrl));
+            this.clientHttpExecutor.Execute(
+                () =>
                 {
-                    var jsonContent = JsonConvert.SerializeObject(requestPayload, JsonSerializerManager.JsonSerializerSettings);
-                    requestMessage.Content = new StringContent(jsonContent, Encoding.UTF8);
-                    requestMessage.Content.Headers.ContentType = MediaTypeHeaderValue.Parse("application/json;odata=verbose");
-                }
-                var requestContent = requestMessage.Content?.ReadAsStringAsync().GetAwaiter().GetResult();
-                Trace.WriteLine(requestMessage);
-                Trace.WriteLine(requestContent);
-                var responseMessage = this.httpClient.SendAsync(requestMessage).GetAwaiter().GetResult();
-                var responseContent = responseMessage.Content.ReadAsStringAsync().GetAwaiter().GetResult();
-                Trace.WriteLine(responseMessage);
-                Trace.WriteLine(responseContent);
-                try
-                {
-                    if (responseMessage.IsSuccessStatusCode)
+                    var requestMessage = new HttpRequestMessage(HttpMethod.Post, requestUrl);
+                    requestMessage.Headers.Add("Authorization", $"Bearer {this.oAuthTokenProvider.GetAccessToken()}");
+                    requestMessage.Headers.Add("Accept", "application/json;odata=verbose");
+                    requestMessage.Headers.Add("X-HTTP-Method", "PATCH");
+                    requestMessage.Headers.Add("If-Match", "*");
+                    if (requestPayload != null)
                     {
-                        return;
+                        var requestContent = JsonSerializerManager.JsonSerializer.Serialize(requestPayload);
+                        requestMessage.Content = new StringContent(requestContent, Encoding.UTF8);
+                        requestMessage.Content.Headers.ContentType = MediaTypeHeaderValue.Parse("application/json;odata=verbose");
                     }
-                    else if ((int)responseMessage.StatusCode == 429)
-                    {
-                        exceptions.Add(new InvalidOperationException(responseContent));
-                        Thread.Sleep(responseMessage.Headers.RetryAfter.Delta.GetValueOrDefault(TimeSpan.FromSeconds(1)));
-                    }
-                    else
-                    {
-                        var responsePayload = JsonConvert.DeserializeObject<ODataResultPayload>(
-                            responseContent,
-                            JsonSerializerManager.JsonSerializerSettings);
-                        exceptions.Add(new InvalidOperationException(responsePayload.Error.Message.Value));
-                        Thread.Sleep(TimeSpan.FromSeconds(count));
-                    }
-                }
-                catch (JsonException)
-                {
-                    throw new InvalidOperationException(responseContent);
-                }
-            }
-            throw new AggregateException(StringResources.ErrorMaxRetryCountExceeded, exceptions);
+                    return requestMessage;
+                },
+                responseMessage => Task.FromResult(default(object)));
         }
 
         public void PostObject(Uri requestUrl, object requestPayload)
         {
-            var exceptions = new List<Exception>();
-            for (var count = 1; count <= ClientConstants.MaxRetryCount; count++)
-            {
-                var requestMessage = new HttpRequestMessage(HttpMethod.Post, requestUrl);
-                requestMessage.Headers.Add("Authorization", "Bearer " + this.oAuthTokenCache.GetAccessToken());
-                requestMessage.Headers.Add("Accept", "application/json;odata=verbose");
-                if (requestPayload != null)
+            _ = requestUrl ?? throw new ArgumentNullException(nameof(requestUrl));
+            this.clientHttpExecutor.Execute(
+                () =>
                 {
-                    var jsonContent = JsonConvert.SerializeObject(requestPayload, JsonSerializerManager.JsonSerializerSettings);
-                    requestMessage.Content = new StringContent(jsonContent, Encoding.UTF8);
-                    requestMessage.Content.Headers.ContentType = MediaTypeHeaderValue.Parse("application/json;odata=verbose");
-                }
-                var requestContent = requestMessage.Content?.ReadAsStringAsync().GetAwaiter().GetResult();
-                Trace.WriteLine(requestMessage);
-                Trace.WriteLine(requestContent);
-                var responseMessage = this.httpClient.SendAsync(requestMessage).GetAwaiter().GetResult();
-                var responseContent = responseMessage.Content.ReadAsStringAsync().GetAwaiter().GetResult();
-                Trace.WriteLine(responseMessage);
-                Trace.WriteLine(responseContent);
-                try
-                {
-                    if (responseMessage.IsSuccessStatusCode)
+                    var requestMessage = new HttpRequestMessage(HttpMethod.Post, requestUrl);
+                    requestMessage.Headers.Add("Authorization", $"Bearer {this.oAuthTokenProvider.GetAccessToken()}");
+                    requestMessage.Headers.Add("Accept", "application/json;odata=verbose");
+                    if (requestPayload != null)
                     {
-                        return;
+                        var jsonContent = JsonSerializerManager.JsonSerializer.Serialize(requestPayload);
+                        requestMessage.Content = new StringContent(jsonContent, Encoding.UTF8);
+                        requestMessage.Content.Headers.ContentType = MediaTypeHeaderValue.Parse("application/json;odata=verbose");
                     }
-                    else if ((int)responseMessage.StatusCode == 429)
-                    {
-                        exceptions.Add(new InvalidOperationException(responseContent));
-                        Thread.Sleep(responseMessage.Headers.RetryAfter.Delta.GetValueOrDefault(TimeSpan.FromSeconds(1)));
-                    }
-                    else
-                    {
-                        var responsePayload = JsonConvert.DeserializeObject<ODataResultPayload>(
-                            responseContent,
-                            JsonSerializerManager.JsonSerializerSettings);
-                        exceptions.Add(new InvalidOperationException(responsePayload.Error.Message.Value));
-                        Thread.Sleep(TimeSpan.FromSeconds(count));
-                    }
-                }
-                catch (JsonException)
-                {
-                    throw new InvalidOperationException(responseContent);
-                }
-            }
-            throw new AggregateException(StringResources.ErrorMaxRetryCountExceeded, exceptions);
+                    return requestMessage;
+                },
+                responseMessage => Task.FromResult(default(object)));
         }
 
         public T PostObject<T>(Uri requestUrl, object requestPayload) where T : ODataV1Object
         {
-            var exceptions = new List<Exception>();
-            for (var count = 1; count <= ClientConstants.MaxRetryCount; count++)
-            {
-                var requestMessage = new HttpRequestMessage(HttpMethod.Post, requestUrl);
-                requestMessage.Headers.Add("Authorization", "Bearer " + this.oAuthTokenCache.GetAccessToken());
-                requestMessage.Headers.Add("Accept", "application/json;odata=verbose");
-                if (requestPayload != null)
+            _ = requestUrl ?? throw new ArgumentNullException(nameof(requestUrl));
+            return this.clientHttpExecutor.Execute(
+                () =>
                 {
-                    var jsonContent = JsonConvert.SerializeObject(requestPayload, JsonSerializerManager.JsonSerializerSettings);
-                    requestMessage.Content = new StringContent(jsonContent, Encoding.UTF8);
-                    requestMessage.Content.Headers.ContentType = MediaTypeHeaderValue.Parse("application/json;odata=verbose");
-                }
-                var requestContent = requestMessage.Content?.ReadAsStringAsync().GetAwaiter().GetResult();
-                Trace.WriteLine(requestMessage);
-                Trace.WriteLine(requestContent);
-                var responseMessage = this.httpClient.SendAsync(requestMessage).GetAwaiter().GetResult();
-                var responseContent = responseMessage.Content.ReadAsStringAsync().GetAwaiter().GetResult();
-                Trace.WriteLine(responseMessage);
-                Trace.WriteLine(responseContent);
-                try
+                    var requestMessage = new HttpRequestMessage(HttpMethod.Post, requestUrl);
+                    requestMessage.Headers.Add("Authorization", $"Bearer {this.oAuthTokenProvider.GetAccessToken()}");
+                    requestMessage.Headers.Add("Accept", "application/json;odata=verbose");
+                    if (requestPayload != null)
+                    {
+                        var requestContent = JsonSerializerManager.JsonSerializer.Serialize(requestPayload);
+                        requestMessage.Content = new StringContent(requestContent, Encoding.UTF8);
+                        requestMessage.Content.Headers.ContentType = MediaTypeHeaderValue.Parse("application/json;odata=verbose");
+                    }
+                    return requestMessage;
+                },
+                async responseMessage =>
                 {
-                    var responsePayload = JsonConvert.DeserializeObject<ODataV1ResultPayload<T>>(
-                        responseContent,
-                        JsonSerializerManager.JsonSerializerSettings);
-                    if (responseMessage.IsSuccessStatusCode)
+                    var responseContent = await responseMessage.Content.ReadAsStringAsync();
+                    var responsePayload = JsonSerializerManager.JsonSerializer.Deserialize<ODataV1ResultPayload<T>>(responseContent);
+                    if (responsePayload.Error == null)
                     {
                         return responsePayload.Entry;
                     }
-                    else if ((int)responseMessage.StatusCode == 429)
-                    {
-                        exceptions.Add(new InvalidOperationException(responseContent));
-                        Thread.Sleep(responseMessage.Headers.RetryAfter.Delta.GetValueOrDefault(TimeSpan.FromSeconds(1)));
-                    }
                     else
                     {
-                        exceptions.Add(new InvalidOperationException(responsePayload.Error.Message.Value));
-                        Thread.Sleep(TimeSpan.FromSeconds(count));
+                        throw new InvalidOperationException(responsePayload.Error.Message.Value);
                     }
-                }
-                catch (JsonException)
-                {
-                    throw new InvalidOperationException(responseContent);
-                }
-            }
-            throw new AggregateException(StringResources.ErrorMaxRetryCountExceeded, exceptions);
+                });
         }
+
 
         public void PostStream(Uri requestUrl, System.IO.Stream requestStream)
         {
-            if (requestUrl == null)
-            {
-                throw new ArgumentNullException(nameof(requestUrl));
-            }
-            if (requestStream == null)
-            {
-                throw new ArgumentNullException(nameof(requestStream));
-            }
-            var requestMessage = new HttpRequestMessage(HttpMethod.Post, requestUrl);
-            requestMessage.Headers.Add("Authorization", "Bearer " + this.oAuthTokenCache.GetAccessToken());
-            requestMessage.Headers.Add("Accept", "application/json;odata=verbose");
-            requestMessage.Content = new StreamContent(requestStream);
-            Trace.WriteLine(requestMessage);
-            var responseMessage = this.httpClient.SendAsync(requestMessage).GetAwaiter().GetResult();
-            var responseContent = responseMessage.Content.ReadAsStringAsync().GetAwaiter().GetResult();
-            Trace.WriteLine(responseMessage);
-            Trace.WriteLine(responseContent);
-            try
-            {
-                var responsePayload = JsonConvert.DeserializeObject<ODataResultPayload>(
-                    responseContent,
-                    JsonSerializerManager.JsonSerializerSettings);
-                if (responsePayload.Error != null)
+            _ = requestUrl ?? throw new ArgumentNullException(nameof(requestUrl));
+            _ = requestStream ?? throw new ArgumentNullException(nameof(requestStream));
+            this.clientHttpExecutor.Execute(
+                () =>
                 {
-                    throw new InvalidOperationException(responsePayload.Error.Message.Value);
-                }
-            }
-            catch (JsonException)
-            {
-                throw new InvalidOperationException(responseContent);
-            }
+                    var requestMessage = new HttpRequestMessage(HttpMethod.Post, requestUrl);
+                    requestMessage.Headers.Add("Authorization", $"Bearer {this.oAuthTokenProvider.GetAccessToken()}");
+                    requestMessage.Headers.Add("Accept", "application/json;odata=verbose");
+                    requestMessage.Content = new StreamContent(requestStream);
+                    requestMessage.Content.Headers.ContentType = MediaTypeHeaderValue.Parse("application/json;odata=verbose");
+                    return requestMessage;
+                },
+                responseMessage => Task.FromResult(default(object)));
         }
 
         public T PostStream<T>(Uri requestUrl, System.IO.Stream requestStream) where T : ODataV1Object
         {
-            if (requestUrl == null)
-            {
-                throw new ArgumentNullException(nameof(requestUrl));
-            }
-            if (requestStream == null)
-            {
-                throw new ArgumentNullException(nameof(requestStream));
-            }
-            var requestMessage = new HttpRequestMessage(HttpMethod.Post, requestUrl);
-            requestMessage.Headers.Add("Authorization", "Bearer " + this.oAuthTokenCache.GetAccessToken());
-            requestMessage.Headers.Add("Accept", "application/json;odata=verbose");
-            requestMessage.Content = new StreamContent(requestStream);
-            Trace.WriteLine(requestMessage);
-            var responseMessage = this.httpClient.SendAsync(requestMessage).GetAwaiter().GetResult();
-            var responseContent = responseMessage.Content.ReadAsStringAsync().GetAwaiter().GetResult();
-            Trace.WriteLine(responseMessage);
-            Trace.WriteLine(responseContent);
-            try
-            {
-                var responsePayload = JsonConvert.DeserializeObject<ODataV1ResultPayload<T>>(
-                    responseContent,
-                    JsonSerializerManager.JsonSerializerSettings);
-                if (responseMessage.IsSuccessStatusCode)
+            _ = requestUrl ?? throw new ArgumentNullException(nameof(requestUrl));
+            _ = requestStream ?? throw new ArgumentNullException(nameof(requestStream));
+            return this.clientHttpExecutor.Execute(
+                () =>
                 {
-                    return responsePayload.Entry;
-                }
-                else
+                    var requestMessage = new HttpRequestMessage(HttpMethod.Post, requestUrl);
+                    requestMessage.Headers.Add("Authorization", $"Bearer {this.oAuthTokenProvider.GetAccessToken()}");
+                    requestMessage.Headers.Add("Accept", "application/json;odata=verbose");
+                    requestMessage.Content = new StreamContent(requestStream);
+                    requestMessage.Content.Headers.ContentType = MediaTypeHeaderValue.Parse("application/json;odata=verbose");
+                    return requestMessage;
+                },
+                async responseMessage =>
                 {
-                    throw new InvalidOperationException(responsePayload.Error.Message.Value);
-                }
-            }
-            catch (JsonException)
-            {
-                throw new InvalidOperationException(responseContent);
-            }
+                    var responseContent = await responseMessage.Content.ReadAsStringAsync();
+                    var responsePayload = JsonSerializerManager.JsonSerializer.Deserialize<ODataV1ResultPayload<T>>(responseContent);
+                    if (responsePayload.Error == null)
+                    {
+                        return responsePayload.Entry;
+                    }
+                    else
+                    {
+                        throw new InvalidOperationException(responsePayload.Error.Message.Value);
+                    }
+                });
         }
 
         public ClientResultPayload ProcessQuery(ClientRequestPayload requestPayload)
         {
-            if (requestPayload == null)
-            {
-                throw new ArgumentNullException(nameof(requestPayload));
-            }
-            var exceptions = new List<Exception>();
-            for (var count = 1; count <= ClientConstants.MaxRetryCount; count++)
-            {
-                var requestContent = requestPayload.ToString();
-                var requestUrl = this.BaseAddress.ConcatPath("_vti_bin/client.svc/ProcessQuery");
-                var requestMessage = new HttpRequestMessage(HttpMethod.Post, requestUrl);
-                requestMessage.Headers.Add("Authorization", "Bearer " + this.oAuthTokenCache.GetAccessToken());
-                requestMessage.Content = new StringContent(requestContent, Encoding.UTF8);
-                requestMessage.Content.Headers.ContentType = MediaTypeHeaderValue.Parse("text/xml");
-                Trace.WriteLine(requestMessage);
-                Trace.WriteLine(requestContent);
-                var responseMessage = this.httpClient.SendAsync(requestMessage).GetAwaiter().GetResult();
-                var responseContent = responseMessage.Content.ReadAsStringAsync().GetAwaiter().GetResult();
-                Trace.WriteLine(responseMessage);
-                Trace.WriteLine(responseContent);
-                if (responseMessage.IsSuccessStatusCode)
+            _ = requestPayload ?? throw new ArgumentNullException(nameof(requestPayload));
+            return this.clientHttpExecutor.Execute(
+                () =>
                 {
+                    var requestUrl = this.BaseAddress.ConcatPath("_vti_bin/client.svc/ProcessQuery");
+                    var requestMessage = new HttpRequestMessage(HttpMethod.Post, requestUrl);
+                    requestMessage.Headers.Add("Authorization", $"Bearer {this.oAuthTokenProvider.GetAccessToken()}");
+                    var requestContent = requestPayload.ToString();
+                    requestMessage.Content = new StringContent(requestContent, Encoding.UTF8);
+                    requestMessage.Content.Headers.ContentType = MediaTypeHeaderValue.Parse("text/xml");
+                    return requestMessage;
+                },
+                async responseMessage =>
+                {
+                    var responseContent = await responseMessage.Content.ReadAsStringAsync();
                     var responsePayload = new ClientResultPayload(responseContent);
                     if (responsePayload.ErrorInfo == null)
                     {
@@ -469,21 +274,9 @@ namespace Karamem0.SharePoint.PowerShell.Runtime.Services
                     }
                     else
                     {
-                        exceptions.Add(new InvalidOperationException(responsePayload.ErrorInfo.ErrorMessage));
-                        Thread.Sleep(TimeSpan.FromSeconds(count));
+                        throw new InvalidOperationException(responsePayload.ErrorInfo.ErrorMessage);
                     }
-                }
-                else if ((int)responseMessage.StatusCode == 429)
-                {
-                    exceptions.Add(new InvalidOperationException(responseContent));
-                    Thread.Sleep(responseMessage.Headers.RetryAfter.Delta.GetValueOrDefault(TimeSpan.FromSeconds(1)));
-                }
-                else
-                {
-                    throw new InvalidOperationException(responseContent);
-                }
-            }
-            throw new AggregateException(StringResources.ErrorMaxRetryCountExceeded, exceptions);
+                });
         }
 
     }

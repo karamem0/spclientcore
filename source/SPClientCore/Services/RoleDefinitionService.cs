@@ -73,7 +73,7 @@ namespace Karamem0.SharePoint.PowerShell.Services
 
         public RoleDefinition GetObject(int roleDefinitionId)
         {
-            if (roleDefinitionId == default(int))
+            if (roleDefinitionId == default)
             {
                 throw new ArgumentNullException(nameof(roleDefinitionId));
             }

@@ -53,11 +53,11 @@ namespace Karamem0.SharePoint.PowerShell.Services
             {
                 throw new ArgumentNullException(nameof(termSetName));
             }
-            if (termSetId == default(Guid))
+            if (termSetId == default)
             {
                 throw new ArgumentNullException(nameof(termSetId));
             }
-            if (lcid == default(uint))
+            if (lcid == default)
             {
                 throw new ArgumentNullException(nameof(lcid));
             }
@@ -87,7 +87,7 @@ namespace Karamem0.SharePoint.PowerShell.Services
             {
                 throw new ArgumentNullException(nameof(termGroupObject));
             }
-            if (termSetId == default(Guid))
+            if (termSetId == default)
             {
                 throw new ArgumentNullException(nameof(termSetId));
             }
@@ -184,7 +184,7 @@ namespace Karamem0.SharePoint.PowerShell.Services
             var objectPath4 = requestPayload.Add(
                 objectPath3,
                 objectPathId => new ClientActionMethod(objectPathId, "CommitAll"));
-            this.ClientContext.ProcessQuery(requestPayload);
+            _ = this.ClientContext.ProcessQuery(requestPayload);
         }
 
     }

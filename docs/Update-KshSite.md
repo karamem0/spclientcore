@@ -17,13 +17,15 @@ Update-KshSite [[-Identity] <Site>] [-AllowAutomaticASPXPageIndexing <Boolean>] 
  [-CommentsOnSitePagesDisabled <Boolean>] [-ContainsConfidentialInfo <Boolean>] [-CustomMasterUrl <String>]
  [-DisableAppViews <Boolean>] [-DisableFlows <Boolean>] [-Description <String>]
  [-EnableMinimalDownload <Boolean>] [-ExcludeFromOfflineClient <Boolean>] [-FooterEnabled <Boolean>]
- [-HeaderEmphasis <VariantThemeType>] [-HeaderLayout <HeaderLayoutType>] [-HorizontalQuickLaunch <Boolean>]
- [-MasterUrl <String>] [-MembersCanShare <Boolean>] [-MegaMenuEnabled <Boolean>] [-NoCrawl <Boolean>]
- [-ObjectCacheEnabled <Boolean>] [-OverwriteTranslationsOnChange <Boolean>] [-QuickLaunchEnabled <Boolean>]
- [-RequestAccessEmail <String>] [-SaveSiteAsTemplateEnabled <Boolean>] [-ServerRelativeUrl <String>]
- [-SiteLogoDescription <String>] [-SiteLogoUrl <String>] [-SyndicationEnabled <Boolean>]
- [-ThemedCssFolderUrl <String>] [-Title <String>] [-TreeViewEnabled <Boolean>] [-UIVersion <Int32>]
- [-UIVersionConfigurationEnabled <Boolean>] [-PassThru] [<CommonParameters>]
+ [-FooterLayout <FooterLayoutType>] [-HeaderEmphasis <VariantThemeType>] [-HeaderLayout <HeaderLayoutType>]
+ [-HorizontalQuickLaunch <Boolean>] [-LogoAlignment <LogoAlignment>] [-MasterUrl <String>]
+ [-MembersCanShare <Boolean>] [-MegaMenuEnabled <Boolean>] [-NavAudienceTargetingEnabled <Boolean>]
+ [-NoCrawl <Boolean>] [-ObjectCacheEnabled <Boolean>] [-OverwriteTranslationsOnChange <Boolean>]
+ [-QuickLaunchEnabled <Boolean>] [-RequestAccessEmail <String>] [-SaveSiteAsTemplateEnabled <Boolean>]
+ [-SearchScope <SearchScopeType>] [-ServerRelativeUrl <String>] [-SiteLogoDescription <String>]
+ [-SiteLogoUrl <String>] [-SyndicationEnabled <Boolean>] [-ThemedCssFolderUrl <String>] [-Title <String>]
+ [-TreeViewEnabled <Boolean>] [-UIVersion <Int32>] [-UIVersionConfigurationEnabled <Boolean>] [-PassThru]
+ [<CommonParameters>]
 ```
 
 ## DESCRIPTION
@@ -205,6 +207,22 @@ Accept pipeline input: False
 Accept wildcard characters: False
 ```
 
+### -FooterLayout
+Specifies the footer layout type.
+
+```yaml
+Type: FooterLayoutType
+Parameter Sets: (All)
+Aliases:
+Accepted values: Simple, Extended, Stacked
+
+Required: False
+Position: Named
+Default value: None
+Accept pipeline input: False
+Accept wildcard characters: False
+```
+
 ### -HeaderEmphasis
 Specifies the header emphasis type.
 
@@ -267,6 +285,22 @@ Accept pipeline input: True (ByValue)
 Accept wildcard characters: False
 ```
 
+### -LogoAlignment
+Specifies the logo alignment.
+
+```yaml
+Type: LogoAlignment
+Parameter Sets: (All)
+Aliases:
+Accepted values: Left, Middle, Right
+
+Required: False
+Position: Named
+Default value: None
+Accept pipeline input: False
+Accept wildcard characters: False
+```
+
 ### -MasterUrl
 Specifies the master URL.
 
@@ -299,6 +333,21 @@ Accept wildcard characters: False
 
 ### -MembersCanShare
 Specify whether members are allowed to share.
+
+```yaml
+Type: Boolean
+Parameter Sets: (All)
+Aliases:
+
+Required: False
+Position: Named
+Default value: None
+Accept pipeline input: False
+Accept wildcard characters: False
+```
+
+### -NavAudienceTargetingEnabled
+Specify whether to enable navigation audience targeting.
 
 ```yaml
 Type: Boolean
@@ -409,6 +458,22 @@ Specifies whether to enable saving the site as a template.
 Type: Boolean
 Parameter Sets: (All)
 Aliases:
+
+Required: False
+Position: Named
+Default value: None
+Accept pipeline input: False
+Accept wildcard characters: False
+```
+
+### -SearchScope
+Specifies the search scope.
+
+```yaml
+Type: SearchScopeType
+Parameter Sets: (All)
+Aliases:
+Accepted values: DefaultScope, Tenant, Hub, Site
 
 Required: False
 Position: Named

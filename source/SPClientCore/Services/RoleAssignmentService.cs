@@ -57,7 +57,7 @@ namespace Karamem0.SharePoint.PowerShell.Services
                     "BreakRoleInheritance",
                     requestPayload.CreateParameter(copyRoleAssignments),
                     requestPayload.CreateParameter(clearSubscopes)));
-            this.ClientContext.ProcessQuery(requestPayload);
+            _ = this.ClientContext.ProcessQuery(requestPayload);
         }
 
         public RoleAssignment CreateObject(SecurableObject securableObject, Principal principalObject, RoleDefinition roleDefinitionObject)
@@ -129,7 +129,7 @@ namespace Karamem0.SharePoint.PowerShell.Services
             {
                 throw new ArgumentNullException(nameof(securableObject));
             }
-            if (principalId == default(int))
+            if (principalId == default)
             {
                 throw new ArgumentNullException(nameof(principalId));
             }
@@ -165,7 +165,7 @@ namespace Karamem0.SharePoint.PowerShell.Services
                 objectPathId => new ClientActionMethod(
                     objectPathId,
                     "ResetRoleInheritance"));
-            this.ClientContext.ProcessQuery(requestPayload);
+            _ = this.ClientContext.ProcessQuery(requestPayload);
         }
 
     }

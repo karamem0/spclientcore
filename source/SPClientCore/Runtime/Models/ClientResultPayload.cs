@@ -23,9 +23,7 @@ namespace Karamem0.SharePoint.PowerShell.Runtime.Models
 
         public ClientResultPayload(string jsonString)
         {
-            var jsonArray = JsonConvert.DeserializeObject<JArray>(
-                JsonHelper.ReplaceDoubleToInfinity(jsonString),
-                JsonSerializerManager.JsonSerializerSettings);
+            var jsonArray = JsonSerializerManager.JsonSerializer.Deserialize<JArray>(JsonHelper.ReplaceDoubleToInfinity(jsonString));
             var jsonToken = jsonArray.ElementAt(0);
             this.SchemaVersion = jsonToken.Value<string>(nameof(this.SchemaVersion));
             this.LibraryVersion = jsonToken.Value<string>(nameof(this.LibraryVersion));
@@ -49,7 +47,7 @@ namespace Karamem0.SharePoint.PowerShell.Runtime.Models
             var jsonToken = this.ClientObjects[id];
             if (jsonToken.Type == JTokenType.Null)
             {
-                return default(T);
+                return default;
             }
             if (typeof(T).IsSubclassOf(typeof(ClientObject)))
             {
@@ -61,6 +59,20 @@ namespace Karamem0.SharePoint.PowerShell.Runtime.Models
             {
                 return jsonToken.ToObject<T>(JsonSerializerManager.JsonSerializer);
             }
+        }
+
+        public bool IsNull(long id)
+        {
+            var jsonToken = this.ClientObjects[id];
+            if (jsonToken.Type == JTokenType.Null)
+            {
+                return true;
+            }
+            if (jsonToken.Value<bool>("IsNull"))
+            {
+                return true;
+            }
+            return false;
         }
 
     }

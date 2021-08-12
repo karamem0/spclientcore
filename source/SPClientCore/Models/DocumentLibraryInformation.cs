@@ -32,6 +32,15 @@ namespace Karamem0.SharePoint.PowerShell.Models
         public virtual bool FromCrossFarm { get; protected set; }
 
         [JsonProperty()]
+        public virtual string DriveId { get; protected set; }
+
+        [JsonProperty()]
+        public virtual Guid Id { get; protected set; }
+
+        [JsonProperty()]
+        public virtual bool IsDefaultDocumentLibrary { get; protected set; }
+
+        [JsonProperty()]
         public virtual DateTime Modified { get; protected set; }
 
         [JsonProperty()]

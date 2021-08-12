@@ -60,7 +60,7 @@ namespace Karamem0.SharePoint.PowerShell.Services
                     requestPayload.CreateParameter(value),
                     requestPayload.CreateParameter(description),
                     requestPayload.CreateParameter(comment)));
-            this.ClientContext.ProcessQuery(requestPayload);
+            _ = this.ClientContext.ProcessQuery(requestPayload);
         }
 
         public StorageEntity GetObject(string key)
@@ -108,7 +108,7 @@ namespace Karamem0.SharePoint.PowerShell.Services
                     objectPathId,
                     "RemoveStorageEntity",
                     requestPayload.CreateParameter(key)));
-            this.ClientContext.ProcessQuery(requestPayload);
+            _ = this.ClientContext.ProcessQuery(requestPayload);
         }
 
     }

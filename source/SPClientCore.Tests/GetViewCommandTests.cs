@@ -94,7 +94,7 @@ namespace Karamem0.SharePoint.PowerShell.Tests
                         { "Identity", result3.ElementAt(0) }
                     }
                 );
-                var actual = result4.ToArray();
+                var actual = result4.ElementAt(0);
             }
         }
 
@@ -129,7 +129,7 @@ namespace Karamem0.SharePoint.PowerShell.Tests
                         { "ViewId", context.AppSettings["View1Id"] }
                     }
                 );
-                var actual = result3.ToArray();
+                var actual = result3.ElementAt(0);
             }
         }
 
@@ -164,7 +164,7 @@ namespace Karamem0.SharePoint.PowerShell.Tests
                         { "ViewTitle", context.AppSettings["View1Title"] }
                     }
                 );
-                var actual = result3.ToArray();
+                var actual = result3.ElementAt(0);
             }
         }
 

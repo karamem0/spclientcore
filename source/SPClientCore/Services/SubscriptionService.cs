@@ -88,7 +88,7 @@ namespace Karamem0.SharePoint.PowerShell.Services
             {
                 throw new ArgumentNullException(nameof(listObject));
             }
-            if (subscriptionId == default(Guid))
+            if (subscriptionId == default)
             {
                 throw new ArgumentNullException(nameof(subscriptionId));
             }

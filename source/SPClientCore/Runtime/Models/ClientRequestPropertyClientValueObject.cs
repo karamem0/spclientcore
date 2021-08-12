@@ -34,7 +34,8 @@ namespace Karamem0.SharePoint.PowerShell.Runtime.Models
             this.Values = value.GetType()
                 .GetDeclaringProperties()
                 .Where(propertyInfo => propertyInfo.IsDefined(typeof(JsonPropertyAttribute)))
-                .Select(propertyInfo => {
+                .Select(propertyInfo =>
+                {
                     var propertyAttribute = propertyInfo.GetCustomAttribute<JsonPropertyAttribute>();
                     var propertyName = string.IsNullOrEmpty(propertyAttribute.PropertyName) ? propertyInfo.Name : propertyAttribute.PropertyName;
                     var propertyValue = propertyInfo.GetValue(value);

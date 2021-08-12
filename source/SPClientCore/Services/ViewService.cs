@@ -79,7 +79,7 @@ namespace Karamem0.SharePoint.PowerShell.Services
             {
                 throw new ArgumentNullException(nameof(listObject));
             }
-            if (viewId == default(Guid))
+            if (viewId == default)
             {
                 throw new ArgumentNullException(nameof(viewId));
             }

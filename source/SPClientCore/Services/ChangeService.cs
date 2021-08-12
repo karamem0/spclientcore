@@ -34,7 +34,7 @@ namespace Karamem0.SharePoint.PowerShell.Services
         public ChangeService(ClientContext clientContext) : base(clientContext)
         {
         }
-        
+
         public IEnumerable<Change> GetObjectEnumerable(SiteCollection siteCollectionObject, ChangeQuery changeQueryObject)
         {
             if (siteCollectionObject == null)
@@ -59,7 +59,7 @@ namespace Karamem0.SharePoint.PowerShell.Services
                 .ProcessQuery(requestPayload)
                 .ToObject<ChangeEnumerable>(requestPayload.GetActionId<ClientActionQuery>());
         }
-        
+
         public IEnumerable<Change> GetObjectEnumerable(Site siteObject, ChangeQuery changeQueryObject)
         {
             if (siteObject == null)
@@ -84,7 +84,7 @@ namespace Karamem0.SharePoint.PowerShell.Services
                 .ProcessQuery(requestPayload)
                 .ToObject<ChangeEnumerable>(requestPayload.GetActionId<ClientActionQuery>());
         }
-        
+
         public IEnumerable<Change> GetObjectEnumerable(List listObject, ChangeQuery changeQueryObject)
         {
             if (listObject == null)

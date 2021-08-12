@@ -112,7 +112,10 @@ namespace Karamem0.SharePoint.PowerShell.Tests
                             { "AppProductId", result4.ElementAt(0)["AppProductID"] }
                         }
                     );
-                    if (result9.Count() == 0)
+                    if (result9.Any())
+                    {
+                    }
+                    else
                     {
                         break;
                     }
